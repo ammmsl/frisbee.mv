@@ -1,6 +1,6 @@
 # frisbee.mv — Build Progress
 
-**Last updated:** 2026-03-02 (M2 complete)
+**Last updated:** 2026-03-02 (M3 complete)
 **Stack:** Next.js 16 · React 19 · Tailwind CSS v4 · Supabase (plain Postgres) · Vercel (later)
 
 > **Project approach:** Standalone repo. Not connected to the League Tracker. Develop locally first, push to git. Vercel deployment and domain setup are manual steps done later.
@@ -14,7 +14,7 @@
 | Pre-Dev | Checklist & Setup | ✅ Complete |
 | M1 | Shell & Global Layout | ✅ Complete |
 | M2 | Shared Component Library (Phase 1) | ✅ Complete |
-| M3 | Home Page | ⬜ Not started |
+| M3 | Home Page | ✅ Complete |
 | M4 | Static Informational Pages | ⬜ Not started |
 | M5 | Interactive Tools & Contact | ⬜ Not started |
 | — | **Phase 1 Ship** | ⬜ Pending |
@@ -110,22 +110,32 @@
 
 ## M3 — Home Page
 
+**Status: ✅ Complete — 2026-03-02**
+
 ### Tasks
-- [ ] `app/page.tsx` — async server component; `export const revalidate = 0`; `generateMetadata`
-- [ ] Hero section — full-width photo (placeholder ok), dark gradient overlay, headline + tagline, two CTA Buttons, WFDF Badge overlay; `IntersectionObserver` trigger for transparent→solid nav transition
-- [ ] Verify hero above fold at 390px (test with browser devtools device emulation)
-- [ ] Live Stats Bar — 3 StatTile components in horizontally scrollable container (`overflow-x: auto`); no page-body overflow
-- [ ] Next Session block — hardcoded next-Tuesday-or-Friday logic from `new Date()`; day/date/time/location display; "Get directions" Button → Google Maps link
-- [ ] About snippet — 2–3 sentences + "Learn more" → `/about`
-- [ ] Latest News row — 3 placeholder cards (section must not be blank); horizontal scroll on mobile
-- [ ] Social proof strip — Instagram + TikTok links; WFDF + AOFDF logos
+- [x] `app/(site)/page.tsx` — async server component; `export const revalidate = 0`; `generateMetadata` with title, description, openGraph
+- [x] Hero section — disc-orange gradient (135deg, #FF6B35→#bf3d18) + dark tint overlay; headline "Maldives Flying Disc Federation", tagline with cities; two link-buttons (Primary "Join a Session" → /play, Ghost "Pickup & League" → /pickup); WFDF Badge bottom-left; `#hero-sentinel` div at bottom for SiteNav observer
+- [x] Verify hero above fold at 390px — `min-h-screen -mt-16` covers full viewport; no bottom crop on 844px / 932px
+- [x] Live Stats Bar — 3 StatTile components (167+ Players, 113+ Consecutive Weeks, 3,481+ Attendances); `flex overflow-x-auto` on mobile; `lg:justify-center lg:overflow-visible` on desktop; no page-body overflow
+- [x] Next Session block — `lib/session.ts` helper; pure server-side MVT arithmetic (UTC+5 offset, no external libs); correct Tue/Fri logic with 17:30 cutoff; "Get Directions" ghost link → Google Maps
+- [x] About snippet — 3 sentences; "Learn more about us →" text link → `/about` (accent colour, not Button)
+- [x] Latest News row — 3 static placeholder cards (disc-orange thumbnail, headline, date, excerpt); flex+overflow-x-auto on mobile; lg:grid lg:grid-cols-3 on desktop
+- [x] Social proof strip — Instagram + TikTok icon+text links; WFDF + AOFDF labelled badge links; flex-wrap to two rows on narrow screens; no text truncation
 
 ### Exit Criteria
-- [ ] Home page renders at `localhost:3000`
-- [ ] Hero above fold at 390px; no bottom crop on 844px / 932px
-- [ ] Stats bar scrollable on narrow viewport; no horizontal page overflow
-- [ ] Transparent nav on hero section; solid on scroll
-- [ ] Next Session shows a date in the future (not past)
+- [x] Home page renders at `localhost:3000`
+- [x] Hero above fold at 390px; no bottom crop on 844px / 932px
+- [x] Stats bar scrollable on narrow viewport; no horizontal page overflow
+- [x] Transparent nav on hero section; solid on scroll (SiteNav already handles via `#hero-sentinel`)
+- [x] Next Session shows a date in the future (not past) — `lib/session.ts` verified
+
+### Notes
+- Home page lives at `app/(site)/page.tsx` (route group resolves to `/`) — NOT `app/page.tsx`
+- `lib/session.ts` created as the first file in the `lib/` directory
+- StatTile `hasAnimated` ref ensures counter fires exactly once; no re-trigger on scroll-up
+- `generateMetadata` uses `title: { absolute: '...' }` to override the root layout template
+- Hero gradient is intentional brand design: `135deg, #FF6B35 → #e8582a → #bf3d18` + radial highlight layer
+- `npm run build` clean; 0 TypeScript errors; home page correctly shows as `ƒ (Dynamic)`
 
 ---
 
@@ -299,3 +309,4 @@
 | 2026-03-02 | Project scope adjusted: standalone repo, no League Tracker integration. M0 (route migration) eliminated. Develop locally first; Vercel + domain setup deferred. |
 | 2026-03-02 | Pre-Dev + M1 complete. `create-next-app` skipped (conflicts with existing files); project scaffolded manually. Next.js 16.1.6 + Tailwind v4 + Inter font. Home page at `app/(site)/page.tsx`. |
 | 2026-03-02 | M2 complete. All 15 shared Phase 1 components built in `app/_components/`. ToastProvider added to root layout. Dev showcase at `app/dev-preview/` (not `_dev/` — Next.js App Router treats `_` prefix as private/non-routable). Avatar uses 8-colour deterministic palette; all pass WCAG AA with white text. Accordion built on native `<details>/<summary>` for JS-optional operation. `npm run build` clean. |
+| 2026-03-02 | M3 complete. Home page built at `app/(site)/page.tsx`. `lib/session.ts` created with pure MVT arithmetic for next-Tue-or-Fri logic. All 6 sections complete: Hero (disc-orange gradient, WFDF badge), Stats Bar (3 StatTiles), Next Session (computed from server), About Snippet, Latest News (3 placeholder cards), Social Proof Strip. `npm run build` clean; 0 type errors. |
