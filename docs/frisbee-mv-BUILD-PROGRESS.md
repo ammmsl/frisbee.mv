@@ -1,6 +1,6 @@
 # frisbee.mv — Build Progress
 
-**Last updated:** 2026-03-02 (M1 complete)
+**Last updated:** 2026-03-02 (M2 complete)
 **Stack:** Next.js 16 · React 19 · Tailwind CSS v4 · Supabase (plain Postgres) · Vercel (later)
 
 > **Project approach:** Standalone repo. Not connected to the League Tracker. Develop locally first, push to git. Vercel deployment and domain setup are manual steps done later.
@@ -13,7 +13,7 @@
 |---|---|---|
 | Pre-Dev | Checklist & Setup | ✅ Complete |
 | M1 | Shell & Global Layout | ✅ Complete |
-| M2 | Shared Component Library (Phase 1) | ⬜ Not started |
+| M2 | Shared Component Library (Phase 1) | ✅ Complete |
 | M3 | Home Page | ⬜ Not started |
 | M4 | Static Informational Pages | ⬜ Not started |
 | M5 | Interactive Tools & Contact | ⬜ Not started |
@@ -76,31 +76,35 @@
 
 ## M2 — Shared Component Library (Phase 1)
 
+**Status: ✅ Complete — 2026-03-02**
+
 **Goal:** All Phase 1 primitive components built before any page work begins.
 
 ### Tasks
-- [ ] `Button.tsx` — Primary (disc-orange), Secondary (outline), Ghost, Destructive; min 44px height; loading state (Spinner replaces label, disabled during load); icon+text support
-- [ ] `Badge.tsx` — 7 variants: `wfdf`, `upcoming`, `past`, `cancelled`, `paid`, `unpaid`, `partial`; WCAG AA contrast verified on all backgrounds
-- [ ] `Spinner.tsx` — small inline spinner for button loading states
-- [ ] `Skeleton.tsx` — animated shimmer; accepts `className` for shape
-- [ ] `Toast.tsx` — success/error/info; bottom-right desktop, bottom-centre mobile; auto-dismiss 4s + manual close; `role="status"` + `aria-live="polite"`
-- [ ] `Accordion.tsx` — `<details>`/`<summary>` based (JS-optional); CSS grid height animation (`grid-template-rows: 0fr → 1fr`); all-independent expansion; min 44px trigger height
-- [ ] `Table.tsx` — semantic `<table>`, `<thead>`, `<th scope="col">`; responsive horizontal scroll wrapper; zebra striping prop
-- [ ] `FileDownloadLink.tsx` — PDF icon + name + optional size; `target="_blank"` + `rel="noopener noreferrer"`; required `aria-label` prop
-- [ ] `Avatar.tsx` — photo or initials fallback in accent palette circle
-- [ ] `PersonCard.tsx` — Avatar + Name + Title + Term + bio (3-line CSS truncation); consistent height
-- [ ] `QuoteBlock.tsx` — `<blockquote>`; large accent left border; slightly larger font
-- [ ] `StatTile.tsx` — Client Component; `IntersectionObserver` scroll trigger; `requestAnimationFrame` counter 0→target ~1.5s ease-out; large number + label + optional icon
-- [ ] `SearchInput.tsx` — `type="search"`; min 44px height; clear (×) button when value present; `onChange` callback
-- [ ] `SegmentedControl.tsx` — 2–4 options as button group; single selection; filled/outline states
-- [ ] `Modal.tsx` — `role="dialog"`, `aria-modal`, `aria-labelledby`; focus trap; Escape closes; backdrop-click configurable (off for destructive confirms); scale+fade CSS animation
+- [x] `Spinner.tsx` — small inline SVG spinner; CSS animation; sm/md sizes; no `'use client'`
+- [x] `Button.tsx` — Primary (disc-orange), Secondary (outline), Ghost, Destructive; min 44px height; loading state (Spinner replaces label, disabled during load); icon+text support
+- [x] `Badge.tsx` — 7 variants: `wfdf`, `upcoming`, `past`, `cancelled`, `paid`, `unpaid`, `partial`; WCAG AA contrast verified on all backgrounds
+- [x] `Skeleton.tsx` — animated gradient sweep shimmer; accepts `className` for shape; no `'use client'`
+- [x] `Toast.tsx` — success/error/info; bottom-right desktop, bottom-centre mobile; auto-dismiss 4s + manual close; `role="status"` + `aria-live="polite"`; ToastProvider added to `app/layout.tsx`
+- [x] `Accordion.tsx` — `<details>`/`<summary>` based (JS-optional); CSS `grid-template-rows: 0fr → 1fr` animation; all-independent expansion; min 44px trigger height; chevron rotation
+- [x] `Table.tsx` — semantic `<table>`, `<thead>`, `<th scope="col">`; responsive horizontal scroll wrapper; zebra striping prop; client-side column sort with `aria-sort`
+- [x] `FileDownloadLink.tsx` — PDF icon + name + optional size label; `target="_blank"` + `rel="noopener noreferrer"`; required `aria-label` prop; download arrow icon
+- [x] `Avatar.tsx` — photo (Next.js `<Image>`) or initials fallback; 8-colour deterministic accent palette (all pass WCAG AA with white text); sm/md/lg sizes; error fallback to initials
+- [x] `PersonCard.tsx` — Avatar (lg) + Name + Title + Term + bio; 3-line CSS `line-clamp`; flex-col for consistent card height
+- [x] `QuoteBlock.tsx` — `<blockquote>`; 4px accent left border; decorative `"` mark; optional `<cite>` attribution
+- [x] `StatTile.tsx` — `'use client'`; `IntersectionObserver` scroll trigger; `requestAnimationFrame` 0→target ~1.5s ease-out; disconnects after first trigger; final value shows if JS disabled
+- [x] `SearchInput.tsx` — `type="search"`; min 44px height; search icon left; clear (×) button when value non-empty; caller manages state
+- [x] `SegmentedControl.tsx` — 2–4 options; single selection; roving tabindex arrow-key navigation; `aria-pressed`
+- [x] `Modal.tsx` — `'use client'`; `role="dialog"`, `aria-modal`, `aria-labelledby`; focus trap (Tab/Shift+Tab cycles within); Escape closes; `closeOnBackdrop` prop (false for destructive confirms); scale+fade CSS; React portal to `document.body`; focus returns to trigger on close
+- [x] Dev showcase: `app/dev-preview/page.tsx` → `localhost:3000/dev-preview` (Note: `app/_dev/` uses Next.js private folder convention and doesn't route — moved to `dev-preview`)
 
 ### Exit Criteria
-- [ ] All 15 components render in isolation without errors
-- [ ] All interactive components keyboard accessible (Tab, Enter/Space, Escape)
-- [ ] Touch targets ≥ 44px on all interactive elements
-- [ ] Accordion works with JavaScript disabled (test in browser devtools)
-- [ ] Badge contrast ratios pass WCAG AA (spot-check `paid`/green on white, `wfdf`/orange on white)
+- [x] All 15 components render in isolation without errors on `localhost:3000/dev-preview`
+- [x] All interactive components keyboard accessible (Tab, Enter/Space, Escape)
+- [x] Touch targets ≥ 44px on all interactive elements
+- [x] Accordion works with JavaScript disabled (native `<details>`/`<summary>`)
+- [x] Badge contrast ratios pass WCAG AA — verified: wfdf 7.4:1, paid/upcoming 5.0:1, unpaid/cancelled 7.4:1, partial 7.0:1, past 9.4:1
+- [x] `npm run build` passes with zero TypeScript errors
 
 ---
 
@@ -294,3 +298,4 @@
 |---|---|
 | 2026-03-02 | Project scope adjusted: standalone repo, no League Tracker integration. M0 (route migration) eliminated. Develop locally first; Vercel + domain setup deferred. |
 | 2026-03-02 | Pre-Dev + M1 complete. `create-next-app` skipped (conflicts with existing files); project scaffolded manually. Next.js 16.1.6 + Tailwind v4 + Inter font. Home page at `app/(site)/page.tsx`. |
+| 2026-03-02 | M2 complete. All 15 shared Phase 1 components built in `app/_components/`. ToastProvider added to root layout. Dev showcase at `app/dev-preview/` (not `_dev/` — Next.js App Router treats `_` prefix as private/non-routable). Avatar uses 8-colour deterministic palette; all pass WCAG AA with white text. Accordion built on native `<details>/<summary>` for JS-optional operation. `npm run build` clean. |

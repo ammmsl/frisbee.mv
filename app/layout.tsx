@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SkipLink from "@/app/_components/SkipLink";
+import { ToastProvider } from "@/app/_components/Toast";
 import "./globals.css";
 
 const inter = Inter({
@@ -33,7 +34,9 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="font-[family-name:var(--font-inter)] antialiased">
         <SkipLink />
-        {children}
+        <ToastProvider>
+          {children}
+        </ToastProvider>
       </body>
     </html>
   );
