@@ -1,0 +1,38 @@
+[
+  {
+    "id": "president",
+    "name": "Aishath Uraiba Asif",
+    "title": "President",
+    "term": "2024–2028",
+    "bio": "Placeholder bio for Aishath Uraiba Asif. Update with real content before launch.",
+    "photo": null,
+    "email": null
+  },
+  {
+    "id": "vice-president",
+    "name": "Ahmed Naaif Mohamed",
+    "title": "Vice President",
+    "term": "2024–2028",
+    "bio": "Placeholder bio for Ahmed Naaif Mohamed. Update with real content before launch.",
+    "photo": null,
+    "email": null
+  },
+  {
+    "id": "treasurer",
+    "name": "Mohamed Amsal",
+    "title": "Treasurer",
+    "term": "2024–2028",
+    "bio": "Placeholder bio for Mohamed Amsal. Update with real content before launch.",
+    "photo": null,
+    "email": null
+  },
+  {
+    "id": "secretary-general",
+    "name": "Mariyam Solaaha",
+    "title": "Secretary General",
+    "term": "2024–2028",
+    "bio": "Placeholder bio for Mariyam Solaaha. Update with real content before launch.",
+    "photo": null,
+    "email": null
+  }
+]

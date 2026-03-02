@@ -1,0 +1,37 @@
+[
+  {
+    "id": "outreach",
+    "name": "Outreach Committee",
+    "mandate": "Placeholder mandate — update with real content before launch. Responsible for community outreach, school visits, and growing the player base across the Maldives.",
+    "chairperson": null,
+    "status": "accepting-applications"
+  },
+  {
+    "id": "ethics",
+    "name": "Ethics Committee",
+    "mandate": "Placeholder mandate — update with real content before launch. Responsible for upholding the Spirit of the Game and resolving conduct issues.",
+    "chairperson": null,
+    "status": "accepting-applications"
+  },
+  {
+    "id": "development",
+    "name": "Development Committee",
+    "mandate": "Placeholder mandate — update with real content before launch. Responsible for player development, coaching standards, and federation growth.",
+    "chairperson": null,
+    "status": "accepting-applications"
+  },
+  {
+    "id": "event",
+    "name": "Event Committee",
+    "mandate": "Placeholder mandate — update with real content before launch. Responsible for organising tournaments, social events, and federation activities.",
+    "chairperson": null,
+    "status": "accepting-applications"
+  },
+  {
+    "id": "frisbee-at-entities",
+    "name": "Frisbee at Entities Committee",
+    "mandate": "Placeholder mandate — update with real content before launch. Responsible for establishing frisbee programmes at schools, universities, and organisations.",
+    "chairperson": null,
+    "status": "accepting-applications"
+  }
+]
