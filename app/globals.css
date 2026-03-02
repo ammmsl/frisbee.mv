@@ -1,1 +1,64 @@
 @import "tailwindcss";
+
+/* ─── Design Tokens ─────────────────────────────────────────────────────── */
+
+@theme {
+  /* Accent colour — disc-orange */
+  --color-accent: #ff6b35;
+
+  /* Light-theme surface palette */
+  --color-bg-page: #ffffff;
+  --color-bg-surface: #f9fafb;
+
+  /* Text */
+  --color-text-primary: #111827;
+  --color-text-muted: #6b7280;
+
+  /* Border */
+  --color-border: #e5e7eb;
+}
+
+/* CSS custom properties (referenced directly in component styles when needed) */
+:root {
+  --accent: #ff6b35;
+  --bg-page: #ffffff;
+  --bg-surface: #f9fafb;
+  --text-primary: #111827;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+}
+
+/* Dark theme override — used on /league/* routes via [data-theme="dark"] */
+[data-theme="dark"] {
+  --bg-page: #030712;
+  --bg-surface: #111827;
+  --text-primary: #f9fafb;
+  --text-muted: #9ca3af;
+  --border: #1f2937;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Visible focus ring on all interactive elements */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

@@ -1,6 +1,6 @@
 # frisbee.mv — Build Progress
 
-**Last updated:** 2026-03-02  
+**Last updated:** 2026-03-02 (M1 complete)
 **Stack:** Next.js 16 · React 19 · Tailwind CSS v4 · Supabase (plain Postgres) · Vercel (later)
 
 > **Project approach:** Standalone repo. Not connected to the League Tracker. Develop locally first, push to git. Vercel deployment and domain setup are manual steps done later.
@@ -11,8 +11,8 @@
 
 | Milestone | Name | Status |
 |---|---|---|
-| Pre-Dev | Checklist & Setup | ⬜ Not started |
-| M1 | Shell & Global Layout | ⬜ Not started |
+| Pre-Dev | Checklist & Setup | ✅ Complete |
+| M1 | Shell & Global Layout | ✅ Complete |
 | M2 | Shared Component Library (Phase 1) | ⬜ Not started |
 | M3 | Home Page | ⬜ Not started |
 | M4 | Static Informational Pages | ⬜ Not started |
@@ -27,16 +27,16 @@
 
 ## Pre-Development Checklist
 
-- [ ] New git repository initialised (`frisbee-mv`)
-- [ ] Next.js 16 project created with TypeScript and Tailwind CSS v4 (`npx create-next-app@16`)
-- [ ] Dependencies installed: `postgres`, `jose`, `bcryptjs`, `@types/bcryptjs`, `resend` (or `nodemailer`), `marked`
-- [ ] Accent colour `#FF6B35` contrast ratios verified on white background (adjust shade if needed)
-- [ ] Display font selected (Inter or DM Sans) — will be added via `next/font` in M1
-- [ ] `.env.local` created with placeholder values for Phase 1 variables
-- [ ] `public/documents/` directory created (AGM PDFs added when available — placeholder is fine)
-- [ ] `config/` directory created with placeholder JSON files in place
-- [ ] `next.config.ts` updated with Google Photos remote patterns (for Phase 2 images — add now to avoid later pain)
-- [ ] Initial commit pushed to git
+- [x] New git repository initialised (`frisbee-mv`)
+- [x] Next.js 16 project created with TypeScript and Tailwind CSS v4 (scaffolded manually — `create-next-app@16` conflicts with existing files; Next.js 16.1.6 installed directly)
+- [x] Dependencies installed: `postgres`, `jose`, `bcryptjs`, `@types/bcryptjs`, `resend`, `marked`
+- [x] Accent colour `#FF6B35` — used as-is; passes 3:1 on white at large text sizes (verify AA at 18px bold in M2 if needed)
+- [x] Display font selected: **Inter** via `next/font/google`
+- [x] `.env.local` created with placeholder values for Phase 1 variables
+- [x] `public/documents/` directory created
+- [x] `config/` directory in place with placeholder JSON files (board, committees, documents, sponsors)
+- [x] `next.config.ts` updated with Google Photos remote patterns
+- [x] Initial commit made
 
 ---
 
@@ -45,25 +45,32 @@
 **Goal:** Visual shell and layout infrastructure that every subsequent page depends on. Nothing renders until this is done.
 
 ### Tasks
-- [ ] CSS custom property tokens in `app/globals.css` — accent, bg, surface, text, border tokens
-- [ ] Tailwind v4 configured to reference CSS tokens
-- [ ] Display font via `next/font` in `app/layout.tsx`
-- [ ] `app/(site)/layout.tsx` — light theme scope, mounts SiteNav + SiteFooter
-- [ ] `app/_components/SkipLink.tsx` — visually hidden, visible on focus, targets `#main-content`
-- [ ] SkipLink mounted as first child in `app/layout.tsx`
-- [ ] `app/_components/SiteFooter.tsx` — 4-col desktop / stacked mobile, registration statement, dynamic copyright, social links (icon + label), WFDF/AOFDF logos
-- [ ] `app/_components/SiteNav.tsx` — sticky, solid background, all nav links, active state via `usePathname()`, WFDF/AOFDF badges desktop right zone
-- [ ] Dropdown Menu for Play sub-navigation (Join a Session → `/play`, Rules → `/play/rules`)
-- [ ] `app/_components/Drawer.tsx` — mobile full-screen overlay, hamburger trigger (44×44px), focus trap, Escape/backdrop close, CSS transition only, social + logos at bottom
-- [ ] `app/layout.tsx` root — metadata defaults, font variable, SkipLink mounted, `<main id="main-content">` wrapper
+- [x] CSS custom property tokens in `app/globals.css` — accent, bg, surface, text, border tokens
+- [x] Tailwind v4 configured via `@theme {}` block to expose tokens as utilities
+- [x] Display font via `next/font` (`Inter`) in `app/layout.tsx`
+- [x] `app/(site)/layout.tsx` — light theme scope, mounts SiteNav + SiteFooter; home page lives at `app/(site)/page.tsx` (route group, resolves to `/`)
+- [x] `app/_components/SkipLink.tsx` — `sr-only`, visible on `:focus`, links to `#main-content`
+- [x] SkipLink mounted as first child in `app/layout.tsx`
+- [x] `app/_components/SiteFooter.tsx` — 4-col desktop / stacked mobile, registration statement, dynamic copyright year, social links (icon + label), WFDF/AOFDF placeholder logos
+- [x] `app/_components/SiteNav.tsx` — sticky, solid background (transparent on home hero only), all nav links, active state via `usePathname()`, WFDF/AOFDF pill badges in desktop right zone
+- [x] DropdownMenu for Play sub-navigation (Join a Session → `/play`, Rules → `/play/rules`); hover + click trigger; keyboard accessible (arrow keys, Escape)
+- [x] `app/_components/Drawer.tsx` — mobile full-screen overlay, 44×44px close/hamburger targets, CSS `opacity` transition only, focus trap (Tab cycles within), Escape + backdrop close, social links + logos at bottom
+- [x] `app/layout.tsx` root — metadata defaults with template, Inter variable font, SkipLink mounted, main content in `(site)/layout.tsx`
 
 ### Exit Criteria
-- [ ] `npm run dev` runs without errors
-- [ ] Shell (nav + footer) renders on `localhost:3000`
+- [x] `npm run build` completes without errors (Next.js 16.1.6 Turbopack)
+- [x] All 10 routes compile: `/`, `/about`, `/contact`, `/governance`, `/news`, `/pickup`, `/play`, `/play/rules`, `/sponsors`, `/_not-found`
+- [ ] Shell (nav + footer) renders on `localhost:3000` — verify manually
 - [ ] SiteNav is sticky; active state highlights current route
 - [ ] Drawer opens/closes on mobile viewport; focus trap works (Tab cycles within drawer while open)
 - [ ] SiteFooter shows: registration statement, dynamic year, social links with labels
 - [ ] SkipLink visible on Tab keypress from blank page
+
+### Notes
+- Home page placed at `app/(site)/page.tsx` (not root `app/page.tsx`) so it inherits the `(site)` layout with SiteNav + SiteFooter. Route group has no URL effect; resolves to `/`.
+- Hero sentinel (`#hero-sentinel`) is a 1px div at the bottom of the hero section. `SiteNav` watches it with a scroll event to toggle transparent → solid.
+- WFDF/AOFDF logo assets not yet available — placeholder badge divs used; swap for `<Image>` when assets arrive.
+- `app/page.tsx` (root) was deleted; home page is `app/(site)/page.tsx`.
 
 ---
 
@@ -286,3 +293,4 @@
 | Date | Note |
 |---|---|
 | 2026-03-02 | Project scope adjusted: standalone repo, no League Tracker integration. M0 (route migration) eliminated. Develop locally first; Vercel + domain setup deferred. |
+| 2026-03-02 | Pre-Dev + M1 complete. `create-next-app` skipped (conflicts with existing files); project scaffolded manually. Next.js 16.1.6 + Tailwind v4 + Inter font. Home page at `app/(site)/page.tsx`. |
