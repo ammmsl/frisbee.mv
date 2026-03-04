@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import StatTile from '@/app/_components/StatTile';
 import Badge from '@/app/_components/Badge';
-import { getNextSession } from '@/lib/session';
+import NewsCard from '@/app/_components/NewsCard';
+import { getNextSession, getNextSessionAfterDate } from '@/lib/session';
+import { getPublishedPosts, getSessionOverrides } from '@/lib/events';
+import { getTodayMVT, addDays } from '@/lib/calendar';
 
 export const revalidate = 0;
 
@@ -21,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/* ─── Placeholder news data ───────────────────────────────────────────────── */
+/* ─── Placeholder news data (fallback if no posts in DB) ─────────────────── */
 
 const PLACEHOLDER_NEWS = [
   {
@@ -125,7 +128,28 @@ function DiscIcon() {
 /* ─── Page ────────────────────────────────────────────────────────────────── */
 
 export default async function HomePage() {
-  const session = getNextSession();
+  // ── Fetch session with override check ─────────────────────────────────────
+  const todayMVT = getTodayMVT();
+  const twoWeeksStr = addDays(todayMVT, 14);
+  const [overrides, latestPosts] = await Promise.all([
+    getSessionOverrides(todayMVT, twoWeeksStr),
+    getPublishedPosts(3),
+  ]);
+
+  // Build set of cancelled dates and map of special override notes
+  const cancelledDates = new Set(
+    overrides.filter(o => o.status === 'cancelled').map(o => o.session_date),
+  );
+  const specialNotes = new Map(
+    overrides.filter(o => o.status === 'special').map(o => [o.session_date, o.note]),
+  );
+
+  // Find the next non-cancelled session
+  let session = getNextSession();
+  if (cancelledDates.has(session.dateStr)) {
+    session = getNextSessionAfterDate(session.dateStr);
+  }
+  const specialNote = specialNotes.get(session.dateStr) ?? null;
 
   return (
     <>
@@ -206,14 +230,6 @@ export default async function HomePage() {
         aria-label="Live community statistics"
       >
         <div className="mx-auto max-w-7xl">
-          {/*
-           * On mobile: horizontal scroll row (overflow-x: auto, no page overflow).
-           * On desktop (lg:): centred flex row, no scroll needed.
-           *
-           * StatTile handles its own IntersectionObserver; each counter fires
-           * exactly once when the tile reaches 50 % visibility. hasAnimated ref
-           * inside StatTile prevents re-triggering on scroll-up.
-           */}
           <div className="flex gap-6 overflow-x-auto pb-2 lg:justify-center lg:overflow-visible lg:pb-0">
             <StatTile value={167} suffix="+" label="Players" />
             <StatTile value={113} suffix="+" label="Consecutive Weeks" />
@@ -244,7 +260,12 @@ export default async function HomePage() {
           <p className="text-lg font-semibold text-[var(--text-primary)] mb-1">
             {session.time}
           </p>
-          <p className="text-[var(--text-muted)] mb-8">{session.location}</p>
+          <p className="text-[var(--text-muted)] mb-2">{session.location}</p>
+
+          {/* Special override note */}
+          {specialNote && (
+            <p className="text-sm text-purple-600 mb-4">{specialNote}</p>
+          )}
 
           {/* Ghost link styled as button */}
           <a
@@ -287,52 +308,72 @@ export default async function HomePage() {
       {/* ── 5. Latest News ───────────────────────────────────────────────── */}
       <section className="py-16 px-4" aria-label="Latest news">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-8 text-center lg:text-left">
-            Latest News
-          </h2>
-
-          {/*
-           * Layout strategy:
-           *   Mobile  → flex row, overflow-x: auto (horizontal scroll), each card
-           *             fixed-width so they never collapse. No page-body overflow.
-           *   Desktop → CSS grid, 3 equal columns, overflow resets to visible.
-           *
-           * The card's shrink-0 + fixed width applies only in the flex context;
-           * on lg: the grid algorithm takes over and stretches cards to fill columns.
-           */}
-          <div className="flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-3 lg:overflow-visible lg:pb-0">
-            {PLACEHOLDER_NEWS.map((card) => (
-              <article
-                key={card.id}
-                className="shrink-0 w-[280px] lg:w-auto flex flex-col rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] overflow-hidden"
+          <div className="flex items-baseline justify-between mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
+              Latest News
+            </h2>
+            {latestPosts.length > 0 && (
+              <Link
+                href="/news"
+                className="text-sm font-medium text-[var(--accent)] hover:underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] rounded"
               >
-                {/* Placeholder thumbnail — disc-orange rectangle */}
-                <div
-                  className="h-44 w-full bg-[var(--accent)] flex items-center justify-center opacity-90"
-                  aria-hidden="true"
-                >
-                  <div className="opacity-40">
-                    <DiscIcon />
-                  </div>
-                </div>
-
-                {/* Card body */}
-                <div className="p-5 flex flex-col flex-1">
-                  <time
-                    className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-2"
-                  >
-                    {card.date}
-                  </time>
-                  <h3 className="text-base font-bold text-[var(--text-primary)] mb-2 leading-snug">
-                    {card.headline}
-                  </h3>
-                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                    {card.excerpt}
-                  </p>
-                </div>
-              </article>
-            ))}
+                View all →
+              </Link>
+            )}
           </div>
+
+          {latestPosts.length > 0 ? (
+            /* Live news from DB */
+            <div className="flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-3 lg:overflow-visible lg:pb-0">
+              {latestPosts.map(post => (
+                <div key={post.post_id} className="shrink-0 w-[280px] lg:w-auto">
+                  <NewsCard
+                    slug={post.slug}
+                    title={post.title}
+                    summary={post.summary}
+                    author={post.author}
+                    publishedAt={post.published_at ?? post.created_at}
+                    coverImageUrl={post.cover_image_url}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            /* Fallback placeholder cards */
+            <div className="flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-3 lg:overflow-visible lg:pb-0">
+              {PLACEHOLDER_NEWS.map((card) => (
+                <article
+                  key={card.id}
+                  className="shrink-0 w-[280px] lg:w-auto flex flex-col rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] overflow-hidden"
+                >
+                  {/* Placeholder thumbnail — disc-orange rectangle */}
+                  <div
+                    className="h-44 w-full bg-[var(--accent)] flex items-center justify-center opacity-90"
+                    aria-hidden="true"
+                  >
+                    <div className="opacity-40">
+                      <DiscIcon />
+                    </div>
+                  </div>
+
+                  {/* Card body */}
+                  <div className="p-5 flex flex-col flex-1">
+                    <time
+                      className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-2"
+                    >
+                      {card.date}
+                    </time>
+                    <h3 className="text-base font-bold text-[var(--text-primary)] mb-2 leading-snug">
+                      {card.headline}
+                    </h3>
+                    <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                      {card.excerpt}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -342,10 +383,6 @@ export default async function HomePage() {
         aria-label="Connect with us"
       >
         <div className="mx-auto max-w-4xl">
-          {/*
-           * Flex-wrap to two rows on very narrow screens; generous gap between items.
-           * Text is never truncated — each item is labelled with visible text.
-           */}
           <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
 
             {/* Instagram */}

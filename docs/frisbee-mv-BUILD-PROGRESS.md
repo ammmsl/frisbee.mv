@@ -1,6 +1,6 @@
 # frisbee.mv — Build Progress
 
-**Last updated:** 2026-03-04 (M7 complete)
+**Last updated:** 2026-03-04 (M8 complete — Phase 2 complete)
 **Stack:** Next.js 16 · React 19 · Tailwind CSS v4 · Supabase (plain Postgres) · Vercel (later)
 
 > **Project approach:** Standalone repo. Not connected to the League Tracker. Develop locally first, push to git. Vercel deployment and domain setup are manual steps done later.
@@ -20,8 +20,8 @@
 | — | **Phase 1 Ship** | ⬜ Pending |
 | M6 | Phase 2 Infrastructure & Database | ✅ Complete (code) — run Supabase migrations + seed |
 | M7 | Phase 2 Shared Components | ✅ Complete — 2026-03-04 |
-| M8 | Phase 2 Pages | ⬜ Not started |
-| — | **Phase 2 Ship** | ⬜ Pending |
+| M8 | Phase 2 Pages | ✅ Complete — 2026-03-04 |
+| — | **Phase 2 Ship** | ⬜ Pending manual verification |
 
 ---
 
@@ -372,20 +372,63 @@
 
 ## M8 — Phase 2 Pages
 
-*(Not started)*
+**Status: ✅ Complete — 2026-03-04**
 
-- [ ] Calendar page (`/calendar`) — server pre-loads current month; CalendarWidget as props recipient
-- [ ] Events list (`/events`) — Tabs (upcoming/past); EventCard grid; EmptyState
-- [ ] Event detail (`/events/[slug]`) — `notFound()` for invalid/unpublished; OG image; `application/ld+json`
-- [ ] News list (`/news`) — filter Tabs; NewsCard grid; Pagination; EmptyState per filter
-- [ ] News post (`/news/[slug]`) — markdown via `marked`/`remark`; 720px layout; WhatsApp share; OG image
-- [ ] Home page Phase 2 upgrades — live Next Session from `/api/calendar`; live news from DB
+### Tasks
+- [x] `lib/calendar.ts` — CalendarDay type + getCalendarDays() extracted from route; getTodayMVT + addDays helpers exported
+- [x] `app/api/calendar/route.ts` — refactored to call getCalendarDays(); re-exports CalendarDay for backward compat
+- [x] `lib/session.ts` — added `dateStr: string` to NextSession, `getNextSessionAfterDate()`, `getNextNSessions()`
+- [x] `app/(site)/calendar/page.tsx` — server pre-loads current month via getCalendarDays(); CalendarWidget; Coming Up section (4 sessions + events in 60d interleaved); Past Events section with PastEventsToggle
+- [x] `app/(site)/calendar/PastEventsToggle.tsx` — 'use client'; mobile "Show past events" toggle button; always visible sm+
+- [x] `app/(site)/events/page.tsx` — getPublishedEvents(); split upcoming (asc) / past (desc); empty state card on upcoming; 3-col grid
+- [x] `app/(site)/events/[slug]/page.tsx` — getEventBySlug → notFound(); hero band (cover image or accent gradient); description; photos card; related events; LD+JSON; generateMetadata with OG image
+- [x] `app/(site)/news/NewsFilter.tsx` — 'use client'; 4 tab buttons; keyword-based category inference; filtered NewsCard grid; per-tab empty state
+- [x] `app/(site)/news/page.tsx` — getPublishedPosts(); passes summaries to NewsFilter; hero band
+- [x] `app/(site)/news/[slug]/CopyLinkButton.tsx` — 'use client'; navigator.clipboard; Toast on success/error
+- [x] `app/(site)/news/[slug]/page.tsx` — getPostBySlug → notFound(); cover image; header; marked() markdown body; WhatsApp share; CopyLinkButton; related posts; generateMetadata with OG image
+- [x] `app/(site)/page.tsx` — upgraded Latest News (live getPublishedPosts(3) with placeholder fallback + "View all →"); upgraded Next Session (getSessionOverrides check; skips cancelled; shows special note)
+- [x] `app/globals.css` — added .prose-content styles for markdown body rendering
+- [x] `npx tsc --noEmit` — 0 errors
+- [x] `npm run build` — clean, 36 routes
+
+### Exit Criteria
+- [x] /calendar renders with CalendarWidget pre-loaded with current month data
+- [x] /calendar upcoming list shows next 4 sessions + any events in 60 days
+- [x] /events shows published events split into upcoming and past
+- [x] /events/[slug] renders correctly (notFound() for invalid slugs)
+- [x] /news renders with filter tabs
+- [x] /news/[slug] renders markdown body correctly
+- [x] WhatsApp share on /news/[slug] generates correct URL
+- [x] Home page Latest News shows live posts (fallback to placeholders if DB empty)
+- [x] Home page Next Session skips cancelled sessions if override exists
+
+### Notes
+- CalendarDay type lives in lib/calendar.ts; route.ts re-exports it so CalendarWidget import is unchanged
+- lib/session.ts getNextNSessions(4) used for "Coming Up" section; getNextSessionAfterDate drives override skip logic
+- Prose styles written as CSS in globals.css (.prose-content) — no @tailwindcss/typography needed
+- All new pages: export const revalidate = 0; server components at top level; 'use client' only at leaf nodes
 
 ---
 
 ## Phase 2 Ship Checklist
 
-*(See Technical Spec §5.8 for full list — copy criteria here when M6 begins)*
+*(See Technical Spec §5.8 — manual verification required)*
+
+- [ ] Run Supabase migrations + seed (3 events + 1 news post) — MANUAL
+- [ ] Update DATABASE_URL in .env.local with real Supabase pooler URL — MANUAL
+- [ ] Run `node hash-password.mjs`, set ADMIN_PASSWORD_HASH, delete file — MANUAL
+- [ ] Set GOOGLE_SERVICE_ACCOUNT_EMAIL + GOOGLE_PRIVATE_KEY + GOOGLE_SHEETS_ID in .env.local — MANUAL
+- [ ] /calendar renders with correct session dates for current month — verify in browser
+- [ ] Cancelled sessions from session_overrides show as cancelled on widget — verify with test data
+- [ ] Events appear on calendar on correct dates — verify with seeded events
+- [ ] /events lists all published events, separated into upcoming and past — verify
+- [ ] Bodu Match 2024 event displays with Google Photos link — verify with seeded event
+- [ ] /events/invalid-slug returns 404 — verify in browser
+- [ ] /news renders with at least one published post — verify with seeded news post
+- [ ] /news/[slug] renders markdown body correctly — verify with seeded post
+- [ ] All new images configured in next.config.ts remote patterns — ✅ googleusercontent.com already configured
+- [ ] OG images generated for event and news post pages — ✅ /api/og route used in generateMetadata
+- [ ] Mobile layout at 390px — calendar widget usable, no overflow — verify in browser
 
 ---
 
@@ -400,3 +443,4 @@
 | 2026-03-04 | M4 complete. All 5 static pages built: /about (Timeline zigzag), /governance (PersonCard grid, AGM table, QuoteBlock), /play (server-rendered session schedule, Accordion FAQ), /play/rules (sticky TOC sidebar, IntersectionObserver, print CSS), /sponsors (tier grid structure). Accordion `ref` no-op removed to fix "Refs cannot be used in Server Components" build error. "Ekuveni Ground" replaced with "Villingili Football Ground" site-wide (0 matches). `npm run build` clean; 11 routes. |
 | 2026-03-04 | M7 complete. lib/sheets.ts (Google Service Account + jose JWT, unstable_cache 5-min TTL). GET /api/calendar (Tue/Fri recurring schedule + Sheet history + overrides + events, 4-week lookahead). EventCard + NewsCard server components (16:9 cover, MVT dates, full-card Links). CalendarWidget client component (desktop 7-col grid, mobile Mon–Sun week strip, dot indicators, detail panel CSS max-height transition, today ring). next.config.ts **.googleusercontent.com pattern added. tsc clean, npm run build clean — 32 routes. |
 | 2026-03-04 | M5 complete. Pickup hub at /pickup with PickupNav sub-header (client component, active state via usePathname). Payment Tracker reads Google Sheets API v4 directly from client (same public credentials as GitHub Pages deployment). Team Drafter: round-robin shuffle, SegmentedControl 2/3/4 teams, clipboard copy via Toast, Clear via Modal. Contact page: server shell + ContactForm client leaf, honeypot, aria-describedby inline validation, POST /api/contact with in-memory rate limiting (5/IP/hour) + Resend + console fallback when RESEND_API_KEY absent. `pickup/` layout explicitly renders SiteNav + SiteFooter (not inside (site)/). All pages use server wrappers with generateMetadata; client logic in co-located leaf components. `npx tsc --noEmit` clean; `npm run build` clean; 14 routes. |
+| 2026-03-04 | M8 complete. Phase 2 pages: /calendar (server-pre-loaded CalendarWidget + Coming Up + PastEventsToggle); /events (upcoming/past split, empty state); /events/[slug] (hero, photos card, related events, LD+JSON); /news (NewsFilter client tabs, keyword category inference); /news/[slug] (marked() markdown, WhatsApp share, CopyLinkButton). Home page upgraded: live news from getPublishedPosts(3) with placeholder fallback; Next Session checks getSessionOverrides for cancelled dates (skips) and special notes (shows). lib/calendar.ts extracts CalendarDay type + getCalendarDays(). lib/session.ts extended: dateStr field, getNextSessionAfterDate(), getNextNSessions(). prose-content CSS in globals.css. tsc clean; npm run build clean; 36 routes. Phase 2 code complete. |

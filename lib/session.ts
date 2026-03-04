@@ -8,6 +8,7 @@
  */
 
 export interface NextSession {
+  dateStr: string;     // 'YYYY-MM-DD' — used for override checks in Phase 2
   dayName: string;
   fullDate: string;
   time: string;
@@ -76,8 +77,50 @@ export function getNextSession(): NextSession {
   throw new Error('getNextSession: could not find a session day within 7 days');
 }
 
+/**
+ * Returns the next scheduled session that falls strictly after the given date string.
+ * Used by the home page to skip cancelled sessions.
+ */
+export function getNextSessionAfterDate(dateStr: string): NextSession {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  // Midnight of the day AFTER dateStr (UTC)
+  const startMidnight = new Date(Date.UTC(y, m - 1, d + 1));
+  const startDayOfWeek = startMidnight.getUTCDay();
+
+  for (let daysAhead = 0; daysAhead <= 7; daysAhead++) {
+    const candidateDayOfWeek = (startDayOfWeek + daysAhead) % 7;
+    if (SESSION_DAYS.has(candidateDayOfWeek)) {
+      const candidateDate = new Date(
+        startMidnight.getTime() + daysAhead * 24 * 60 * 60 * 1000,
+      );
+      return buildSession(candidateDate, candidateDayOfWeek);
+    }
+  }
+
+  throw new Error('getNextSessionAfterDate: could not find a session day within 7 days');
+}
+
+/**
+ * Returns the next N scheduled sessions starting from now.
+ * Used by the calendar page "Coming Up" section.
+ */
+export function getNextNSessions(n: number): NextSession[] {
+  const sessions: NextSession[] = [];
+  let current = getNextSession();
+  sessions.push(current);
+  for (let i = 1; i < n; i++) {
+    current = getNextSessionAfterDate(current.dateStr);
+    sessions.push(current);
+  }
+  return sessions;
+}
+
 function buildSession(date: Date, dayOfWeek: number): NextSession {
+  const y = date.getUTCFullYear();
+  const mo = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const d = String(date.getUTCDate()).padStart(2, '0');
   return {
+    dateStr: `${y}-${mo}-${d}`,
     dayName: DAY_NAMES[dayOfWeek],
     fullDate: `${date.getUTCDate()} ${MONTH_NAMES[date.getUTCMonth()]} ${date.getUTCFullYear()}`,
     time: '5:30 PM',
