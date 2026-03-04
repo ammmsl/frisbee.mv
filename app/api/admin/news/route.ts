@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  const author = typeof body.author === 'string' && body.author ? body.author : 'MFDF'
+  const author = typeof body.author === 'string' && body.author ? body.author : 'UFA'
   const cover = typeof body.cover_image_url === 'string' && body.cover_image_url ? body.cover_image_url : null
   const publishedAt = typeof body.published_at === 'string' && body.published_at ? body.published_at : null
 

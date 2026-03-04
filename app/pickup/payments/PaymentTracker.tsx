@@ -177,7 +177,7 @@ export default function PaymentTracker() {
             <p className="text-sm text-[var(--text-muted)] leading-relaxed">
               Transfer to BML account{' '}
               <span className="font-mono text-[var(--text-primary)]">7730000682000</span>{' '}
-              (MFDF). Use your name as the reference. For queries, message us on{' '}
+              (UFA). Use your name as the reference. For queries, message us on{' '}
               <a
                 href="https://wa.me/9609666800"
                 target="_blank"

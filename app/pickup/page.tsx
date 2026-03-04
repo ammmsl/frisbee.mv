@@ -5,7 +5,7 @@ export function generateMetadata(): Metadata {
   return {
     title: 'Pickup Tools | frisbee.mv',
     description:
-      'Payment tracker and team drafter for MFDF pickup sessions.',
+      'Payment tracker and team drafter for UFA pickup sessions.',
   };
 }
 
@@ -37,7 +37,7 @@ export default function PickupPage() {
         Pickup Tools
       </h1>
       <p className="text-[var(--text-muted)] mb-8">
-        Handy tools for MFDF pickup sessions.
+        Handy tools for UFA pickup sessions.
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

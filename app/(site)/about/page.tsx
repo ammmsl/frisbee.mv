@@ -6,7 +6,7 @@ export function generateMetadata(): Metadata {
   return {
     title: 'About | frisbee.mv',
     description:
-      'Learn about the Maldives Flying Disc Federation — our history, mission, leadership, and the sport of Ultimate Frisbee.',
+      'Learn about the Ultimate Frisbee Association — our history, mission, leadership, and the sport of Ultimate Frisbee.',
   };
 }
 

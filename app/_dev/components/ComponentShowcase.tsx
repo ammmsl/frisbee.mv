@@ -196,8 +196,8 @@ export default function ComponentShowcase() {
           />
           <FileDownloadLink
             href="/documents/constitution.pdf"
-            label="MFDF Constitution"
-            ariaLabel="Download MFDF Constitution (PDF)"
+            label="UFA Constitution"
+            ariaLabel="Download UFA Constitution (PDF)"
           />
         </div>
       </Section>

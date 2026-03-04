@@ -1,9 +1,9 @@
 # frisbee.mv — Frontend Technical Requirements Specification
-## Maldives Flying Disc Federation (MFDF) · Phases 1 & 2
+## Ultimate Frisbee Association (UFA) · Phases 1 & 2
 
 **Document version:** 1.0  
 **Derived from:** frisbee.mv Technical Specification v1.0 · Frontend Component Specification v1.0  
-**Organisation:** Maldives Flying Disc Federation (MFDF)  
+**Organisation:** Ultimate Frisbee Association (UFA)  
 **Domain:** frisbee.mv  
 **Stack:** Next.js 16 · Tailwind CSS v4 · Supabase (Postgres) · Vercel  
 **Status:** Ready for development
@@ -175,7 +175,7 @@ These components live in `app/_components/` and are built before any page work b
 
 **Required content:**
 - Registration statement (verbatim): *"Registered with the Commissioner of Sports, Republic of Maldives · WFDF Provisional Member"*
-- Dynamic copyright year: `© {new Date().getFullYear()} MFDF`
+- Dynamic copyright year: `© {new Date().getFullYear()} UFA`
 
 ---
 
@@ -811,5 +811,5 @@ These are imported by server components at request time. A proper admin UI is a 
 
 ---
 
-*Maldives Flying Disc Federation · frisbee.mv Frontend Technical Requirements Specification v1.0 · March 2026*  
+*Ultimate Frisbee Association · frisbee.mv Frontend Technical Requirements Specification v1.0 · March 2026*  
 *Derived from: Technical Specification v1.0 + Frontend Component Specification v1.0*

@@ -1,5 +1,5 @@
 # frisbee.mv — Frontend Implementation Plan
-## Maldives Flying Disc Federation (MFDF) · Phases 1 & 2
+## Ultimate Frisbee Association (UFA) · Phases 1 & 2
 
 **Document version:** 1.0  
 **Companion documents:** Technical Specification v1.0 · Frontend Technical Requirements Specification v1.0  
@@ -661,4 +661,4 @@ M8a: Calendar &       M8b: News &
 
 ---
 
-*Maldives Flying Disc Federation · frisbee.mv Frontend Implementation Plan v1.0 · March 2026*
+*Ultimate Frisbee Association · frisbee.mv Frontend Implementation Plan v1.0 · March 2026*

@@ -138,7 +138,7 @@ export default function SiteFooter() {
                 </a>
               </p>
               <p className="text-[var(--text-muted)] leading-relaxed">
-                Maldives Flying Disc Federation (MFDF)
+                Ultimate Frisbee Association (UFA)
                 <br />
                 Republic of Maldives
               </p>
@@ -150,7 +150,7 @@ export default function SiteFooter() {
         <div className="mt-10 pt-8 border-t border-[var(--border)]">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <p className="text-xs text-[var(--text-muted)]">
-              &copy; {year} MFDF. All rights reserved.
+              &copy; {year} UFA. All rights reserved.
             </p>
             <p className="text-xs text-[var(--text-muted)]">
               Registered with the Commissioner of Sports, Republic of Maldives

@@ -114,7 +114,7 @@
 
 ### Tasks
 - [x] `app/(site)/page.tsx` — async server component; `export const revalidate = 0`; `generateMetadata` with title, description, openGraph
-- [x] Hero section — disc-orange gradient (135deg, #FF6B35→#bf3d18) + dark tint overlay; headline "Maldives Flying Disc Federation", tagline with cities; two link-buttons (Primary "Join a Session" → /play, Ghost "Pickup & League" → /pickup); WFDF Badge bottom-left; `#hero-sentinel` div at bottom for SiteNav observer
+- [x] Hero section — disc-orange gradient (135deg, #FF6B35→#bf3d18) + dark tint overlay; headline "Ultimate Frisbee Association", tagline with cities; two link-buttons (Primary "Join a Session" → /play, Ghost "Pickup & League" → /pickup); WFDF Badge bottom-left; `#hero-sentinel` div at bottom for SiteNav observer
 - [x] Verify hero above fold at 390px — `min-h-screen -mt-16` covers full viewport; no bottom crop on 844px / 932px
 - [x] Live Stats Bar — 3 StatTile components (167+ Players, 113+ Consecutive Weeks, 3,481+ Attendances); `flex overflow-x-auto` on mobile; `lg:justify-center lg:overflow-visible` on desktop; no page-body overflow
 - [x] Next Session block — `lib/session.ts` helper; pure server-side MVT arithmetic (UTC+5 offset, no external libs); correct Tue/Fri logic with 17:30 cutoff; "Get Directions" ghost link → Google Maps

@@ -2,7 +2,7 @@
 ## Phases 1 & 2: Consolidation, Credibility & Live Content
 
 **Document version:** 1.0  
-**Organisation:** Maldives Flying Disc Federation (MFDF)  
+**Organisation:** Ultimate Frisbee Association (UFA)  
 **Domain:** frisbee.mv  
 **Stack:** Next.js · Vercel · Supabase (plain Postgres)  
 **Timezone:** All times in Maldives Time (MVT, UTC+5). IANA identifier: `Indian/Maldives`  
@@ -27,7 +27,7 @@
 
 ### 1.1 Context
 
-The Maldives Flying Disc Federation (MFDF) is a newly incorporated national sports association, registered September 2024, and a provisional WFDF member. The federation has three operational tools currently hosted as separate GitHub Pages deployments and a League Tracker on Vercel. These must be consolidated under a single Next.js application at **frisbee.mv**.
+The Ultimate Frisbee Association (UFA) is a newly incorporated national sports association, registered September 2024, and a provisional WFDF member. The federation has three operational tools currently hosted as separate GitHub Pages deployments and a League Tracker on Vercel. These must be consolidated under a single Next.js application at **frisbee.mv**.
 
 The site serves two audiences simultaneously:
 
@@ -620,7 +620,7 @@ CREATE TABLE news_posts (
   title        text NOT NULL,
   summary      text NOT NULL,                    -- 1–2 sentence summary for cards
   body         text NOT NULL,                    -- Markdown content
-  author       text NOT NULL DEFAULT 'MFDF',
+  author       text NOT NULL DEFAULT 'UFA',
   published_at timestamptz,                      -- NULL = draft
   cover_image_url text,
   created_at   timestamptz DEFAULT now()
@@ -965,6 +965,6 @@ The following are explicitly not in Phase 1 or Phase 2. They are logged here to 
 
 ---
 
-*Maldives Flying Disc Federation — frisbee.mv Technical Specification v1.0*  
+*Ultimate Frisbee Association — frisbee.mv Technical Specification v1.0*  
 *Prepared: March 2026*  
 *Next document: Phase 3 Specification (Membership Management)*
