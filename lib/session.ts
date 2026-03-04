@@ -2,7 +2,7 @@
  * Session schedule helper — pure server-side, no dependencies.
  *
  * Sessions run every Tuesday (day 2) and Friday (day 5) at 17:30 MVT.
- * Location: Ekuveni Ground, Malé.
+ * Location: Villingili Football Ground, Malé.
  *
  * All date arithmetic uses UTC offsets; MVT = UTC+5.
  */
@@ -26,8 +26,8 @@ const MONTH_NAMES = [
 
 // Tuesday = 2, Friday = 5 (Sunday = 0 … Saturday = 6)
 const SESSION_DAYS = new Set([2, 5]);
-const SESSION_HOUR = 17;
-const SESSION_MINUTE = 30;
+const SESSION_HOUR = 20;
+const SESSION_MINUTE = 0;
 const MVT_OFFSET_MS = 5 * 60 * 60 * 1000; // UTC+5
 
 /**
@@ -81,6 +81,6 @@ function buildSession(date: Date, dayOfWeek: number): NextSession {
     dayName: DAY_NAMES[dayOfWeek],
     fullDate: `${date.getUTCDate()} ${MONTH_NAMES[date.getUTCMonth()]} ${date.getUTCFullYear()}`,
     time: '5:30 PM',
-    location: 'Ekuveni Ground, Malé',
+    location: 'Villingili Football Ground, Malé',
   };
 }

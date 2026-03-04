@@ -42,11 +42,6 @@ export default function Accordion({ items }: AccordionProps) {
           <div
             className="grid transition-[grid-template-rows] duration-200 ease-out"
             style={{ gridTemplateRows: '0fr' }}
-            ref={(el) => {
-              // No JS needed — the grid-template-rows animation is driven by CSS only.
-              // The <details> element's [open] attribute triggers the sibling selector below.
-              void el;
-            }}
           >
             <div className="overflow-hidden">
               <p className="pb-4 pt-1 px-1 text-[var(--text-muted)] leading-relaxed">

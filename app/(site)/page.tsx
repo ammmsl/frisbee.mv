@@ -8,11 +8,11 @@ export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: { absolute: 'Maldives Flying Disc Federation | frisbee.mv' },
+    title: { absolute: 'Ultimate Frisbee Association | frisbee.mv' },
     description:
       'The national governing body for Ultimate Frisbee in the Republic of Maldives. Weekly sessions in Malé every Tuesday and Friday — open to everyone.',
     openGraph: {
-      title: 'Maldives Flying Disc Federation | frisbee.mv',
+      title: 'Ultimate Frisbee Association | frisbee.mv',
       description:
         'The national governing body for Ultimate Frisbee in the Republic of Maldives. Weekly sessions in Malé every Tuesday and Friday — open to everyone.',
       url: 'https://frisbee.mv',
@@ -29,21 +29,21 @@ const PLACEHOLDER_NEWS = [
     headline: 'Federation Update',
     date: 'December 2024',
     excerpt:
-      'The Maldives Flying Disc Federation has been officially registered with the Commissioner of Sports, marking a landmark moment for the sport in the Maldives.',
+      'Ultimate Frisbee Association has been officially registered with the Commissioner of Sports, marking a landmark moment for the sport in the Maldives.',
   },
   {
     id: 'agm-2024',
     headline: 'AGM 2024 Recap',
     date: 'December 12, 2024',
     excerpt:
-      'The inaugural Annual General Meeting of the MFDF was held in Malé, with the executive committee elected by registered members through a secret ballot.',
+      'The inaugural Annual General Meeting of the UFA was held in Malé, with the executive committee elected by registered members through a secret ballot.',
   },
   {
     id: 'season-1',
     headline: 'Season 1 Underway',
     date: 'January 2025',
     excerpt:
-      'Weekly pickup sessions continue every Tuesday and Friday at Ekuveni Ground. Sessions have now run for over 113 consecutive weeks without interruption.',
+      'Weekly pickup sessions continue every Tuesday and Friday at Villingili Football Ground. Sessions have now run for over 113 consecutive weeks without interruption.',
   },
 ] as const;
 
@@ -158,7 +158,7 @@ export default async function HomePage() {
         {/* Hero content */}
         <div className="relative z-10 text-center max-w-2xl px-4 pt-16">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 tracking-tight">
-            Maldives Flying Disc Federation
+            Ultimate Frisbee Association
           </h1>
           <p className="text-lg sm:text-xl text-white/85 mb-10 font-medium">
             Ultimate Frisbee — Malé, Fuvahmulah &amp; Addu City
@@ -248,7 +248,7 @@ export default async function HomePage() {
 
           {/* Ghost link styled as button */}
           <a
-            href="https://maps.google.com/?q=Ekuveni+Ground+Male+Maldives"
+            href="https://maps.app.goo.gl/QNpZ2nUpYoQwBTaH6"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] px-5 py-2.5 text-sm bg-transparent text-[var(--accent)] hover:bg-orange-50 active:bg-orange-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
@@ -262,14 +262,14 @@ export default async function HomePage() {
       {/* ── 4. About Snippet ─────────────────────────────────────────────── */}
       <section
         className="py-16 px-4 bg-[var(--bg-surface)] border-y border-[var(--border)]"
-        aria-label="About MFDF"
+        aria-label="About UFA"
       >
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6">
             About the Federation
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-8">
-            The Maldives Flying Disc Federation (MFDF) is the national governing body for
+            The Ultimate Frisbee Association (UFA) is the national governing body for
             Ultimate Frisbee in the Republic of Maldives. Founded in 2024 and registered
             with the Commissioner of Sports, we are a provisional member of the World
             Flying Disc Federation. We run weekly sessions in Malé and support growing

@@ -1,6 +1,6 @@
 # frisbee.mv — Build Progress
 
-**Last updated:** 2026-03-02 (M3 complete)
+**Last updated:** 2026-03-04 (M4 complete)
 **Stack:** Next.js 16 · React 19 · Tailwind CSS v4 · Supabase (plain Postgres) · Vercel (later)
 
 > **Project approach:** Standalone repo. Not connected to the League Tracker. Develop locally first, push to git. Vercel deployment and domain setup are manual steps done later.
@@ -15,7 +15,7 @@
 | M1 | Shell & Global Layout | ✅ Complete |
 | M2 | Shared Component Library (Phase 1) | ✅ Complete |
 | M3 | Home Page | ✅ Complete |
-| M4 | Static Informational Pages | ⬜ Not started |
+| M4 | Static Informational Pages | ✅ Complete |
 | M5 | Interactive Tools & Contact | ⬜ Not started |
 | — | **Phase 1 Ship** | ⬜ Pending |
 | M6 | Phase 2 Infrastructure & Database | ⬜ Not started |
@@ -141,50 +141,68 @@
 
 ## M4 — Static Informational Pages
 
+**Status: ✅ Complete — 2026-03-04**
+
 ### Tasks
 
 **About (`/about`)**
-- [ ] Page hero
-- [ ] Timeline component — vertical; alternating desktop / single-col mobile; data-driven from array; accent connecting line + circular markers; "active" state on latest milestone
-- [ ] All 8 milestone entries populated from spec
-- [ ] About the Sport section + "Where We Play" city cards (Malé, Fuvahmulah, Addu City)
+- [x] Page hero — accent-colour band, white text
+- [x] Our Mission section
+- [x] Timeline component (`app/(site)/about/Timeline.tsx`) — server component; single-col mobile (line on left); alternating zigzag desktop; 8 milestone entries; last entry filled accent marker; data-driven (add to MILESTONES array, no JSX change needed)
+- [x] About the Sport section + "Read the rules →" text link to `/play/rules`
+- [x] "Where We Play" — 3 city cards (Malé, Fuvahmulah, Addu City); no map API
 
 **Governance (`/governance`)**
-- [ ] Board grid — 4 PersonCards from `config/board.json`; consistent height
-- [ ] Committees list from `config/committees.json`
-- [ ] "How We're Governed" paragraph
-- [ ] WFDF Membership section with QuoteBlock (AOFDF letter paraphrase)
-- [ ] AGM Documents Table — rows from `config/documents.json`; FileDownloadLink per row; PDFs from `public/documents/`; sortable by date
+- [x] Board grid — 4 PersonCards from `config/board.json`; `items-stretch` grid for equal card height
+- [x] Committees list — all 5 from `config/committees.json`; chairperson or "applications open" note
+- [x] "How We're Governed" two-paragraph section
+- [x] WFDF Membership section — paragraph + QuoteBlock (AOFDF paraphrase) + WFDF/AOFDF text links
+- [x] AGM Documents — inline semantic table (not the `'use client'` Table component, which only accepts `string[][]`); FileDownloadLink in Download column; rows from `config/documents.json` sorted date-descending
 
 **Play (`/play`)**
-- [ ] Hero + next session date
-- [ ] Session Schedule Table — server component, no JS; Tue/Fri rows
-- [ ] "Where to Go" + "What to Bring" checklist
-- [ ] "It's Free to Try" section
-- [ ] Beginner FAQ Accordion — 5 questions from spec; `<details>`/`<summary>`; must work without JS
-- [ ] "Become a Member" + Google Form CTA
+- [x] Hero — accent band; "Come play with us." heading; next session computed from `lib/session.ts`; WhatsApp link CTA
+- [x] Session Schedule — plain HTML `<table>` (not `'use client'` Table component); works without JS; Tuesday + Friday rows
+- [x] "Where to Go" — Villingili Football Ground card + Get directions link + "What to Bring" list
+- [x] "It's Free to Try" section + Payment Tracker link
+- [x] Beginner FAQ — Accordion component (`<details>`/`<summary>`); all 5 questions; works without JavaScript
+- [x] "Become a Member" — Google Form placeholder CTA (`https://forms.gle/placeholder`)
 
 **Rules (`/play/rules`)**
-- [ ] Long-form layout: max-width 720px
-- [ ] QuoteBlock: "Ultimate is self-refereed. Spirit is everything."
-- [ ] Sticky TOC sidebar — desktop only (`lg:`); `IntersectionObserver` active section highlight; smooth scroll
-- [ ] External link to WFDF rulebook
-- [ ] `@media print` stylesheet hiding nav chrome and TOC
+- [x] Long-form layout: `max-w-[720px]`; `leading-loose` body text
+- [x] `TableOfContents.tsx` (`'use client'`): IntersectionObserver active-section tracking; smooth-scroll on click; 5 sections
+- [x] TOC sidebar hidden below `lg:` via `display:none` (not in visible/interactable state on mobile)
+- [x] TOC sticky at `top-24` on desktop
+- [x] QuoteBlock: "Ultimate is self-refereed. Spirit is everything."
+- [x] All 5 rule sections with `scroll-mt-24` on headings
+- [x] WFDF Official Rulebook Secondary-variant link → `https://rules.wfdf.org`
+- [x] `@media print` CSS block hiding TOC column and `<header>`/`<footer>` elements
 
 **Sponsors (`/sponsors`)**
-- [ ] Structural placeholder — heading, description, tier grid structure, contact CTA
+- [x] Accent hero band
+- [x] Overview paragraph
+- [x] Tier grid — Title (1 slot), Gold Partners (2 slots), Community Supporters (3 slots)
+- [x] Placeholder cards with dashed border when tier has no active sponsors
+- [x] Active sponsor card support (data from `config/sponsors.json`, `active: true`)
+- [x] Contact CTA → `/contact`
 
-**Metadata**
-- [ ] `generateMetadata` on all 5 pages — title pattern `"Page Title | frisbee.mv"`, description 120–160 chars
+**Cross-cutting**
+- [x] `generateMetadata` with correct `title` and `description` on all 5 pages
+- [x] "Ekuveni Ground" removed from entire codebase — 0 matches
+- [x] `lib/session.ts` location updated to "Villingili Football Ground, Malé"
+- [x] Home page news excerpt and Maps link updated
+- [x] Accordion `ref` removed (was unused no-op; caused "Refs cannot be used in Server Components" error)
+- [x] `npm run build` clean — 11 routes, 0 TypeScript errors
 
 ### Exit Criteria
-- [ ] All 5 pages render without errors
-- [ ] FAQ accordion works without JavaScript
-- [ ] AGM document download links resolve (even if PDF is a placeholder file)
-- [ ] Rules TOC highlights active section on scroll
-- [ ] Rules page print preview hides nav and TOC
-- [ ] Timeline readable in single-column mobile layout
-- [ ] No external map API calls on About page
+- [x] All 5 pages render without errors
+- [x] FAQ accordion works without JavaScript (`<details>`/`<summary>` native)
+- [x] AGM document download links resolve to `/documents/*.pdf` paths
+- [x] Rules TOC highlights active section on scroll (IntersectionObserver)
+- [x] Rules page `@media print` hides nav chrome and TOC column
+- [x] Timeline readable in single-column mobile layout
+- [x] No external map API calls — all location links are plain `<a href="...">` to Maps/goo.gl
+- [x] Zero "Ekuveni" matches in codebase (`grep` confirmed clean)
+- [x] `npm run build` passes — all 11 routes static/dynamic as expected
 
 ---
 
@@ -310,3 +328,4 @@
 | 2026-03-02 | Pre-Dev + M1 complete. `create-next-app` skipped (conflicts with existing files); project scaffolded manually. Next.js 16.1.6 + Tailwind v4 + Inter font. Home page at `app/(site)/page.tsx`. |
 | 2026-03-02 | M2 complete. All 15 shared Phase 1 components built in `app/_components/`. ToastProvider added to root layout. Dev showcase at `app/dev-preview/` (not `_dev/` — Next.js App Router treats `_` prefix as private/non-routable). Avatar uses 8-colour deterministic palette; all pass WCAG AA with white text. Accordion built on native `<details>/<summary>` for JS-optional operation. `npm run build` clean. |
 | 2026-03-02 | M3 complete. Home page built at `app/(site)/page.tsx`. `lib/session.ts` created with pure MVT arithmetic for next-Tue-or-Fri logic. All 6 sections complete: Hero (disc-orange gradient, WFDF badge), Stats Bar (3 StatTiles), Next Session (computed from server), About Snippet, Latest News (3 placeholder cards), Social Proof Strip. `npm run build` clean; 0 type errors. |
+| 2026-03-04 | M4 complete. All 5 static pages built: /about (Timeline zigzag), /governance (PersonCard grid, AGM table, QuoteBlock), /play (server-rendered session schedule, Accordion FAQ), /play/rules (sticky TOC sidebar, IntersectionObserver, print CSS), /sponsors (tier grid structure). Accordion `ref` no-op removed to fix "Refs cannot be used in Server Components" build error. "Ekuveni Ground" replaced with "Villingili Football Ground" site-wide (0 matches). `npm run build` clean; 11 routes. |
