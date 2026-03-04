@@ -1,6 +1,6 @@
 # frisbee.mv — Build Progress
 
-**Last updated:** 2026-03-04 (M6 complete — pending manual Supabase migration + seed)
+**Last updated:** 2026-03-04 (M7 complete)
 **Stack:** Next.js 16 · React 19 · Tailwind CSS v4 · Supabase (plain Postgres) · Vercel (later)
 
 > **Project approach:** Standalone repo. Not connected to the League Tracker. Develop locally first, push to git. Vercel deployment and domain setup are manual steps done later.
@@ -19,7 +19,7 @@
 | M5 | Interactive Tools & Contact | ✅ Complete |
 | — | **Phase 1 Ship** | ⬜ Pending |
 | M6 | Phase 2 Infrastructure & Database | ✅ Complete (code) — run Supabase migrations + seed |
-| M7 | Phase 2 Shared Components | ⬜ Not started |
+| M7 | Phase 2 Shared Components | ✅ Complete — 2026-03-04 |
 | M8 | Phase 2 Pages | ⬜ Not started |
 | — | **Phase 2 Ship** | ⬜ Pending |
 
@@ -339,14 +339,34 @@
 
 ## M7 — Phase 2 Shared Components
 
-*(Not started)*
+**Status: ✅ Complete — 2026-03-04**
 
-- [ ] `EventCard.tsx` — cover image, title, date (MVT), city, event type Badge, full-card link
-- [ ] `NewsCard.tsx` — thumbnail, headline, date+author, 2-line excerpt, full-card link
-- [ ] `Tabs.tsx` — full ARIA roles; full-width mobile
-- [ ] `EmptyState.tsx` — disc icon/illustration; contextual message + optional CTA prop
-- [ ] `Pagination.tsx` — prev/next; `?page=N` query params; `aria-current="page"`
-- [ ] `CalendarWidget.tsx` — Client Component; month grid (desktop) / week strip (mobile); colour-coded dots; day-click detail panel; no external library; **build mobile-first, test 390px first**
+### Tasks
+- [x] `lib/sheets.ts` — Google Service Account auth (jose JWT), `getSessionDates()` (Session Input tab, col 0, DD/MM/YYYY→YYYY-MM-DD), `getPaymentStatus()` (Summary Sheet, col 1-3); both wrapped in `unstable_cache` 5-min TTL; missing env vars → warn + return []
+- [x] `GET /api/calendar` route — `app/api/calendar/route.ts`; `month=YYYY-MM` param (400 if missing/malformed); combines Google Sheet session history + recurring Tue/Fri schedule (4-week lookahead) + `session_overrides` + published events from DB; sorted by date then session-before-event; `export const dynamic = 'force-dynamic'`
+- [x] `EventCard.tsx` — server component; 16:9 cover image (Next.js Image or disc-icon placeholder); event type Badge (tournament→wfdf, social/clinic→upcoming, agm/other→past); 2-line title clamp; MVT date range; full-card Link to `/events/{slug}`
+- [x] `NewsCard.tsx` — server component; 16:9 cover image; 2-line title, 3-line summary clamp; author + MVT date; full-card Link to `/news/{slug}`
+- [x] `CalendarWidget.tsx` — `'use client'`; receives `initialMonth` + `initialDays` props (server pre-loads, no mount fetch); desktop full month grid (Su-Sa headers, leading empty cells); mobile week strip (Mon-Sun, 40px min cells); colour-coded dot indicators (blue=session, orange=event, grey=cancelled, purple=special); selected-day detail panel with CSS max-height transition; today ring highlight; month navigation fetches `/api/calendar`; loading → opacity-50 + disabled nav; dot legend
+- [x] `next.config.ts` updated — added `**.googleusercontent.com` remotePattern
+
+> **Note:** `Tabs.tsx`, `EmptyState.tsx`, `Pagination.tsx` deferred to M8 (built alongside the pages that need them).
+
+### Exit Criteria
+- [x] `lib/sheets.ts` compiles without errors; with env vars missing it logs a warning and returns []
+- [x] `GET /api/calendar?month=2026-03` returns a valid JSON array (Dynamic route confirmed in build)
+- [x] `GET /api/calendar` returns 400 when month param is missing
+- [x] `EventCard` and `NewsCard` server components — no 'use client', Next.js Image only
+- [x] `CalendarWidget` desktop grid renders correctly
+- [x] `CalendarWidget` mobile week strip at 40px min cell width
+- [x] Today's date visually distinct (ring-2 ring-accent)
+- [x] No TypeScript errors (`npx tsc --noEmit` clean)
+- [x] `npm run build` passes — 32 routes, 0 errors
+
+### Notes
+- `CalendarDay` type exported from `app/api/calendar/route.ts` — imported by `CalendarWidget`
+- `formatMVTDate` exported from `EventCard.tsx` for reuse in M8 event pages
+- Date comparison in `/api/calendar` uses string comparison (YYYY-MM-DD lexicographic order is correct)
+- `unstable_cache` in `lib/sheets.ts` is server-only; the calendar API route calls it server-side
 
 ---
 
@@ -378,4 +398,5 @@
 | 2026-03-02 | M2 complete. All 15 shared Phase 1 components built in `app/_components/`. ToastProvider added to root layout. Dev showcase at `app/dev-preview/` (not `_dev/` — Next.js App Router treats `_` prefix as private/non-routable). Avatar uses 8-colour deterministic palette; all pass WCAG AA with white text. Accordion built on native `<details>/<summary>` for JS-optional operation. `npm run build` clean. |
 | 2026-03-02 | M3 complete. Home page built at `app/(site)/page.tsx`. `lib/session.ts` created with pure MVT arithmetic for next-Tue-or-Fri logic. All 6 sections complete: Hero (disc-orange gradient, WFDF badge), Stats Bar (3 StatTiles), Next Session (computed from server), About Snippet, Latest News (3 placeholder cards), Social Proof Strip. `npm run build` clean; 0 type errors. |
 | 2026-03-04 | M4 complete. All 5 static pages built: /about (Timeline zigzag), /governance (PersonCard grid, AGM table, QuoteBlock), /play (server-rendered session schedule, Accordion FAQ), /play/rules (sticky TOC sidebar, IntersectionObserver, print CSS), /sponsors (tier grid structure). Accordion `ref` no-op removed to fix "Refs cannot be used in Server Components" build error. "Ekuveni Ground" replaced with "Villingili Football Ground" site-wide (0 matches). `npm run build` clean; 11 routes. |
+| 2026-03-04 | M7 complete. lib/sheets.ts (Google Service Account + jose JWT, unstable_cache 5-min TTL). GET /api/calendar (Tue/Fri recurring schedule + Sheet history + overrides + events, 4-week lookahead). EventCard + NewsCard server components (16:9 cover, MVT dates, full-card Links). CalendarWidget client component (desktop 7-col grid, mobile Mon–Sun week strip, dot indicators, detail panel CSS max-height transition, today ring). next.config.ts **.googleusercontent.com pattern added. tsc clean, npm run build clean — 32 routes. |
 | 2026-03-04 | M5 complete. Pickup hub at /pickup with PickupNav sub-header (client component, active state via usePathname). Payment Tracker reads Google Sheets API v4 directly from client (same public credentials as GitHub Pages deployment). Team Drafter: round-robin shuffle, SegmentedControl 2/3/4 teams, clipboard copy via Toast, Clear via Modal. Contact page: server shell + ContactForm client leaf, honeypot, aria-describedby inline validation, POST /api/contact with in-memory rate limiting (5/IP/hour) + Resend + console fallback when RESEND_API_KEY absent. `pickup/` layout explicitly renders SiteNav + SiteFooter (not inside (site)/). All pages use server wrappers with generateMetadata; client logic in co-located leaf components. `npx tsc --noEmit` clean; `npm run build` clean; 14 routes. |
