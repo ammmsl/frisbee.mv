@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "News",
   description:
-    "Latest news and announcements from the Maldives Flying Disc Federation.",
+    "Latest news and announcements from the Ultimate Frisbee Association.",
 };
 
 export default function NewsPage() {

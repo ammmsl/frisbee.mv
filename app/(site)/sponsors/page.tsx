@@ -174,7 +174,7 @@ export default function SponsorsPage() {
       <section className="py-20 px-4 text-center">
         <div className="mx-auto max-w-lg">
           <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-4">
-            Interested in supporting MFDF?
+            Interested in supporting UFA?
           </h2>
           <p className="text-[var(--text-muted)] mb-8">
             We&rsquo;d love to hear from you. Get in touch and we&rsquo;ll share our sponsorship

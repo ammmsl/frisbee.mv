@@ -42,7 +42,7 @@ export default function AboutPage() {
       >
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-3">
-            About MFDF
+            About UFA
           </h1>
           <p className="text-lg text-white/85 font-medium">
             The national governing body for Ultimate Frisbee in the Maldives

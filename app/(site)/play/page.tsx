@@ -123,7 +123,7 @@ export default function PlayPage() {
                     Tuesday
                   </td>
                   <td className="px-4 py-3 text-[var(--text-muted)] border-t border-[var(--border)]">
-                    5:30 PM MVT
+                    8:00 PM MVT
                   </td>
                   <td className="px-4 py-3 text-[var(--text-muted)] border-t border-[var(--border)]">
                     Villingili Football Ground, Malé
@@ -134,7 +134,7 @@ export default function PlayPage() {
                     Friday
                   </td>
                   <td className="px-4 py-3 text-[var(--text-muted)] border-t border-[var(--border)]">
-                    5:30 PM MVT
+                    8:00 PM MVT
                   </td>
                   <td className="px-4 py-3 text-[var(--text-muted)] border-t border-[var(--border)]">
                     Villingili Football Ground, Malé
@@ -213,7 +213,7 @@ export default function PlayPage() {
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-4">
             Your first session is completely free. Just show up at Villingili Football Ground at
-            5:30 PM on any Tuesday or Friday. No booking, no registration, no experience needed.
+            8:00 PM on any Tuesday or Friday. No booking, no registration, no experience needed.
           </p>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed">
             After your first session, there&rsquo;s a small weekly session fee to cover costs. You
@@ -262,9 +262,9 @@ export default function PlayPage() {
             Become a Member
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-4">
-            Attending sessions and being a federation member are two different things. Anyone can
-            come to a session. Federation membership is for players who want to formally represent
-            MFDF, vote at the AGM, and be eligible for national team selection when that becomes
+            Attending sessions and being a Association member are two different things. Anyone can
+            come to a session. Association membership is for players who want to formally represent
+            UFA, vote at the AGM, and be eligible for national team selection when that becomes
             relevant.
           </p>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-8">

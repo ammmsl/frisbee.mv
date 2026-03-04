@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     template: "%s | frisbee.mv",
   },
   description:
-    "Maldives Flying Disc Federation (MFDF) — the national governing body for Ultimate and flying disc sports in the Republic of Maldives.",
+    "Ultimate Frisbee Association (UFA) — the national governing body for Ultimate and flying disc sports in the Republic of Maldives.",
   metadataBase: new URL("https://frisbee.mv"),
   openGraph: {
     siteName: "frisbee.mv",

@@ -6,7 +6,7 @@ export function generateMetadata(): Metadata {
   return {
     title: 'Rules | frisbee.mv',
     description:
-      'How to play Ultimate Frisbee — Spirit of the Game, basic rules, MFDF session format, fouls, and a link to the full WFDF rulebook.',
+      'How to play Ultimate Frisbee — Spirit of the Game, basic rules, UFA session format, fouls, and a link to the full WFDF rulebook.',
   };
 }
 
@@ -87,7 +87,7 @@ export default function RulesPage() {
                 Disputes are resolved between players, calmly and honestly.
               </p>
               <p className="text-[var(--text-muted)] leading-loose mb-12">
-                At MFDF sessions and in our league, after each match each team nominates one player
+                At UFA sessions and in our league, after each match each team nominates one player
                 from the opposing team who best demonstrated Spirit of the Game. These nominations
                 are tracked across the season.
               </p>
@@ -135,7 +135,7 @@ export default function RulesPage() {
                 How We Play
               </h2>
               <p className="text-[var(--text-muted)] leading-loose mb-12">
-                At MFDF sessions we play mixed 5v5 at Villingili Football Ground in Malé. Teams must
+                At UFA sessions we play mixed 5v5 at Villingili Football Ground in Malé. Teams must
                 have at least two players of each gender on the field. Games are to 11 points or a
                 30-minute cap, whichever comes first. The team leading at the cap wins.
               </p>

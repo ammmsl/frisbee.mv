@@ -29,27 +29,15 @@ const MILESTONES: Milestone[] = [
       'Tuesday and Friday evening sessions established at Villingili Football Ground.',
   },
   {
-    date: 'January 2025',
-    title: 'First tournament',
-    description:
-      "5v5 format, 49 players — the federation's inaugural competitive event.",
-  },
-  {
-    date: 'March 2024',
-    title: 'Federation founded',
-    description: 'The Maldives Flying Disc Federation is formally established.',
+    date: 'August 2024',
+    title: 'Association founded',
+    description: 'The Ultimate Frisbee Association (UFA) is formally established.',
   },
   {
     date: '2 September 2024',
     title: 'Registered by Commissioner of Sports',
     description:
-      'MFDF receives official registration as a national sports association.',
-  },
-  {
-    date: 'October 2025',
-    title: 'Largest tournament to date',
-    description:
-      '7v7 format, 72 players — the biggest flying disc event held in the Maldives.',
+      'UFA receives official registration as a national sports association.',
   },
   {
     date: '12 December 2024',
@@ -58,8 +46,20 @@ const MILESTONES: Milestone[] = [
   },
   {
     date: 'December 2024',
-    title: 'WFDF Provisional Membership application submitted',
+    title: 'WFDF Provisional Membership Granted',
     description: null,
+  },
+  {
+    date: 'January 2025',
+    title: 'First tournament',
+    description:
+      "5v5 format, 49 players — the federation's inaugural competitive event.",
+  },
+    {
+    date: 'October 2025',
+    title: 'Largest tournament to date',
+    description:
+      '7v7 format, 72 players — the biggest flying disc event held in the Maldives.',
   },
 ];
 

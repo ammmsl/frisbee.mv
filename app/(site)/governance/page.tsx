@@ -47,7 +47,7 @@ export function generateMetadata(): Metadata {
   return {
     title: 'Governance | frisbee.mv',
     description:
-      'MFDF board of directors, committees, governance structure, WFDF membership status, and AGM documents.',
+      'UFA board of directors, committees, governance structure, WFDF membership status, and AGM documents.',
   };
 }
 
@@ -159,7 +159,7 @@ export default function GovernancePage() {
             How We&rsquo;re Governed
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-4">
-            The MFDF is governed by an elected executive committee. Registered members vote by secret
+            The UFA is governed by an elected executive committee. Registered members vote by secret
             ballot at the Annual General Meeting (AGM). Committee members serve four-year terms.
           </p>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed">
@@ -183,7 +183,7 @@ export default function GovernancePage() {
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-6">
             The Maldives Flying Disc Federation applied for WFDF Provisional National Federation
-            Membership in December 2024. Provisional membership recognises MFDF as the sole national
+            Membership in December 2024. Provisional membership recognises UFA as the sole national
             governing body for flying disc sports in the Maldives and is the first step toward full
             WFDF membership.
           </p>
