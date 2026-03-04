@@ -135,9 +135,9 @@ export default function RulesPage() {
                 How We Play
               </h2>
               <p className="text-[var(--text-muted)] leading-loose mb-12">
-                At UFA sessions we play mixed 5v5 at Villingili Football Ground in Malé. Teams must
-                have at least two players of each gender on the field. Games are to 11 points or a
-                30-minute cap, whichever comes first. The team leading at the cap wins.
+                At UFA we play mixed 5v5,6v6 or 7v7 at Villingili Football Ground in Malé. 
+                Games are to 11 points or a 30-minute cap, whichever comes first. 
+                The team leading at the cap wins.
               </p>
             </section>
 
