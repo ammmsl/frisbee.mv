@@ -182,7 +182,7 @@ export default function GovernancePage() {
             WFDF Membership
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-6">
-            The Maldives Flying Disc Federation applied for WFDF Provisional National Federation
+            The Ultimate Frisbee Association applied for WFDF Provisional National Federation
             Membership in December 2024. Provisional membership recognises UFA as the sole national
             governing body for flying disc sports in the Maldives and is the first step toward full
             WFDF membership.

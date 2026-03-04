@@ -30,7 +30,7 @@ export default function ContactPage() {
         <div className="mx-auto max-w-7xl">
           <h1 className="text-4xl font-bold mb-2">Contact Us</h1>
           <p className="text-orange-100 text-lg">
-            Get in touch with the Maldives Flying Disc Federation.
+            Get in touch with the Ultimate Frisbee Association.
           </p>
         </div>
       </div>
