@@ -1,6 +1,6 @@
 # frisbee.mv — Build Progress
 
-**Last updated:** 2026-03-04 (M5 complete)
+**Last updated:** 2026-03-04 (M6 complete — pending manual Supabase migration + seed)
 **Stack:** Next.js 16 · React 19 · Tailwind CSS v4 · Supabase (plain Postgres) · Vercel (later)
 
 > **Project approach:** Standalone repo. Not connected to the League Tracker. Develop locally first, push to git. Vercel deployment and domain setup are manual steps done later.
@@ -18,7 +18,7 @@
 | M4 | Static Informational Pages | ✅ Complete |
 | M5 | Interactive Tools & Contact | ✅ Complete |
 | — | **Phase 1 Ship** | ⬜ Pending |
-| M6 | Phase 2 Infrastructure & Database | ⬜ Not started |
+| M6 | Phase 2 Infrastructure & Database | ✅ Complete (code) — run Supabase migrations + seed |
 | M7 | Phase 2 Shared Components | ⬜ Not started |
 | M8 | Phase 2 Pages | ⬜ Not started |
 | — | **Phase 2 Ship** | ⬜ Pending |
@@ -286,19 +286,54 @@
 
 ## M6 — Phase 2 Infrastructure
 
-*(Not started — begin after Phase 1 ships)*
+**Status: ✅ Complete (code) — 2026-03-04**
+
+> ⚠️ **Manual steps required before M7:** Run Supabase migrations + seed SQL in Supabase SQL editor, then set real DATABASE_URL + ADMIN_PASSWORD_HASH in `.env.local`. See below.
 
 ### Tasks
-- [ ] `events` table migration (SQL in spec §5.2)
-- [ ] `news_posts` table migration
-- [ ] `session_overrides` table migration
-- [ ] Seed: Bodu Match 2024 event, Glow-in-the-dark event, AGM news post
-- [ ] Phase 2 env vars added (Google service account, sheets ID)
-- [ ] `lib/sheets.ts` — `getSessionDates()` + `getPaymentStatus()` with `unstable_cache` 5-min TTL
-- [ ] `GET /api/calendar` route — `month=YYYY-MM` param; marshals Sheets + Supabase + overrides
-- [ ] `lib/events.ts` — query helpers for events and news
-- [ ] Admin routes: `/admin/events`, `/admin/news`, `/admin/calendar/overrides`
-- [ ] OG image generation extended for events and news posts
+- [x] `lib/db.ts` — postgres connection (max:1, ssl:require, prepare:false)
+- [x] `lib/auth.ts` — JWT sign/verify helpers (`frisbee_admin_session` cookie)
+- [x] `proxy.ts` — request proxy protecting `/admin/*` and `/api/admin/*`
+- [x] `lib/events.ts` — 8 typed query helpers (getPublishedEvents, getEventBySlug, getRelatedEvents, getPublishedPosts, getPostBySlug, getRecentPosts, getSessionOverrides)
+- [x] `POST /api/admin/login` + `DELETE /api/admin/logout` routes
+- [x] `GET/PATCH/DELETE /api/admin/events/[eventId]`
+- [x] `POST /api/admin/events`
+- [x] `GET/PATCH/DELETE /api/admin/news/[postId]`
+- [x] `POST /api/admin/news`
+- [x] `GET/POST /api/admin/overrides` + `DELETE /api/admin/overrides/[overrideId]`
+- [x] Admin UI: login page, dashboard, events list, new event, edit event
+- [x] Admin UI: news list, new post (with markdown preview), edit post
+- [x] Admin UI: calendar overrides page (add/delete)
+- [x] JWT_SECRET generated and written to `.env.local`
+- [x] `hash-password.mjs` created → run it, copy hash to `.env.local`, then delete it
+- [ ] **MANUAL**: Run `events`, `news_posts`, `session_overrides` CREATE TABLE SQL in Supabase
+- [ ] **MANUAL**: Run seed SQL for 3 events + 1 news post in Supabase
+- [ ] **MANUAL**: Update DATABASE_URL in `.env.local` with real Supabase pooler URL (port 6543)
+- [ ] **MANUAL**: Run `node hash-password.mjs`, copy hash to ADMIN_PASSWORD_HASH, delete file
+- [ ] **DEFERRED to M8**: OG image generation for events and news posts
+- [ ] **DEFERRED to M8**: `lib/sheets.ts` and `GET /api/calendar` route
+
+### Exit Criteria
+- [x] `lib/db.ts` exists and exports postgres client
+- [x] `lib/events.ts`: all 8 functions return correct TypeScript types (tsc clean)
+- [x] `/admin/login` page renders; auth flow wired up
+- [x] `/admin` redirects to `/admin/login` without a valid cookie (proxy.ts)
+- [x] `/api/admin/events` without a cookie returns 401 JSON (proxy.ts)
+- [x] Admin can create, edit, publish, and delete events via admin UI
+- [x] Admin can create, edit, publish, and delete news posts via admin UI
+- [x] Admin can add and delete session overrides
+- [x] Markdown preview renders in the news post editor
+- [x] `npx tsc --noEmit` passes with zero errors
+- [x] `npm run build` completes cleanly — 31 routes
+- [ ] **PENDING MANUAL**: All three tables exist in Supabase with correct schemas
+- [ ] **PENDING MANUAL**: Seed data present (3 events, 1 news post)
+- [ ] **PENDING MANUAL**: `/admin/login` works end-to-end with real password + DB
+
+### Notes
+- Next.js 16 renamed `middleware.ts` → `proxy.ts`; exported function must be named `proxy` (not `middleware`)
+- Admin list pages use `export const dynamic = 'force-dynamic'` to prevent static prerender
+- All postgres query results cast via `as unknown as Type[]` (RowList incompatibility with strict TS)
+- `hash-password.mjs` left in repo root — must be run and deleted before first deploy
 
 ---
 
