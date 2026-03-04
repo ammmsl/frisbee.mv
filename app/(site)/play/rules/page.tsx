@@ -175,7 +175,7 @@ export default function RulesPage() {
                 are maintained by the World Flying Disc Federation.
               </p>
               <a
-                href="https://rules.wfdf.org"
+                href="https://rules.wfdf.sport"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] px-5 py-2.5 text-base bg-transparent border-2 border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white active:bg-[#e55a27] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
