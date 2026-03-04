@@ -5,7 +5,7 @@ export function generateMetadata(): Metadata {
   return {
     title: 'Contact | frisbee.mv',
     description:
-      'Get in touch with the Maldives Flying Disc Federation — general enquiries, sponsorship, membership, media, and events.',
+      'Get in touch with Ultimate Frisbee Association — general enquiries, sponsorship, membership, media, and events.',
   };
 }
 
