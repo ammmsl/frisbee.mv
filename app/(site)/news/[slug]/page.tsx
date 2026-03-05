@@ -154,8 +154,8 @@ export default async function NewsPostPage({
 
       {/* Related posts */}
       {relatedPosts.length > 0 && (
-        <section aria-label="More from MFDF">
-          <h2 className="text-xl font-bold text-[var(--text-primary)] mb-5">More from MFDF</h2>
+        <section aria-label="More from UFA">
+          <h2 className="text-xl font-bold text-[var(--text-primary)] mb-5">More from UFA</h2>
           <div className="grid gap-5 sm:grid-cols-2">
             {relatedPosts.map(p => (
               <NewsCard

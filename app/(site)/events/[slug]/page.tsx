@@ -23,7 +23,7 @@ export async function generateMetadata({
 
   const description =
     event.description?.slice(0, 155) ??
-    `${event.title} — a flying disc event by MFDF`
+    `${event.title} — an event by UFA`
   const ogImage =
     event.cover_image_url ??
     `/api/og?title=${encodeURIComponent(event.title)}&sub=frisbee.mv`
@@ -152,7 +152,7 @@ export default async function EventDetailPage({
     },
     organizer: {
       '@type': 'Organization',
-      name: 'Maldives Flying Disc Federation',
+      name: 'Ultimate Frisbee Association',
       url: 'https://frisbee.mv',
     },
     description: event.description ?? '',
@@ -187,7 +187,7 @@ export default async function EventDetailPage({
         ) : (
           <div
             className="absolute inset-0"
-            style={{ background: 'linear-gradient(135deg, #FF6B35, #bf3d18)' }}
+            style={{ background: 'linear-gradient(135deg, #469BAF, #2f6e7a)' }}
           />
         )}
 

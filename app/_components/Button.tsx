@@ -19,11 +19,11 @@ const baseStyles =
 
 const variantStyles: Record<string, string> = {
   primary:
-    'bg-[var(--accent)] text-white hover:bg-[#e55a27] active:bg-[#cc4f22] focus-visible:outline-[var(--accent)]',
+    'bg-[var(--accent)] text-white hover:bg-[#3a8899] active:bg-[#2f6e7a] focus-visible:outline-[var(--accent)]',
   secondary:
-    'bg-transparent border-2 border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white active:bg-[#e55a27]',
+    'bg-transparent border-2 border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white active:bg-[#3a8899]',
   ghost:
-    'bg-transparent text-[var(--accent)] hover:bg-orange-50 active:bg-orange-100',
+    'bg-transparent text-[var(--accent)] hover:bg-sky-50 active:bg-sky-100',
   destructive:
     'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus-visible:outline-red-600',
 };

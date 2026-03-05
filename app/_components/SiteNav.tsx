@@ -216,7 +216,7 @@ export default function SiteNav() {
                             className={[
                               "block px-4 py-2.5 text-sm transition-colors min-h-[44px] flex items-center",
                               isActive(itemHref) && pathname === itemHref
-                                ? "text-[var(--accent)] bg-orange-50"
+                                ? "text-[var(--accent)] bg-sky-50"
                                 : "text-[var(--text-primary)] hover:bg-gray-50 hover:text-[var(--accent)]",
                             ].join(" ")}
                           >
@@ -257,7 +257,7 @@ export default function SiteNav() {
                 className={[
                   "text-xs font-semibold px-2.5 py-1 rounded-full border transition-colors",
                   navSolid
-                    ? "border-[var(--accent)] text-[var(--accent)] hover:bg-orange-50"
+                    ? "border-[var(--accent)] text-[var(--accent)] hover:bg-sky-50"
                     : "border-white/60 text-white hover:border-white",
                 ].join(" ")}
               >

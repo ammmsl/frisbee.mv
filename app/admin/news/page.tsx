@@ -45,7 +45,7 @@ export default async function AdminNewsPage() {
           <p className="text-sm text-gray-500">{posts.length} post{posts.length !== 1 ? 's' : ''}</p>
           <Link
             href="/admin/news/new"
-            className="px-4 py-2 bg-[#FF6B35] text-white text-sm font-medium rounded-lg hover:bg-[#e55a27] transition-colors"
+            className="px-4 py-2 bg-[#469BAF] text-white text-sm font-medium rounded-lg hover:bg-[#3a8899] transition-colors"
           >
             + New Post
           </Link>
@@ -82,7 +82,7 @@ export default async function AdminNewsPage() {
                     <td className="px-4 py-3">
                       <Link
                         href={`/admin/news/${post.post_id}`}
-                        className="text-[#FF6B35] hover:underline"
+                        className="text-[#469BAF] hover:underline"
                       >
                         Edit
                       </Link>

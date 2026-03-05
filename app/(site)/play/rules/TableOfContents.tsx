@@ -89,7 +89,7 @@ export default function TableOfContents({ sections }: TableOfContentsProps) {
               className={[
                 'block w-full text-left text-sm py-1.5 px-2 rounded transition-colors min-h-[44px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]',
                 activeId === id
-                  ? 'text-[var(--accent)] font-semibold bg-orange-50'
+                  ? 'text-[var(--accent)] font-semibold bg-sky-50'
                   : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]',
               ].join(' ')}
             >

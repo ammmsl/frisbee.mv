@@ -15,7 +15,7 @@ export interface BadgeProps {
 }
 
 // Contrast-verified colour pairs (all pass WCAG AA 4.5:1 on white backgrounds)
-// wfdf:     #FF6B35 bg + #111827 text  → 7.42:1
+// wfdf:     #469BAF bg + #111827 text  → ~4.7:1
 // upcoming: #15803d bg + white text    → 5.03:1
 // past:     #f3f4f6 bg + #374151 text  → 9.41:1
 // cancelled:#dc2626 bg + white text    → 7.35:1

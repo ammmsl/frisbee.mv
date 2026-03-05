@@ -266,7 +266,7 @@ export default function ComponentShowcase() {
             Ultimate is self-refereed. Spirit is everything.
           </QuoteBlock>
           <QuoteBlock attribution="AOFDF Letter of Recommendation, 2024">
-            The Maldives Flying Disc Federation has demonstrated the organisational
+            The Ultimate Frisbee Association has demonstrated the organisational
             capacity and community commitment expected of a WFDF member federation.
             We fully support their provisional membership application.
           </QuoteBlock>

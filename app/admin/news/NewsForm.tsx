@@ -27,7 +27,7 @@ export default function NewsForm({ initial }: NewsFormProps) {
   const [slugTouched, setSlugTouched] = useState(isEdit)
   const [title, setTitle] = useState(initial?.title ?? '')
   const [summary, setSummary] = useState(initial?.summary ?? '')
-  const [author, setAuthor] = useState(initial?.author ?? 'MFDF')
+  const [author, setAuthor] = useState(initial?.author ?? 'UFA')
   const [coverImageUrl, setCoverImageUrl] = useState(initial?.cover_image_url ?? '')
   const [body, setBody] = useState(initial?.body ?? '')
   const [previewHtml, setPreviewHtml] = useState('')
@@ -57,7 +57,7 @@ export default function NewsForm({ initial }: NewsFormProps) {
       title: title.trim(),
       summary: summary.trim(),
       body: body.trim(),
-      author: author.trim() || 'MFDF',
+      author: author.trim() || 'UFA',
       cover_image_url: coverImageUrl.trim() || null,
       published_at: publish ? new Date().toISOString() : null,
     }
@@ -99,7 +99,7 @@ export default function NewsForm({ initial }: NewsFormProps) {
 
   const inputClass =
     'w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 text-sm ' +
-    'focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent'
+    'focus:outline-none focus:ring-2 focus:ring-[#469BAF] focus:border-transparent'
   const labelClass = 'block text-sm font-medium text-gray-700 mb-1'
 
   return (
@@ -117,7 +117,7 @@ export default function NewsForm({ initial }: NewsFormProps) {
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
           className={inputClass}
-          placeholder="MFDF Granted WFDF Provisional Membership"
+          placeholder="UFA Granted WFDF Provisional Membership"
         />
       </div>
 
@@ -152,7 +152,7 @@ export default function NewsForm({ initial }: NewsFormProps) {
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
             className={inputClass}
-            placeholder="MFDF"
+            placeholder="UFA"
           />
         </div>
         <div>
@@ -176,14 +176,14 @@ export default function NewsForm({ initial }: NewsFormProps) {
             <button
               onClick={() => setTab('edit')}
               className={`px-3 py-1 text-xs rounded-full font-medium transition-colors
-                ${tab === 'edit' ? 'bg-[#FF6B35] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                ${tab === 'edit' ? 'bg-[#469BAF] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
             >
               Edit
             </button>
             <button
               onClick={() => setTab('preview')}
               className={`px-3 py-1 text-xs rounded-full font-medium transition-colors
-                ${tab === 'preview' ? 'bg-[#FF6B35] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                ${tab === 'preview' ? 'bg-[#469BAF] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
             >
               Preview
             </button>

@@ -60,7 +60,7 @@ export default function SegmentedControl({
             } ${
               selected
                 ? 'bg-[var(--accent)] text-white'
-                : 'bg-transparent text-[var(--accent)] hover:bg-orange-50'
+                : 'bg-transparent text-[var(--accent)] hover:bg-sky-50'
             }`}
           >
             {option.label}

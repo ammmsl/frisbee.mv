@@ -69,7 +69,7 @@ export default function PlayPage() {
             href="https://wa.me/9609666800"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[#bf3d18] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[#2f6e7a] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Join the WhatsApp group
           </a>

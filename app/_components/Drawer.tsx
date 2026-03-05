@@ -153,7 +153,7 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
                     className={[
                       "block px-6 py-4 text-lg font-medium transition-colors min-h-[44px]",
                       isActive
-                        ? "text-[var(--accent)] bg-orange-50"
+                        ? "text-[var(--accent)] bg-sky-50"
                         : "text-[var(--text-primary)] hover:bg-gray-50",
                     ].join(" ")}
                     aria-current={isActive ? "page" : undefined}

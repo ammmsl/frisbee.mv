@@ -8,7 +8,7 @@ export const revalidate = 0
 export const metadata: Metadata = {
   title: 'News | frisbee.mv',
   description:
-    'News and announcements from the Maldives Flying Disc Federation — tournament results, federation updates, and community news.',
+    'News and announcements from the Ultimate Frisbee Association — tournament results, federation updates, and community news.',
 }
 
 export default async function NewsPage() {
@@ -29,7 +29,7 @@ export default async function NewsPage() {
       <section className="bg-[var(--accent)] py-12 px-4">
         <div className="mx-auto max-w-7xl">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">News</h1>
-          <p className="text-white/80">Updates from the Maldives Flying Disc Federation.</p>
+          <p className="text-white/80">Updates from the Ultimate Frisbee Association.</p>
         </div>
       </section>
 

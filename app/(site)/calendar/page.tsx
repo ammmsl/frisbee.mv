@@ -12,7 +12,7 @@ export const revalidate = 0
 export const metadata: Metadata = {
   title: 'Calendar | frisbee.mv',
   description:
-    'Session and event calendar for the Maldives Flying Disc Federation. Weekly pickup sessions every Tuesday and Friday at Villingili Football Ground.',
+    'Session and event calendar for the Ultimate Frisbee Association. Weekly pickup sessions every Tuesday and Friday at Villingili Football Ground.',
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

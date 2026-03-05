@@ -6,7 +6,7 @@ This is the primary orientation file for Claude Code. Read this first, every ses
 
 ## What This Project Is
 
-frisbee.mv is the website for the **Maldives Flying Disc Federation (MFDF)** — a national sports federation and provisional WFDF member. The site serves two audiences: the local player community (167 players) and external parties (WFDF, sponsors, media, newcomers).
+frisbee.mv is the website for the **Ultimate Frisbee Association (UFA)** — a national sports federation and provisional WFDF member. (Note: the name "Maldives Flying Disc Federation / MFDF" is used only in WFDF registration contexts due to US trademark constraints on "Frisbee"; all local branding uses UFA.) The site serves two audiences: the local player community (167 players) and external parties (WFDF, sponsors, media, newcomers).
 
 **This is a standalone Next.js project.** It is not connected to the League Tracker codebase. The League Tracker is a separate project on a separate repo and deployment. Integration (shared domain, route merging) is deferred — do not design for it now.
 

@@ -3,8 +3,8 @@
 /* ─── Design Tokens ─────────────────────────────────────────────────────── */
 
 @theme {
-  /* Accent colour — disc-orange */
-  --color-accent: #ff6b35;
+  /* Accent colour — pacific-blue */
+  --color-accent: #469BAF;
 
   /* Light-theme surface palette */
   --color-bg-page: #ffffff;
@@ -20,7 +20,10 @@
 
 /* CSS custom properties (referenced directly in component styles when needed) */
 :root {
-  --accent: #ff6b35;
+  --accent: #469BAF;
+  --accent-hover: #3a8899;
+  --accent-dark: #2f6e7a;
+  --accent-light: #92C2CF;
   --bg-page: #ffffff;
   --bg-surface: #f9fafb;
   --text-primary: #111827;

@@ -22,7 +22,7 @@ export function generateMetadata(): Metadata {
   return {
     title: 'Sponsors | frisbee.mv',
     description:
-      'Support the Maldives Flying Disc Federation. Sponsorship opportunities for organisations who want to back the growth of Ultimate Frisbee in the Maldives.',
+      'Support the Ultimate Frisbee Association. Sponsorship opportunities for organisations who want to back the growth of Ultimate Frisbee in the Maldives.',
   };
 }
 
@@ -109,7 +109,7 @@ export default function SponsorsPage() {
       <section className="py-16 px-4">
         <div className="mx-auto max-w-3xl">
           <p className="text-lg text-[var(--text-muted)] leading-relaxed">
-            The Maldives Flying Disc Federation is looking for founding sponsors and partners. We
+            The Ultimate Frisbee Association is looking for founding sponsors and partners. We
             offer community reach across 167+ active players, branding at weekly sessions and
             tournaments at Villingili Football Ground, jersey sponsorship, and social media
             presence. All support, large or small, directly funds player development and events.
@@ -182,7 +182,7 @@ export default function SponsorsPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] px-6 py-3 text-base bg-[var(--accent)] text-white hover:bg-[#e55a27] active:bg-[#cc4f22] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] px-6 py-3 text-base bg-[var(--accent)] text-white hover:bg-[#3a8899] active:bg-[#2f6e7a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
           >
             Get in touch
           </Link>

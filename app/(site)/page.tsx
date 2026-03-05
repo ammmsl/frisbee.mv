@@ -158,12 +158,12 @@ export default async function HomePage() {
         className="relative flex items-center justify-center min-h-screen -mt-16 overflow-hidden"
         aria-label="Hero"
       >
-        {/* Disc-orange gradient — intentional brand colour, not a placeholder */}
+        {/* Pacific-blue gradient — intentional brand colour, not a placeholder */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(135deg, #FF6B35 0%, #e8582a 45%, #bf3d18 100%)',
+              'linear-gradient(135deg, #469BAF 0%, #498EAD 45%, #2f6e7a 100%)',
           }}
         />
 
@@ -192,7 +192,7 @@ export default async function HomePage() {
             {/* Primary CTA */}
             <Link
               href="/play"
-              className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[#bf3d18] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[#2f6e7a] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Join a Session
             </Link>
@@ -272,7 +272,7 @@ export default async function HomePage() {
             href="https://maps.app.goo.gl/QNpZ2nUpYoQwBTaH6"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] px-5 py-2.5 text-sm bg-transparent text-[var(--accent)] hover:bg-orange-50 active:bg-orange-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] px-5 py-2.5 text-sm bg-transparent text-[var(--accent)] hover:bg-sky-50 active:bg-sky-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
           >
             <MapPinIcon />
             Get Directions

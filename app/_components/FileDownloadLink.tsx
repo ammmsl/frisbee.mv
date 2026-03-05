@@ -75,7 +75,7 @@ export default function FileDownloadLink({
       aria-label={ariaLabel}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-3 px-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] hover:border-[var(--accent)] hover:bg-orange-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] min-h-[44px] group"
+      className="inline-flex items-center gap-3 px-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] hover:border-[var(--accent)] hover:bg-sky-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] min-h-[44px] group"
     >
       <PdfIcon />
       <span className="flex-1 min-w-0">
