@@ -143,3 +143,42 @@ body {
   border-top: 1px solid var(--border);
   margin: 2rem 0;
 }
+
+/* ─── Draft Tool ─────────────────────────────────────────────────────────── */
+
+@keyframes shuffle-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.98); }
+}
+
+.shuffling {
+  animation: shuffle-blink 0.15s ease-in-out infinite;
+}
+
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-flow: column;
+}
+
+.swap-selected {
+  background-color: #1e1b4b !important;
+  color: white !important;
+  border-color: #1e1b4b !important;
+}
+
+#draft-export-container {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 800px;
+  background: white;
+  padding: 40px;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.export-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}

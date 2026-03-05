@@ -3,7 +3,7 @@ import TeamDrafter from './TeamDrafter';
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Team Drafter | frisbee.mv',
+    title: 'Snake Draft | frisbee.mv',
   };
 }
 
