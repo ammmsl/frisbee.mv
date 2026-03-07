@@ -66,7 +66,7 @@ export default function PlayPage() {
             at 5:30 PM — Villingili Football Ground
           </p>
           <a
-            href="https://wa.me/9609666800"
+            href="https://wa.me/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[#2f6e7a] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"

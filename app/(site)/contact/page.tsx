@@ -66,8 +66,8 @@ export default function ContactPage() {
                 <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-0.5">
                   WhatsApp
                 </p>
-                <ExternalLink href="https://wa.me/9609666800">
-                  +960 966 8800
+                <ExternalLink href="https://wa.me/">
+                  WhatsApp
                 </ExternalLink>
               </li>
 
