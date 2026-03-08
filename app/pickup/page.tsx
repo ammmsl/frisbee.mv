@@ -28,6 +28,12 @@ const tools: ToolCard[] = [
       'Randomly sort players into balanced teams for pickup sessions.',
     href: '/pickup/draft',
   },
+  {
+    title: 'Membership Calculator',
+    description:
+      'Find out if UFA membership saves you money based on how often you play.',
+    href: '/pickup/membership',
+  },
 ];
 
 export default function PickupPage() {

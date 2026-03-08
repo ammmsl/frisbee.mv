@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { href: '/pickup/payments', label: 'Payment Tracker' },
-  { href: '/pickup/draft',    label: 'Team Drafter'    },
+  { href: '/pickup/payments',    label: 'Payment Tracker'        },
+  { href: '/pickup/draft',       label: 'Team Drafter'           },
+  { href: '/pickup/membership',  label: 'Membership Calculator'  },
 ];
 
 export default function PickupNav() {
