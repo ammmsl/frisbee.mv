@@ -18,7 +18,6 @@ interface Props {
 
 export default function UserDashboard({ userName, data }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('payment');
-  const [selectedYear, setSelectedYear] = useState<string>(data.years[0] || '');
   const [qrOpen, setQrOpen] = useState(false);
 
   const ledger = calculateFinancialLedger(userName, data);
@@ -71,8 +70,6 @@ export default function UserDashboard({ userName, data }: Props) {
         <ActivityOverviewTab
           attRows={attRows}
           years={data.years}
-          selectedYear={selectedYear}
-          onYearChange={setSelectedYear}
         />
       )}
 

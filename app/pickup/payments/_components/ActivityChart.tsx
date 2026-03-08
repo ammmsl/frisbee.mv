@@ -7,27 +7,125 @@ import { ATT, SHORT_MONTHS } from '../_lib/constants';
 import { parseDate, parseMoney } from '../_lib/utils';
 import type { RawRow } from '../_lib/types';
 
+export type ChartFilter =
+  | { kind: 'year'; year: string }
+  | { kind: 'window'; days: number | 'all' };
+
+export type ChartBinning = 'monthly' | 'weekly';
+
 interface Props {
   attRows: RawRow[];
-  selectedYear: string;
+  filter: ChartFilter;
+  binning: ChartBinning;
 }
 
-export default function ActivityChart({ attRows, selectedYear }: Props) {
+function getFilteredRows(attRows: RawRow[], filter: ChartFilter): RawRow[] {
+  if (filter.kind === 'year') {
+    return attRows.filter((r) => {
+      const d = parseDate(r[ATT.DATE]);
+      return d && d.getFullYear().toString() === filter.year;
+    });
+  }
+  if (filter.days === 'all') return attRows;
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - filter.days);
+  return attRows.filter((r) => {
+    const d = parseDate(r[ATT.DATE]);
+    return d && d >= cutoff;
+  });
+}
+
+function buildMonthlyBuckets(
+  rows: RawRow[],
+  filter: ChartFilter,
+): { labels: string[]; counts: number[]; avgCosts: number[] } {
+  if (filter.kind === 'year') {
+    // Fixed Jan–Dec for the chosen year
+    const stats = Array.from({ length: 12 }, () => ({ count: 0, totalCost: 0 }));
+    rows.forEach((r) => {
+      const d = parseDate(r[ATT.DATE]);
+      if (d) {
+        stats[d.getMonth()].count++;
+        stats[d.getMonth()].totalCost += parseMoney(r[ATT.COST]);
+      }
+    });
+    return {
+      labels: [...SHORT_MONTHS],
+      counts: stats.map((s) => s.count),
+      avgCosts: stats.map((s) => (s.count ? parseFloat((s.totalCost / s.count).toFixed(2)) : 0)),
+    };
+  }
+
+  // Window mode: span calendar months that appear in the data
+  const map = new Map<string, { count: number; totalCost: number }>();
+  rows.forEach((r) => {
+    const d = parseDate(r[ATT.DATE]);
+    if (!d) return;
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    if (!map.has(key)) map.set(key, { count: 0, totalCost: 0 });
+    map.get(key)!.count++;
+    map.get(key)!.totalCost += parseMoney(r[ATT.COST]);
+  });
+  const keys = [...map.keys()].sort();
+  const labels = keys.map((k) => {
+    const [yr, mo] = k.split('-');
+    return `${SHORT_MONTHS[parseInt(mo) - 1]} ${yr}`;
+  });
+  const counts = keys.map((k) => map.get(k)!.count);
+  const avgCosts = keys.map((k) => {
+    const s = map.get(k)!;
+    return s.count ? parseFloat((s.totalCost / s.count).toFixed(2)) : 0;
+  });
+  return { labels, counts, avgCosts };
+}
+
+function buildWeeklyBuckets(rows: RawRow[]): {
+  labels: string[];
+  counts: number[];
+  avgCosts: number[];
+} {
+  const map = new Map<string, { count: number; totalCost: number; weekStart: Date }>();
+  rows.forEach((r) => {
+    const d = parseDate(r[ATT.DATE]);
+    if (!d) return;
+    // ISO week start = Monday
+    const day = new Date(d);
+    const dow = (day.getDay() + 6) % 7; // Mon=0 … Sun=6
+    day.setDate(day.getDate() - dow);
+    day.setHours(0, 0, 0, 0);
+    const key = day.toISOString().slice(0, 10);
+    if (!map.has(key)) map.set(key, { count: 0, totalCost: 0, weekStart: day });
+    map.get(key)!.count++;
+    map.get(key)!.totalCost += parseMoney(r[ATT.COST]);
+  });
+  const keys = [...map.keys()].sort();
+  const fmt = (d: Date) =>
+    `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+  const labels = keys.map((k) => fmt(map.get(k)!.weekStart));
+  const counts = keys.map((k) => map.get(k)!.count);
+  const avgCosts = keys.map((k) => {
+    const s = map.get(k)!;
+    return s.count ? parseFloat((s.totalCost / s.count).toFixed(2)) : 0;
+  });
+  return { labels, counts, avgCosts };
+}
+
+function emptyMessage(filter: ChartFilter): string {
+  if (filter.kind === 'year') return `No session data for ${filter.year}.`;
+  if (filter.days === 'all') return 'No session data found.';
+  return `No session data in the last ${filter.days} days.`;
+}
+
+export default function ActivityChart({ attRows, filter, binning }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chartRef = useRef<ChartType | null>(null);
 
-  const stats = Array.from({ length: 12 }, () => ({ count: 0, totalCost: 0 }));
-  attRows.forEach((r) => {
-    const date = parseDate(r[ATT.DATE]);
-    if (date && date.getFullYear().toString() === selectedYear) {
-      const monthIdx = date.getMonth();
-      stats[monthIdx].count++;
-      stats[monthIdx].totalCost += parseMoney(r[ATT.COST]);
-    }
-  });
+  const filtered = getFilteredRows(attRows, filter);
+  const { labels, counts, avgCosts } =
+    binning === 'weekly'
+      ? buildWeeklyBuckets(filtered)
+      : buildMonthlyBuckets(filtered, filter);
 
-  const counts = stats.map((s) => s.count);
-  const avgCosts = stats.map((s) => (s.count ? parseFloat((s.totalCost / s.count).toFixed(2)) : 0));
   const isEmpty = counts.every((c) => c === 0);
 
   useEffect(() => {
@@ -40,7 +138,7 @@ export default function ActivityChart({ attRows, selectedYear }: Props) {
       chartRef.current = new Chart(canvasRef.current, {
         type: 'bar',
         data: {
-          labels: [...SHORT_MONTHS],
+          labels,
           datasets: [
             {
               type: 'bar',
@@ -72,6 +170,9 @@ export default function ActivityChart({ attRows, selectedYear }: Props) {
           maintainAspectRatio: false,
           interaction: { mode: 'index', intersect: false },
           scales: {
+            x: {
+              ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
+            },
             y: {
               type: 'linear',
               position: 'left',
@@ -107,10 +208,11 @@ export default function ActivityChart({ attRows, selectedYear }: Props) {
       chartRef.current?.destroy();
       chartRef.current = null;
     };
-  }, [attRows, selectedYear, isEmpty, counts, avgCosts]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attRows, filter, binning, isEmpty]);
 
   return (
-    <ChartContainer isEmpty={isEmpty} emptyMessage={`No session data for ${selectedYear}.`}>
+    <ChartContainer isEmpty={isEmpty} emptyMessage={emptyMessage(filter)}>
       <canvas ref={canvasRef} />
     </ChartContainer>
   );
