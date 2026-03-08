@@ -207,9 +207,9 @@ export default function MasterLedger({ data, onSelectPlayer }: Props) {
       )}
 
       {/* Table */}
-      <div className="w-full overflow-x-auto rounded-lg border border-[var(--border)]">
+      <div className="w-full overflow-x-auto overflow-y-auto max-h-[60vh] rounded-lg border border-[var(--border)]">
         <table className="w-full min-w-max text-sm text-left">
-          <thead className="bg-[var(--bg-surface)] border-b border-[var(--border)]">
+          <thead className="bg-[var(--bg-surface)] border-b border-[var(--border)] sticky top-0 z-10">
             <tr>
               <th className={thClass} onClick={() => handleSort('name')}>Name <SortIndicator col="name" /></th>
               <th className={thClass} onClick={() => handleSort('pending')}>Pending <SortIndicator col="pending" /></th>

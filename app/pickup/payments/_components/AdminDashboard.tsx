@@ -53,7 +53,7 @@ export default function AdminDashboard({ data, onSelectPlayer, onSignOut }: Prop
     }`;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-2xl font-bold text-[var(--text-primary)]">Admin Dashboard</h2>

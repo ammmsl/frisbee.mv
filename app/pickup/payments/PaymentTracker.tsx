@@ -80,35 +80,34 @@ export default function PaymentTracker() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      {/* Header row */}
-      <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-        <div className="flex-1">
+      {/* Header row: title + Admin button */}
+      <div className="flex items-center justify-between gap-4">
+        <div>
           <h1 className="text-2xl font-bold text-[var(--text-primary)]">Payment Tracker</h1>
           {updatedLabel && (
             <p className="text-xs text-[var(--text-muted)] mt-0.5">{updatedLabel}</p>
           )}
         </div>
-
-        {loadStatus === 'ready' && data && (
-          <div className="flex items-center gap-3 flex-wrap">
-            <PlayerSearch
-              users={data.users}
-              currentUser={currentUser}
-              onSelect={handleSelectPlayer}
-              onClear={handleClearSearch}
-            />
-            {view !== 'admin' && view !== 'admin-gate' && (
-              <button
-                type="button"
-                onClick={handleShowAdmin}
-                className="min-h-[44px] px-4 rounded-lg border border-[var(--border)] text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--accent)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)] cursor-pointer whitespace-nowrap"
-              >
-                Admin
-              </button>
-            )}
-          </div>
+        {loadStatus === 'ready' && data && view !== 'admin' && view !== 'admin-gate' && (
+          <button
+            type="button"
+            onClick={handleShowAdmin}
+            className="min-h-[44px] px-4 rounded-lg border border-[var(--border)] text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--accent)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)] cursor-pointer whitespace-nowrap shrink-0"
+          >
+            Admin
+          </button>
         )}
       </div>
+
+      {/* Search row */}
+      {loadStatus === 'ready' && data && (
+        <PlayerSearch
+          users={data.users}
+          currentUser={currentUser}
+          onSelect={handleSelectPlayer}
+          onClear={handleClearSearch}
+        />
+      )}
 
       {/* Loading */}
       {loadStatus === 'loading' && (

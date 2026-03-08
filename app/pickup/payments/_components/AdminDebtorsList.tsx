@@ -1,4 +1,3 @@
-import Button from '@/app/_components/Button';
 import { fmtMoney } from '../_lib/utils';
 import type { Debtor } from '../_lib/types';
 
@@ -34,34 +33,33 @@ export default function AdminDebtorsList({ debtors, onSelectPlayer }: Props) {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="grid grid-cols-2 gap-3">
       {debtors.map((debtor, idx) => (
         <div
           key={debtor.name}
-          className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-4 py-3"
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-page)] p-3 flex flex-col gap-1.5"
         >
-          <span className="w-6 h-6 rounded-full bg-[var(--accent)] text-white text-xs font-bold flex items-center justify-center shrink-0">
-            {idx + 1}
-          </span>
+          <div className="flex items-center justify-between">
+            <span className="w-5 h-5 rounded-full bg-[var(--accent)] text-white text-xs font-bold flex items-center justify-center shrink-0">
+              {idx + 1}
+            </span>
+            <button
+              type="button"
+              onClick={() => copyMessage(debtor)}
+              aria-label={`Copy payment reminder for ${debtor.name}`}
+              className="p-1 rounded text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)] cursor-pointer"
+            >
+              <CopyIcon />
+            </button>
+          </div>
           <button
             type="button"
             onClick={() => onSelectPlayer(debtor.name)}
-            className="flex-1 text-left text-sm font-medium text-[var(--accent)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)] rounded cursor-pointer"
+            className="text-left text-sm font-medium text-[var(--accent)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)] rounded cursor-pointer leading-snug"
           >
             {debtor.name}
           </button>
-          <span className="text-sm font-semibold text-red-600 whitespace-nowrap">
-            {fmtMoney(debtor.pending)}
-          </span>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => copyMessage(debtor)}
-            icon={<CopyIcon />}
-            aria-label={`Copy payment reminder for ${debtor.name}`}
-          >
-            Copy
-          </Button>
+          <p className="text-sm font-semibold text-red-600">{fmtMoney(debtor.pending)}</p>
         </div>
       ))}
     </div>
