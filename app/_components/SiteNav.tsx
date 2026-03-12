@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Drawer from "./Drawer";
 
@@ -111,9 +112,6 @@ export default function SiteNav() {
     : "bg-transparent";
 
   const linkColour = navSolid ? "text-[var(--text-primary)]" : "text-white";
-  const wordmarkColour = navSolid
-    ? "text-[var(--text-primary)]"
-    : "text-white";
 
   return (
     <>
@@ -126,14 +124,15 @@ export default function SiteNav() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Wordmark / logo */}
-            <Link
-              href="/"
-              className={[
-                "text-xl font-bold tracking-tight transition-colors",
-                wordmarkColour,
-              ].join(" ")}
-            >
-              frisbee.mv
+            <Link href="/" className="flex items-center transition-opacity hover:opacity-80">
+              <Image
+                src="/logo.svg"
+                alt="frisbee.mv"
+                width={120}
+                height={47}
+                className={navSolid ? "" : "brightness-0 invert"}
+                priority
+              />
             </Link>
 
             {/* Desktop nav */}

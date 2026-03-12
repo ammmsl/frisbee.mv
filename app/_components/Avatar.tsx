@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { avatarPalette } from '@/lib/tokens';
 
 export type AvatarSize = 'sm' | 'md' | 'lg';
 
@@ -23,17 +24,8 @@ const sizeTextClass: Record<AvatarSize, string> = {
   lg: 'text-lg',
 };
 
-// Accent palette — all pass WCAG AA with white text
-const PALETTE = [
-  '#1d4ed8', // blue-700    9.7:1
-  '#7c3aed', // violet-700  8.4:1
-  '#be185d', // pink-700    8.4:1
-  '#0f766e', // teal-700    7.2:1
-  '#b45309', // amber-700   7.0:1
-  '#15803d', // green-700   5.0:1
-  '#b91c1c', // red-700     7.5:1
-  '#6d28d9', // purple-700  8.0:1
-];
+// Accent palette sourced from lib/tokens — all pass WCAG AA with white text
+const PALETTE = avatarPalette;
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/);

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 interface DrawerProps {
@@ -106,12 +107,13 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
       >
         {/* Header row */}
         <div className="flex items-center justify-between px-4 py-4 border-b border-[var(--border)]">
-          <Link
-            href="/"
-            onClick={onClose}
-            className="text-xl font-bold text-[var(--text-primary)]"
-          >
-            frisbee.mv
+          <Link href="/" onClick={onClose} className="flex items-center">
+            <Image
+              src="/logo.svg"
+              alt="frisbee.mv"
+              width={120}
+              height={47}
+            />
           </Link>
           <button
             ref={closeButtonRef}

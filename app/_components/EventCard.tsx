@@ -99,7 +99,7 @@ export default function EventCard({
       className="group flex flex-col overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] transition-colors hover:border-[var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
     >
       {/* Cover image — 16:9 aspect ratio */}
-      <div className="relative aspect-video w-full overflow-hidden bg-[#469BAF]">
+      <div className="relative aspect-video w-full overflow-hidden bg-[var(--accent)]">
         {coverImageUrl ? (
           <Image
             src={coverImageUrl}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import type { Chart as ChartType } from 'chart.js';
+import { chart as chartTokens } from '@/lib/tokens';
 
 // --- Constants (unchanged from source) ---
 const COST_FIELD = 700;
@@ -60,8 +61,8 @@ export default function MembershipCalculator() {
             datasets: [
               {
                 label: 'Member Cost',
-                borderColor: '#469BAF',
-                backgroundColor: '#469BAF',
+                borderColor: chartTokens.member.line,
+                backgroundColor: chartTokens.member.line,
                 data: pRange.map((p) => Math.round((COST_FIELD / p) + SURCHARGE_MEMBER)),
                 tension: 0.4,
                 pointRadius: 0,
@@ -69,8 +70,8 @@ export default function MembershipCalculator() {
               },
               {
                 label: 'Guest Cost',
-                borderColor: '#e5850a',
-                backgroundColor: '#e5850a',
+                borderColor: chartTokens.guest.line,
+                backgroundColor: chartTokens.guest.line,
                 data: pRange.map((p) => Math.round((COST_FIELD / p) + SURCHARGE_GUEST)),
                 tension: 0.4,
                 pointRadius: 0,
@@ -110,7 +111,7 @@ export default function MembershipCalculator() {
             datasets: [
               {
                 label: 'Member Total',
-                borderColor: '#469BAF',
+                borderColor: chartTokens.member.line,
                 data: sRange.map((s) => s * (BASE_COST + SURCHARGE_MEMBER) + FEE_ANNUAL),
                 tension: 0.2,
                 pointRadius: 0,
@@ -119,7 +120,7 @@ export default function MembershipCalculator() {
               },
               {
                 label: 'Guest Total',
-                borderColor: '#e5850a',
+                borderColor: chartTokens.guest.line,
                 data: sRange.map((s) => s * (BASE_COST + SURCHARGE_GUEST)),
                 tension: 0.2,
                 pointRadius: 0,
@@ -154,8 +155,8 @@ export default function MembershipCalculator() {
               {
                 label: 'Sessions',
                 data: FREQUENCIES,
-                backgroundColor: 'rgba(70, 155, 175, 0.7)',
-                borderColor: '#469BAF',
+                backgroundColor: chartTokens.member.fill,
+                borderColor: chartTokens.member.line,
                 borderWidth: 1,
                 borderRadius: 4,
               },

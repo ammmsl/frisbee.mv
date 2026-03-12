@@ -187,7 +187,7 @@ export default async function EventDetailPage({
         ) : (
           <div
             className="absolute inset-0"
-            style={{ background: 'linear-gradient(135deg, #469BAF, #2f6e7a)' }}
+            style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-dark))' }}
           />
         )}
 

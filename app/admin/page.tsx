@@ -27,10 +27,10 @@ function AdminLink({ href, label, description }: { href: string; label: string; 
   return (
     <Link
       href={href}
-      className="block px-5 py-4 bg-white border border-gray-200 rounded-lg hover:border-[#469BAF]
+      className="block px-5 py-4 bg-white border border-gray-200 rounded-lg hover:border-[var(--accent)]
                  hover:shadow-sm transition-all group"
     >
-      <div className="font-semibold text-gray-900 group-hover:text-[#469BAF] transition-colors">{label}</div>
+      <div className="font-semibold text-gray-900 group-hover:text-[var(--accent)] transition-colors">{label}</div>
       <div className="text-sm text-gray-500 mt-0.5">{description}</div>
     </Link>
   )

@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleLogin() }}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900
-                         focus:outline-none focus:ring-2 focus:ring-[#469BAF] focus:border-transparent"
+                         focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent"
               autoComplete="current-password"
             />
           </div>

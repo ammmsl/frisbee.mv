@@ -163,7 +163,7 @@ export default async function HomePage() {
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(135deg, #469BAF 0%, #498EAD 45%, #2f6e7a 100%)',
+              'linear-gradient(135deg, var(--accent) 0%, #498EAD 45%, var(--accent-dark) 100%)',
           }}
         />
 
@@ -192,7 +192,7 @@ export default async function HomePage() {
             {/* Primary CTA */}
             <Link
               href="/play"
-              className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[#2f6e7a] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[var(--accent-dark)] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Join a Session
             </Link>

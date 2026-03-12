@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import Modal from '@/app/_components/Modal';
 import Button from '@/app/_components/Button';
 import { useToast } from '@/app/_components/Toast';
+import { teamPalette, accent } from '@/lib/tokens';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -15,69 +16,9 @@ interface SwapSelection {
 }
 
 // ─── Team colour palette ──────────────────────────────────────────────────────
+// Sourced from lib/tokens — edit colours there, not here.
 
-const TEAM_COLORS = [
-  {
-    main: 'bg-[#469BAF]',
-    light: 'bg-[#e0f2f7]',
-    border: 'border-[#92C2CF]',
-    text: 'text-[#2f6e7a]',
-    active: 'border-[#469BAF] ring-[#92C2CF]',
-    num: 'text-[#469BAF]',
-    hex: '#469BAF',
-    hexLight: '#e0f2f7',
-  },
-  {
-    main: 'bg-rose-600',
-    light: 'bg-rose-50',
-    border: 'border-rose-200',
-    text: 'text-rose-700',
-    active: 'border-rose-500 ring-rose-100',
-    num: 'text-rose-400',
-    hex: '#e11d48',
-    hexLight: '#fff1f2',
-  },
-  {
-    main: 'bg-emerald-600',
-    light: 'bg-emerald-50',
-    border: 'border-emerald-200',
-    text: 'text-emerald-700',
-    active: 'border-emerald-500 ring-emerald-100',
-    num: 'text-emerald-400',
-    hex: '#059669',
-    hexLight: '#ecfdf5',
-  },
-  {
-    main: 'bg-amber-600',
-    light: 'bg-amber-50',
-    border: 'border-amber-200',
-    text: 'text-amber-700',
-    active: 'border-amber-500 ring-amber-100',
-    num: 'text-amber-400',
-    hex: '#d97706',
-    hexLight: '#fffbeb',
-  },
-  {
-    main: 'bg-violet-600',
-    light: 'bg-violet-50',
-    border: 'border-violet-200',
-    text: 'text-violet-700',
-    active: 'border-violet-500 ring-violet-100',
-    num: 'text-violet-400',
-    hex: '#7c3aed',
-    hexLight: '#f5f3ff',
-  },
-  {
-    main: 'bg-cyan-600',
-    light: 'bg-cyan-50',
-    border: 'border-cyan-200',
-    text: 'text-cyan-700',
-    active: 'border-cyan-500 ring-cyan-100',
-    num: 'text-cyan-400',
-    hex: '#0891b2',
-    hexLight: '#ecfeff',
-  },
-];
+const TEAM_COLORS = teamPalette;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -485,7 +426,7 @@ export default function TeamDrafter() {
                   </h3>
                   <button
                     onClick={shuffleCaptains}
-                    className="flex items-center gap-1 text-[10px] bg-[#e0f2f7] px-3 py-1.5 rounded-lg font-bold text-[var(--accent)] active:scale-90 transition-all border border-[#92C2CF] shadow-sm"
+                    className="flex items-center gap-1 text-[10px] bg-[#e0f2f7] px-3 py-1.5 rounded-lg font-bold text-[var(--accent)] active:scale-90 transition-all border border-[var(--accent-light)] shadow-sm"
                   >
                     🎲 Randomize Order
                   </button>
@@ -762,7 +703,7 @@ export default function TeamDrafter() {
       {/* ── Hidden export container (captured by html2canvas) ── */}
       <div id="draft-export-container">
         <div className="text-center mb-10">
-          <h1 style={{ fontSize: 36, fontWeight: 900, color: '#469BAF', fontStyle: 'italic', textTransform: 'uppercase', letterSpacing: '-0.03em' }}>
+          <h1 style={{ fontSize: 36, fontWeight: 900, color: accent.base, fontStyle: 'italic', textTransform: 'uppercase', letterSpacing: '-0.03em' }}>
             Lineup Draft
           </h1>
           <div id="draft-export-date" style={{ color: '#94a3b8', fontWeight: 700, fontSize: 14, letterSpacing: '0.1em', marginTop: 4 }} />

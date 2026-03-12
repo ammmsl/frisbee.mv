@@ -99,7 +99,7 @@ export default function NewsForm({ initial }: NewsFormProps) {
 
   const inputClass =
     'w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 text-sm ' +
-    'focus:outline-none focus:ring-2 focus:ring-[#469BAF] focus:border-transparent'
+    'focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent'
   const labelClass = 'block text-sm font-medium text-gray-700 mb-1'
 
   return (
@@ -176,14 +176,14 @@ export default function NewsForm({ initial }: NewsFormProps) {
             <button
               onClick={() => setTab('edit')}
               className={`px-3 py-1 text-xs rounded-full font-medium transition-colors
-                ${tab === 'edit' ? 'bg-[#469BAF] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                ${tab === 'edit' ? 'bg-[var(--accent)] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
             >
               Edit
             </button>
             <button
               onClick={() => setTab('preview')}
               className={`px-3 py-1 text-xs rounded-full font-medium transition-colors
-                ${tab === 'preview' ? 'bg-[#469BAF] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                ${tab === 'preview' ? 'bg-[var(--accent)] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
             >
               Preview
             </button>

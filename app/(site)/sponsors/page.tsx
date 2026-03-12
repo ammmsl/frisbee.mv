@@ -182,7 +182,7 @@ export default function SponsorsPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] px-6 py-3 text-base bg-[var(--accent)] text-white hover:bg-[#3a8899] active:bg-[#2f6e7a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] px-6 py-3 text-base bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] active:bg-[var(--accent-dark)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
           >
             Get in touch
           </Link>
