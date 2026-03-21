@@ -104,7 +104,7 @@ export default function SiteFooter() {
                 </div>
               </a>
               <a
-                href="https://aofdf.org"
+                href="https://flyingdisc.asia/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-sm text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors min-h-[44px]"

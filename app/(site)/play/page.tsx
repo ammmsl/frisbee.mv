@@ -33,7 +33,7 @@ const FAQ_ITEMS: AccordionItem[] = [
   {
     question: 'How do I join the WhatsApp group?',
     answer:
-      "Message us on WhatsApp at +960 966 8800 or tap 'Join the WhatsApp group' at the top of this page. The group is where session updates, cancellations, and community news are shared.",
+      "Message us on WhatsApp at +960 xxxxxxx or tap 'Join the WhatsApp group' at the top of this page. The group is where session updates, cancellations, and community news are shared.",
   },
   {
     question: 'What happens if it rains?',
@@ -272,7 +272,7 @@ export default function PlayPage() {
             two minutes.
           </p>
           <a
-            href="https://forms.gle/placeholder"
+            href="https://forms.gle/a3KcMV5zJnfWLxB57"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] px-5 py-2.5 text-base bg-[var(--accent)] text-white hover:bg-[#e55a27] active:bg-[#cc4f22] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"

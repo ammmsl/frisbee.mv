@@ -1,0 +1,95 @@
+import Link from 'next/link'
+import sql from '@/lib/league-db'
+import PublicNav from '../_components/PublicNav'
+import { TeamAvatar, PlayerAvatar } from '../_components/Avatar'
+
+export const revalidate = 0
+
+async function getAllPlayers() {
+  const rows = await sql`
+    SELECT
+      p.player_id::text,
+      p.display_name,
+      t.team_id::text,
+      t.team_name
+    FROM players p
+    JOIN teams t ON t.team_id = p.team_id
+    JOIN seasons s ON s.season_id = t.season_id
+    WHERE p.is_active = true
+      AND s.status = 'active'
+    ORDER BY t.team_name, p.display_name
+  `
+  return rows
+}
+
+interface PlayerRow {
+  player_id:    string
+  display_name: string
+  team_id:      string
+  team_name:    string
+}
+
+export default async function PlayersPage() {
+  const players = await getAllPlayers()
+
+  // Group by team using a plain typed record
+  const teamMap: Record<string, { team_name: string; players: PlayerRow[] }> = {}
+  for (const p of players) {
+    const tid  = p.team_id  as string
+    const name = p.team_name as string
+    if (!teamMap[tid]) teamMap[tid] = { team_name: name, players: [] }
+    teamMap[tid].players.push({
+      player_id:    p.player_id    as string,
+      display_name: p.display_name as string,
+      team_id:      tid,
+      team_name:    name,
+    })
+  }
+  const teams = Object.entries(teamMap)
+
+  return (
+    <div className="page-shell">
+      <PublicNav />
+      <div className="page-container space-y-6">
+
+        <div className="flex items-baseline justify-between">
+          <h1 className="page-heading">Players</h1>
+          <span className="text-xs text-gray-500">{players.length} total</span>
+        </div>
+
+        {teams.map(([teamId, { team_name, players: teamPlayers }]) => (
+          <div key={teamId}>
+            <div className="flex items-center justify-between mb-2">
+              <Link
+                href={`/league/team/${teamId}`}
+                className="flex items-center gap-2 text-xs uppercase tracking-widest link-accent"
+              >
+                <TeamAvatar id={teamId} name={team_name} size={20} />
+                {team_name}
+              </Link>
+              <span className="text-xs text-gray-600">{teamPlayers.length}</span>
+            </div>
+            <div className="card-list divide-y divide-gray-800">
+              {teamPlayers.map((p) => (
+                <Link
+                  key={p.player_id}
+                  href={`/league/player/${p.player_id}`}
+                  className="flex items-center gap-3 px-4 py-3 hover:bg-gray-800 transition-colors"
+                >
+                  <PlayerAvatar id={p.player_id} name={p.display_name} size={28} />
+                  <span className="text-sm flex-1">{p.display_name}</span>
+                  <span className="text-gray-600">›</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        {players.length === 0 && (
+          <div className="empty-state">No players found.</div>
+        )}
+
+      </div>
+    </div>
+  )
+}

@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
+import { readdirSync } from 'fs';
+import { join } from 'path';
 import Link from 'next/link';
+import HeroCarousel from './HeroCarousel';
 import StatTile from '@/app/_components/StatTile';
 import Badge from '@/app/_components/Badge';
 import NewsCard from '@/app/_components/NewsCard';
@@ -125,6 +128,23 @@ function DiscIcon() {
   );
 }
 
+/* ─── Hero slide discovery ────────────────────────────────────────────────── */
+
+function getHeroSlides(): string[] {
+  try {
+    const dir = join(process.cwd(), 'public', 'hero');
+    return readdirSync(dir)
+      .filter((f) => /^hero-\d+\.jpe?g$/i.test(f))
+      .sort((a, b) => {
+        const n = (s: string) => parseInt(s.replace(/\D/g, ''), 10);
+        return n(a) - n(b);
+      })
+      .map((f) => `/hero/${f}`);
+  } catch {
+    return []; // public/hero/ not yet created → gradient fallback
+  }
+}
+
 /* ─── Page ────────────────────────────────────────────────────────────────── */
 
 export default async function HomePage() {
@@ -150,6 +170,7 @@ export default async function HomePage() {
     session = getNextSessionAfterDate(session.dateStr);
   }
   const specialNote = specialNotes.get(session.dateStr) ?? null;
+  const heroSlides = getHeroSlides();
 
   return (
     <>
@@ -158,7 +179,7 @@ export default async function HomePage() {
         className="relative flex items-center justify-center min-h-screen -mt-16 overflow-hidden"
         aria-label="Hero"
       >
-        {/* Pacific-blue gradient — intentional brand colour, not a placeholder */}
+        {/* Pacific-blue gradient — fallback when images are absent or loading */}
         <div
           className="absolute inset-0"
           style={{
@@ -167,7 +188,7 @@ export default async function HomePage() {
           }}
         />
 
-        {/* Radial highlight — adds depth to the gradient */}
+        {/* Radial highlight — adds depth to the gradient fallback */}
         <div
           className="absolute inset-0"
           style={{
@@ -176,15 +197,24 @@ export default async function HomePage() {
           }}
         />
 
+        {/* Image carousel — paints over gradient when images are loaded */}
+        <HeroCarousel slides={heroSlides} />
+
         {/* Dark tint overlay — ensures white text passes WCAG AA */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/55" />
 
         {/* Hero content */}
         <div className="relative z-10 text-center max-w-2xl px-4 pt-16">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 tracking-tight">
+          <h1
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 tracking-tight"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.85), 0 4px 16px rgba(0,0,0,0.65), 0 12px 40px rgba(0,0,0,0.35)' }}
+          >
             Ultimate Frisbee Association
           </h1>
-          <p className="text-lg sm:text-xl text-white/85 mb-10 font-medium">
+          <p
+            className="text-lg sm:text-xl text-white/85 mb-10 font-medium"
+            style={{ textShadow: '0 1px 2px rgba(0,0,0,0.80), 0 3px 10px rgba(0,0,0,0.55)' }}
+          >
             Ultimate Frisbee — Malé, Fuvahmulah &amp; Addu City
           </p>
 

@@ -247,7 +247,7 @@ export default function SiteNav() {
               })}
             </nav>
 
-            {/* Desktop right zone — WFDF + AOFDF badges */}
+            {/* Desktop right zone — WFDF badge */}
             <div className="hidden lg:flex items-center gap-3">
               <a
                 href="https://wfdf.sport"
@@ -261,19 +261,6 @@ export default function SiteNav() {
                 ].join(" ")}
               >
                 WFDF
-              </a>
-              <a
-                href="https://aofdf.org"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={[
-                  "text-xs font-semibold px-2.5 py-1 rounded-full border transition-colors",
-                  navSolid
-                    ? "border-gray-300 text-[var(--text-muted)] hover:border-gray-400"
-                    : "border-white/60 text-white hover:border-white",
-                ].join(" ")}
-              >
-                AOFDF
               </a>
             </div>
 

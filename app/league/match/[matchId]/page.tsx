@@ -1,0 +1,535 @@
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
+import sql from '@/lib/league-db'
+import { getAdminSession } from '@/lib/league-auth'
+import PublicNav from '../../_components/PublicNav'
+import AdminResultForm from '../../_components/AdminResultForm'
+import AdminCompletedLayout from '../../_components/AdminCompletedLayout'
+
+export const revalidate = 0
+
+async function getMatch(matchId: string) {
+  const rows = await sql`
+    SELECT
+      f.match_id::text,
+      f.matchweek,
+      f.kickoff_time,
+      f.status,
+      f.venue,
+      ht.team_id::text AS home_team_id,
+      ht.team_name     AS home_team_name,
+      at.team_id::text AS away_team_id,
+      at.team_name     AS away_team_name,
+      mr.score_home,
+      mr.score_away,
+      mvp.display_name AS mvp_name,
+      mvp.player_id::text AS mvp_id
+    FROM fixtures f
+    JOIN  teams ht ON ht.team_id = f.home_team_id
+    JOIN  teams at ON at.team_id = f.away_team_id
+    LEFT JOIN match_results mr  ON mr.match_id  = f.match_id
+    LEFT JOIN players mvp       ON mvp.player_id = mr.mvp_player_id
+    WHERE f.match_id = ${matchId}
+    LIMIT 1
+  `
+  return rows[0] ?? null
+}
+
+async function getPlayerStats(matchId: string) {
+  const rows = await sql`
+    SELECT
+      pms.player_id::text,
+      p.display_name,
+      pms.team_id::text,
+      pms.goals,
+      pms.assists,
+      pms.blocks
+    FROM player_match_stats pms
+    JOIN players p ON p.player_id = pms.player_id
+    WHERE pms.match_id = ${matchId}
+    ORDER BY p.display_name
+  `
+  return rows
+}
+
+async function getAbsences(matchId: string) {
+  const rows = await sql`
+    SELECT
+      ma.player_id::text,
+      p.display_name,
+      ma.team_id::text
+    FROM match_absences ma
+    JOIN players p ON p.player_id = ma.player_id
+    WHERE ma.match_id = ${matchId}
+    ORDER BY p.display_name
+  `
+  return rows
+}
+
+async function getSpiritNominations(matchId: string) {
+  const rows = await sql`
+    SELECT
+      sn.nominating_team_id::text,
+      nt.team_name          AS nominating_team_name,
+      sn.nominated_player_id::text,
+      p.display_name        AS nominated_player_name
+    FROM spirit_nominations sn
+    JOIN teams   nt ON nt.team_id   = sn.nominating_team_id
+    JOIN players p  ON p.player_id  = sn.nominated_player_id
+    WHERE sn.match_id = ${matchId}
+  `
+  return rows
+}
+
+async function getTeamRoster(teamId: string) {
+  const rows = await sql`
+    SELECT player_id::text, display_name
+    FROM players
+    WHERE team_id = ${teamId} AND is_active = true
+    ORDER BY display_name
+  `
+  return rows
+}
+
+function fmtKickoffShort(iso: string) {
+  const d = new Date(iso)
+  const date = d.toLocaleDateString('en-US', {
+    timeZone: 'Indian/Maldives',
+    weekday: 'short',
+    month:   'short',
+    day:     'numeric',
+    year:    'numeric',
+  })
+  const time = d.toLocaleTimeString('en-US', {
+    timeZone: 'Indian/Maldives',
+    hour:   '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  })
+  return `${date} · ${time} MVT`
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ matchId: string }>
+}): Promise<Metadata> {
+  const { matchId } = await params
+  const match = await getMatch(matchId)
+  if (!match) return { title: 'Match | UFA League' }
+
+  const title = `${match.home_team_name as string} vs ${match.away_team_name as string} | UFA League`
+  const description =
+    match.score_home != null
+      ? `${match.home_team_name as string} ${Number(match.score_home)} – ${Number(match.score_away)} ${match.away_team_name as string} · Matchweek ${Number(match.matchweek)}`
+      : `Matchweek ${Number(match.matchweek)} · ${match.home_team_name as string} vs ${match.away_team_name as string}`
+
+  const ogParams = new URLSearchParams({
+    home: match.home_team_name as string,
+    away: match.away_team_name as string,
+    mw:   String(Number(match.matchweek)),
+  })
+  if (match.score_home != null) {
+    ogParams.set('sh', String(Number(match.score_home)))
+    ogParams.set('sa', String(Number(match.score_away)))
+  }
+
+  const ogImage = `/api/league/og?${ogParams.toString()}`
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type:   'website',
+      images: [ogImage],
+    },
+    twitter: {
+      card:        'summary_large_image',
+      title,
+      description,
+      images:      [ogImage],
+    },
+  }
+}
+
+export default async function MatchPage({
+  params,
+}: {
+  params: Promise<{ matchId: string }>
+}) {
+  const { matchId } = await params
+  const match = await getMatch(matchId)
+  if (!match) notFound()
+
+  const isAdmin = await getAdminSession()
+  const isPlayed = match.score_home != null
+
+  if (isPlayed) {
+    const [stats, absences, nominations, homeRoster, awayRoster] = await Promise.all([
+      getPlayerStats(matchId),
+      getAbsences(matchId),
+      getSpiritNominations(matchId),
+      getTeamRoster(match.home_team_id as string),
+      getTeamRoster(match.away_team_id as string),
+    ])
+
+    const homeStats    = stats.filter((s) => s.team_id === match.home_team_id)
+    const awayStats    = stats.filter((s) => s.team_id === match.away_team_id)
+    const homeAbsences = absences.filter((a) => a.team_id === match.home_team_id)
+    const awayAbsences = absences.filter((a) => a.team_id === match.away_team_id)
+    const homeWon      = Number(match.score_home) > Number(match.score_away)
+    const awayWon      = Number(match.score_away) > Number(match.score_home)
+
+    // Compute top scorer and top assister for TOP STATS block
+    const topScorer = stats.length > 0
+      ? stats.reduce((best, s) => Number(s.goals) >= Number(best.goals) ? s : best)
+      : null
+    const topAssister = stats.length > 0
+      ? stats.reduce((best, s) => Number(s.assists) >= Number(best.assists) ? s : best)
+      : null
+
+    const publicContent = (
+      <>
+        <p className="text-xs text-gray-400 text-center mb-0.5">
+          Matchweek {Number(match.matchweek)}
+        </p>
+        <p className="text-xs text-gray-400 text-center mb-1">
+          {fmtKickoffShort(match.kickoff_time as string)}
+        </p>
+        {match.venue && (
+          <p className="text-xs text-gray-400 text-center mb-6">
+            <a
+              href="https://maps.app.goo.gl/BcCYS36FRZcQmoBB8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-muted underline"
+            >
+              {match.venue as string} ↗
+            </a>
+          </p>
+        )}
+
+        {/* Score card */}
+        <div className="card-p6 text-center mb-4">
+          <div className="flex items-center justify-between gap-2">
+            <Link
+              href={`/league/team/${match.home_team_id as string}`}
+              className={`text-base font-bold flex-1 text-left leading-tight link-accent ${homeWon ? 'text-white' : 'text-gray-400'}`}
+            >
+              {match.home_team_name as string}
+            </Link>
+            <div className="text-6xl font-bold tabular-nums text-white shrink-0">
+              {Number(match.score_home)}&nbsp;–&nbsp;{Number(match.score_away)}
+            </div>
+            <Link
+              href={`/league/team/${match.away_team_id as string}`}
+              className={`text-base font-bold flex-1 text-right leading-tight link-accent ${awayWon ? 'text-white' : 'text-gray-400'}`}
+            >
+              {match.away_team_name as string}
+            </Link>
+          </div>
+        </div>
+
+        {/* TOP STATS */}
+        {(
+          (topScorer   && Number(topScorer.goals)   > 0) ||
+          (topAssister && Number(topAssister.assists) > 0) ||
+          match.mvp_name ||
+          nominations.length > 0
+        ) && (
+          <div className="card mb-4">
+            <h3 className="section-label mb-3">Top Stats</h3>
+            <div className="space-y-2.5">
+              {topScorer && Number(topScorer.goals) > 0 && (
+                <div className="flex items-center gap-3 text-sm">
+                  <span className="w-5 text-center shrink-0">⚽</span>
+                  <span className="text-gray-400 w-24 shrink-0 text-xs">Top Scorer</span>
+                  <Link
+                    href={`/league/player/${topScorer.player_id as string}`}
+                    className="text-white font-medium link-accent flex-1 truncate"
+                  >
+                    {topScorer.display_name as string}
+                  </Link>
+                  <span className="text-gray-500 tabular-nums text-xs shrink-0">
+                    {Number(topScorer.goals)} goal{Number(topScorer.goals) !== 1 ? 's' : ''}
+                  </span>
+                </div>
+              )}
+              {topAssister && Number(topAssister.assists) > 0 && (
+                <div className="flex items-center gap-3 text-sm">
+                  <span className="w-5 text-center shrink-0">🎯</span>
+                  <span className="text-gray-400 w-24 shrink-0 text-xs">Top Assister</span>
+                  <Link
+                    href={`/league/player/${topAssister.player_id as string}`}
+                    className="text-white font-medium link-accent flex-1 truncate"
+                  >
+                    {topAssister.display_name as string}
+                  </Link>
+                  <span className="text-gray-500 tabular-nums text-xs shrink-0">
+                    {Number(topAssister.assists)} assist{Number(topAssister.assists) !== 1 ? 's' : ''}
+                  </span>
+                </div>
+              )}
+              {match.mvp_name && (
+                <div className="flex items-center gap-3 text-sm">
+                  <span className="w-5 text-center shrink-0">🏆</span>
+                  <span className="text-gray-400 w-24 shrink-0 text-xs">Match MVP</span>
+                  <Link
+                    href={`/league/player/${match.mvp_id as string}`}
+                    className="text-white font-medium link-accent flex-1 truncate"
+                  >
+                    {match.mvp_name as string}
+                  </Link>
+                </div>
+              )}
+              {nominations.map((n) => (
+                <div key={n.nominating_team_id as string} className="flex items-center gap-3 text-sm">
+                  <span className="w-5 text-center shrink-0">✨</span>
+                  <span className="text-gray-400 w-24 shrink-0 text-xs">Spirit</span>
+                  <Link
+                    href={`/league/player/${n.nominated_player_id as string}`}
+                    className="text-white font-medium link-accent flex-1 truncate"
+                  >
+                    {n.nominated_player_name as string}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Per-player stats */}
+        {(homeStats.length > 0 || awayStats.length > 0 || homeAbsences.length > 0 || awayAbsences.length > 0) && (
+          <div className="card-list mb-4">
+            <div className="grid grid-cols-2 divide-x divide-gray-800">
+
+              {/* Home */}
+              <div>
+                <p className="text-xs text-gray-400 px-3 py-2 border-b border-gray-800 font-medium truncate">
+                  {match.home_team_name as string}
+                </p>
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="text-gray-500 border-b border-gray-800">
+                      <th className="text-left py-1.5 px-3 font-normal">Player</th>
+                      <th className="text-right py-1.5 px-1 font-normal">G</th>
+                      <th className="text-right py-1.5 px-1 font-normal">A</th>
+                      <th className="text-right py-1.5 px-2 font-normal">B</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {homeStats.map((s) => (
+                      <tr key={s.player_id as string} className="border-b border-gray-800 last:border-0">
+                        <td className="py-1.5 px-3">
+                          <Link href={`/league/player/${s.player_id as string}`} className="link-accent">
+                            {s.display_name as string}
+                          </Link>
+                        </td>
+                        <td className="py-1.5 px-1 text-right">{Number(s.goals)}</td>
+                        <td className="py-1.5 px-1 text-right">{Number(s.assists)}</td>
+                        <td className="py-1.5 px-2 text-right">{Number(s.blocks)}</td>
+                      </tr>
+                    ))}
+                    {homeAbsences.map((a) => (
+                      <tr key={a.player_id as string} className="border-b border-gray-800 last:border-0">
+                        <td className="py-1.5 px-3 text-gray-500 italic" colSpan={4}>
+                          {a.display_name as string}
+                          <span className="not-italic text-gray-600 ml-1.5 text-[10px]">Did not play</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Away */}
+              <div>
+                <p className="text-xs text-gray-400 px-3 py-2 border-b border-gray-800 font-medium truncate">
+                  {match.away_team_name as string}
+                </p>
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="text-gray-500 border-b border-gray-800">
+                      <th className="text-left py-1.5 px-3 font-normal">Player</th>
+                      <th className="text-right py-1.5 px-1 font-normal">G</th>
+                      <th className="text-right py-1.5 px-1 font-normal">A</th>
+                      <th className="text-right py-1.5 px-2 font-normal">B</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {awayStats.map((s) => (
+                      <tr key={s.player_id as string} className="border-b border-gray-800 last:border-0">
+                        <td className="py-1.5 px-3">
+                          <Link href={`/league/player/${s.player_id as string}`} className="link-accent">
+                            {s.display_name as string}
+                          </Link>
+                        </td>
+                        <td className="py-1.5 px-1 text-right">{Number(s.goals)}</td>
+                        <td className="py-1.5 px-1 text-right">{Number(s.assists)}</td>
+                        <td className="py-1.5 px-2 text-right">{Number(s.blocks)}</td>
+                      </tr>
+                    ))}
+                    {awayAbsences.map((a) => (
+                      <tr key={a.player_id as string} className="border-b border-gray-800 last:border-0">
+                        <td className="py-1.5 px-3 text-gray-500 italic" colSpan={4}>
+                          {a.display_name as string}
+                          <span className="not-italic text-gray-600 ml-1.5 text-[10px]">Did not play</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* Spirit nominations */}
+        {nominations.length > 0 && (
+          <div className="card">
+            <h3 className="section-label mb-3">Spirit Nominations</h3>
+            <div className="space-y-2">
+              {nominations.map((n) => (
+                <div key={n.nominating_team_id as string} className="flex items-center justify-between text-sm">
+                  <span className="text-gray-400">{n.nominating_team_name as string}</span>
+                  <Link
+                    href={`/league/player/${n.nominated_player_id as string}`}
+                    className="link-accent"
+                  >
+                    {n.nominated_player_name as string}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </>
+    )
+
+    return (
+      <div className="page-shell">
+        <PublicNav />
+        <div className="page-container">
+          <AdminCompletedLayout
+            isAdmin={isAdmin}
+            matchId={matchId}
+            homeTeam={{ team_id: match.home_team_id as string, team_name: match.home_team_name as string }}
+            awayTeam={{ team_id: match.away_team_id as string, team_name: match.away_team_name as string }}
+            homePlayers={homeRoster.map((p) => ({ player_id: p.player_id as string, display_name: p.display_name as string }))}
+            awayPlayers={awayRoster.map((p) => ({ player_id: p.player_id as string, display_name: p.display_name as string }))}
+          >
+            {publicContent}
+          </AdminCompletedLayout>
+        </div>
+      </div>
+    )
+  }
+
+  // Pre-result layout
+  const [homeRoster, awayRoster] = await Promise.all([
+    getTeamRoster(match.home_team_id as string),
+    getTeamRoster(match.away_team_id as string),
+  ])
+
+  return (
+    <div className="page-shell">
+      <PublicNav />
+      <div className="page-container">
+
+        <p className="text-xs text-gray-400 text-center mb-0.5">
+          Matchweek {Number(match.matchweek)}
+        </p>
+        <p className="text-xs text-gray-400 text-center mb-6">
+          {fmtKickoffShort(match.kickoff_time as string)}
+        </p>
+
+        <div className="card-p6 text-center mb-6">
+          <div className="flex items-center justify-between gap-4">
+            <Link
+              href={`/league/team/${match.home_team_id as string}`}
+              className="text-xl font-bold flex-1 text-left leading-tight link-accent"
+            >
+              {match.home_team_name as string}
+            </Link>
+            <span className="text-2xl text-gray-500 font-light shrink-0">vs</span>
+            <Link
+              href={`/league/team/${match.away_team_id as string}`}
+              className="text-xl font-bold flex-1 text-right leading-tight link-accent"
+            >
+              {match.away_team_name as string}
+            </Link>
+          </div>
+          {match.venue && (
+            <p className="text-xs text-gray-400 mt-3">
+              <a
+                href="https://maps.app.goo.gl/BcCYS36FRZcQmoBB8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-muted underline"
+              >
+                {match.venue as string} ↗
+              </a>
+            </p>
+          )}
+        </div>
+
+        {/* Rosters */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="card">
+            <h3 className="section-label truncate">
+              {match.home_team_name as string}
+            </h3>
+            <ul className="space-y-1.5">
+              {homeRoster.map((p) => (
+                <li key={p.player_id as string}>
+                  <Link
+                    href={`/league/player/${p.player_id as string}`}
+                    className="text-sm link-muted"
+                  >
+                    {p.display_name as string}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="card">
+            <h3 className="section-label truncate">
+              {match.away_team_name as string}
+            </h3>
+            <ul className="space-y-1.5">
+              {awayRoster.map((p) => (
+                <li key={p.player_id as string}>
+                  <Link
+                    href={`/league/player/${p.player_id as string}`}
+                    className="text-sm link-muted"
+                  >
+                    {p.display_name as string}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Admin result entry form — only visible when logged in */}
+        {isAdmin && (
+          <div className="mt-8 border-t border-gray-800 pt-8">
+            <h2 className="text-base font-semibold text-white mb-5">Enter Result</h2>
+            <AdminResultForm
+              matchId={matchId}
+              homeTeam={{ team_id: match.home_team_id as string, team_name: match.home_team_name as string }}
+              awayTeam={{ team_id: match.away_team_id as string, team_name: match.away_team_name as string }}
+              homePlayers={homeRoster.map((p) => ({ player_id: p.player_id as string, display_name: p.display_name as string }))}
+              awayPlayers={awayRoster.map((p) => ({ player_id: p.player_id as string, display_name: p.display_name as string }))}
+            />
+          </div>
+        )}
+
+      </div>
+    </div>
+  )
+}
