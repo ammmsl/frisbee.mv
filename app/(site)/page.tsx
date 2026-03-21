@@ -151,10 +151,16 @@ export default async function HomePage() {
   // ── Fetch session with override check ─────────────────────────────────────
   const todayMVT = getTodayMVT();
   const twoWeeksStr = addDays(todayMVT, 14);
-  const [overrides, latestPosts] = await Promise.all([
-    getSessionOverrides(todayMVT, twoWeeksStr),
-    getPublishedPosts(3),
-  ]);
+  let overrides: Awaited<ReturnType<typeof getSessionOverrides>> = []
+  let latestPosts: Awaited<ReturnType<typeof getPublishedPosts>> = []
+  try {
+    ;[overrides, latestPosts] = await Promise.all([
+      getSessionOverrides(todayMVT, twoWeeksStr),
+      getPublishedPosts(3),
+    ])
+  } catch {
+    // DB unavailable — fallback placeholder cards handle empty latestPosts
+  }
 
   // Build set of cancelled dates and map of special override notes
   const cancelledDates = new Set(

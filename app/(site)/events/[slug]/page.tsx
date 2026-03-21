@@ -125,10 +125,13 @@ export default async function EventDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const event = await getEventBySlug(slug)
+  const event = await getEventBySlug(slug).catch(() => null)
   if (!event) notFound()
 
-  const relatedEvents = await getRelatedEvents(event.event_id, event.event_type, 3)
+  let relatedEvents: Awaited<ReturnType<typeof getRelatedEvents>> = []
+  try {
+    relatedEvents = await getRelatedEvents(event.event_id, event.event_type, 3)
+  } catch { /* non-critical — page still renders without related events */ }
 
   const dateStr = formatDateRange(event.start_date, event.end_date)
   const placeStr = event.location ? `${event.location}, ${event.city}` : event.city

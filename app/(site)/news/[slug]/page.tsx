@@ -72,10 +72,13 @@ export default async function NewsPostPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const post = await getPostBySlug(slug)
+  const post = await getPostBySlug(slug).catch(() => null)
   if (!post) notFound()
 
-  const relatedPosts = await getRecentPosts(post.post_id, 2)
+  let relatedPosts: Awaited<ReturnType<typeof getRecentPosts>> = []
+  try {
+    relatedPosts = await getRecentPosts(post.post_id, 2)
+  } catch { /* non-critical — page still renders without related posts */ }
   const html = await Promise.resolve(marked(post.body))
 
   const publishedDate = post.published_at

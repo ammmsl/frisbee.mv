@@ -12,7 +12,12 @@ export const metadata: Metadata = {
 }
 
 export default async function EventsPage() {
-  const allEvents = await getPublishedEvents()
+  let allEvents: Awaited<ReturnType<typeof getPublishedEvents>> = []
+  try {
+    allEvents = await getPublishedEvents()
+  } catch {
+    // DB unavailable — renders "No upcoming events" fallback
+  }
 
   const todayMVT = new Date().toLocaleDateString('en-CA', {
     timeZone: 'Indian/Maldives',

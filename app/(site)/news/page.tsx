@@ -12,7 +12,12 @@ export const metadata: Metadata = {
 }
 
 export default async function NewsPage() {
-  const posts = await getPublishedPosts()
+  let posts: Awaited<ReturnType<typeof getPublishedPosts>> = []
+  try {
+    posts = await getPublishedPosts()
+  } catch {
+    // DB unavailable — renders empty news list
+  }
 
   const summaries: NewsPostSummary[] = posts.map(p => ({
     slug: p.slug,

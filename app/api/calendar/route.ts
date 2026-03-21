@@ -17,6 +17,10 @@ export async function GET(req: NextRequest) {
     )
   }
 
-  const result = await getCalendarDays(month)
-  return NextResponse.json(result)
+  try {
+    const result = await getCalendarDays(month)
+    return NextResponse.json(result)
+  } catch {
+    return NextResponse.json([], { status: 500 })
+  }
 }

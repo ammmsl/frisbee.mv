@@ -67,10 +67,16 @@ export default async function CalendarPage() {
   }).slice(0, 7) // 'YYYY-MM'
 
   // Fetch initial calendar data directly (server-to-server — no HTTP round-trip)
-  const initialDays = await getCalendarDays(currentMonth)
-
-  // Fetch all published events for the "Coming Up" and "Past Events" sections
-  const allEvents = await getPublishedEvents()
+  let initialDays: Awaited<ReturnType<typeof getCalendarDays>> = []
+  let allEvents: Awaited<ReturnType<typeof getPublishedEvents>> = []
+  try {
+    ;[initialDays, allEvents] = await Promise.all([
+      getCalendarDays(currentMonth),
+      getPublishedEvents(),
+    ])
+  } catch {
+    // DB unavailable — renders empty calendar and "Nothing scheduled" message
+  }
   const todayMVT = getTodayMVT()
   const sixtyDaysOut = addDays(todayMVT, 60)
 
