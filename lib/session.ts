@@ -136,7 +136,7 @@ function buildSession(date: Date, dayOfWeek: number): NextSession {
     dateStr: `${y}-${mo}-${d}`,
     dayName: DAY_NAMES[dayOfWeek],
     fullDate: `${date.getUTCDate()} ${MONTH_NAMES[date.getUTCMonth()]} ${date.getUTCFullYear()}`,
-    time: '5:30 PM',
+    time: '8:00 PM',
     location: 'Villingili Football Ground, Malé',
   };
 }
