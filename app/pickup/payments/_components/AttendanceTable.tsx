@@ -120,7 +120,7 @@ export default function AttendanceTable({ attRows, months, years, locations }: P
 
       {/* Table */}
       <div className="w-full overflow-x-auto overflow-y-auto max-h-[60vh] rounded-lg border border-[var(--border)]">
-        <table className="w-full min-w-max text-sm text-left">
+        <table className="w-full text-sm text-left">
           <thead className="bg-[var(--bg-surface)] border-b border-[var(--border)] sticky top-0 z-10">
             <tr>
               <th className={thClass} onClick={() => handleSort('date')}>
