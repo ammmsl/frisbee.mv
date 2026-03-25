@@ -102,49 +102,6 @@ export default function GovernancePage() {
         </div>
       </section>
 
-      {/* ── Committees ────────────────────────────────────────────────────── */}
-      <section
-        className="py-16 px-4 bg-[var(--bg-surface)] border-y border-[var(--border)]"
-        aria-labelledby="committees-heading"
-      >
-        <div className="mx-auto max-w-3xl">
-          <h2
-            id="committees-heading"
-            className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-8"
-          >
-            Committees
-          </h2>
-          <ul className="space-y-8 list-none m-0 p-0">
-            {committees.map((committee) => (
-              <li key={committee.id}>
-                <h3 className="text-lg font-bold text-[var(--text-primary)] mb-1">
-                  {committee.name}
-                </h3>
-                <p className="text-[var(--text-muted)] leading-relaxed mb-2">
-                  {committee.mandate}
-                </p>
-                {committee.chairperson ? (
-                  <p className="text-sm text-[var(--text-muted)]">
-                    <span className="font-medium text-[var(--text-primary)]">Chairperson:</span>{' '}
-                    {committee.chairperson}
-                  </p>
-                ) : committee.status === 'accepting-applications' ? (
-                  <p className="text-sm text-[var(--accent)]">
-                    Chairperson applications open — contact{' '}
-                    <a
-                      href="mailto:hello@frisbee.mv"
-                      className="underline underline-offset-2 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] rounded"
-                    >
-                      hello@frisbee.mv
-                    </a>{' '}
-                    to express interest.
-                  </p>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
 
       {/* ── How We're Governed ────────────────────────────────────────────── */}
       <section
@@ -163,8 +120,7 @@ export default function GovernancePage() {
             ballot at the Annual General Meeting (AGM). Committee members serve four-year terms.
           </p>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed">
-            The federation operates under a formal constitution. A link to the constitution will be
-            published here when the document is finalised.
+            The federation operates under a formal constitution. 
           </p>
         </div>
       </section>
