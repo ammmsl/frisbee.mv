@@ -6,7 +6,7 @@ import HeroCarousel from './HeroCarousel';
 import StatTile from '@/app/_components/StatTile';
 import Badge from '@/app/_components/Badge';
 import NewsCard from '@/app/_components/NewsCard';
-import { getNextSession, getNextSessionAfterDate } from '@/lib/session';
+import { getNextSession, getNextSessionAfterDate, getConsecutiveWeeks } from '@/lib/session';
 import { getPublishedPosts, getSessionOverrides } from '@/lib/events';
 import { getTodayMVT, addDays } from '@/lib/calendar';
 
@@ -268,7 +268,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl">
           <div className="flex gap-6 overflow-x-auto pb-2 lg:justify-center lg:overflow-visible lg:pb-0">
             <StatTile value={167} suffix="+" label="Players" />
-            <StatTile value={113} suffix="+" label="Consecutive Weeks" />
+            <StatTile value={getConsecutiveWeeks()} suffix="+" label="Consecutive Weeks" />
             <StatTile value={3481} suffix="+" label="Attendances" />
           </div>
         </div>

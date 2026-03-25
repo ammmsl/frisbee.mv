@@ -115,6 +115,19 @@ export function getNextNSessions(n: number): NextSession[] {
   return sessions;
 }
 
+/** Date of the very first frisbee session — used to compute consecutive weeks. */
+const FIRST_SESSION_DATE = '2024-01-05';
+
+/**
+ * Returns the number of complete weeks elapsed since the first session.
+ * Recalculates on every call so the home page stat stays current.
+ */
+export function getConsecutiveWeeks(): number {
+  const [y, m, d] = FIRST_SESSION_DATE.split('-').map(Number);
+  const start = Date.UTC(y, m - 1, d);
+  return Math.floor((Date.now() - start) / (7 * 24 * 60 * 60 * 1000));
+}
+
 function buildSession(date: Date, dayOfWeek: number): NextSession {
   const y = date.getUTCFullYear();
   const mo = String(date.getUTCMonth() + 1).padStart(2, '0');

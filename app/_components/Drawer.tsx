@@ -11,13 +11,13 @@ interface DrawerProps {
 }
 
 const NAV_LINKS = [
-  { label: "About", href: "/about" },
-  { label: "Join a Session", href: "/play" },
-  { label: "Rules", href: "/play/rules" },
-  { label: "League", href: "/league" },
-  { label: "Pickup", href: "/pickup" },
-  { label: "News", href: "/news" },
-  { label: "Contact", href: "/contact" },
+  { label: "About", href: "/about", external: false },
+  { label: "Join a Session", href: "/play", external: false },
+  { label: "Rules", href: "/play/rules", external: false },
+  { label: "League", href: "/league", external: true },
+  { label: "Pickup", href: "/pickup", external: false },
+  { label: "News", href: "/news", external: false },
+  { label: "Contact", href: "/contact", external: false },
 ];
 
 export default function Drawer({ isOpen, onClose }: DrawerProps) {
@@ -142,26 +142,38 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
         {/* Nav links */}
         <nav aria-label="Mobile navigation" className="flex-1 overflow-y-auto py-4">
           <ul className="flex flex-col">
-            {NAV_LINKS.map(({ label, href }) => {
+            {NAV_LINKS.map(({ label, href, external }) => {
               const isActive =
                 href === "/"
                   ? pathname === "/"
                   : pathname === href || pathname.startsWith(href + "/");
               return (
                 <li key={href}>
-                  <Link
-                    href={href}
-                    onClick={onClose}
-                    className={[
-                      "block px-6 py-4 text-lg font-medium transition-colors min-h-[44px]",
-                      isActive
-                        ? "text-[var(--accent)] bg-sky-50"
-                        : "text-[var(--text-primary)] hover:bg-gray-50",
-                    ].join(" ")}
-                    aria-current={isActive ? "page" : undefined}
-                  >
-                    {label}
-                  </Link>
+                  {external ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={onClose}
+                      className="block px-6 py-4 text-lg font-medium transition-colors min-h-[44px] text-[var(--text-primary)] hover:bg-gray-50"
+                    >
+                      {label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={href}
+                      onClick={onClose}
+                      className={[
+                        "block px-6 py-4 text-lg font-medium transition-colors min-h-[44px]",
+                        isActive
+                          ? "text-[var(--accent)] bg-sky-50"
+                          : "text-[var(--text-primary)] hover:bg-gray-50",
+                      ].join(" ")}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      {label}
+                    </Link>
+                  )}
                 </li>
               );
             })}

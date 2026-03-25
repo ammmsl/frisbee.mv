@@ -9,12 +9,13 @@ import Drawer from "./Drawer";
 interface NavLink {
   label: string;
   href: string;
+  external?: boolean;
 }
 
 const TOP_NAV_LINKS: NavLink[] = [
   { label: "About", href: "/about" },
   { label: "Play", href: "/play" }, // has dropdown
-  { label: "League", href: "/league" },
+  { label: "League", href: "/league", external: true },
   { label: "Pickup", href: "/pickup" },
   { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },
@@ -140,7 +141,7 @@ export default function SiteNav() {
               aria-label="Primary navigation"
               className="hidden sm:flex items-center gap-1"
             >
-              {TOP_NAV_LINKS.map(({ label, href }) => {
+              {TOP_NAV_LINKS.map(({ label, href, external }) => {
                 if (label === "Play") {
                   return (
                     <div
@@ -224,6 +225,25 @@ export default function SiteNav() {
                         ))}
                       </div>
                     </div>
+                  );
+                }
+
+                if (external) {
+                  return (
+                    <a
+                      key={href}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={[
+                        "px-3 py-2 rounded-md text-sm font-medium transition-colors min-h-[44px] inline-flex items-center",
+                        navSolid
+                          ? "text-[var(--text-primary)] hover:text-[var(--accent)] hover:bg-gray-50"
+                          : "text-white hover:text-white/80",
+                      ].join(" ")}
+                    >
+                      {label}
+                    </a>
                   );
                 }
 

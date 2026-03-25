@@ -208,7 +208,16 @@ export default function MasterLedger({ data, onSelectPlayer }: Props) {
 
       {/* Table */}
       <div className="w-full overflow-x-auto overflow-y-auto max-h-[60vh] rounded-lg border border-[var(--border)]">
-        <table className="w-full min-w-max text-sm text-left">
+        <table className="w-full min-w-[640px] table-fixed text-sm text-left">
+          <colgroup>
+            <col className="w-[22%]" />
+            <col className="w-[12%]" />
+            <col className="w-[12%]" />
+            <col className="w-[13%]" />
+            <col className="w-[15%]" />
+            <col className="w-[13%]" />
+            <col className="w-[13%]" />
+          </colgroup>
           <thead className="bg-[var(--bg-surface)] border-b border-[var(--border)] sticky top-0 z-10">
             <tr>
               <th className={thClass} onClick={() => handleSort('name')}>Name <SortIndicator col="name" /></th>

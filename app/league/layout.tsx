@@ -16,6 +16,17 @@ export default function LeagueLayout({ children }: { children: React.ReactNode }
   return (
     <div className={`league-root ${geistSans.variable} ${geistMono.variable}`}>
       {children}
+      <footer className="bg-gray-950 border-t border-gray-800 py-3 text-center">
+        <p className="text-xs text-gray-500">
+          By{' '}
+          <a
+            href="/"
+            className="text-gray-400 hover:text-white underline underline-offset-2 transition-colors"
+          >
+            frisbee.mv
+          </a>
+        </p>
+      </footer>
     </div>
   )
 }

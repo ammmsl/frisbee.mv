@@ -45,17 +45,6 @@ export default function SiteFooter() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="https://chat.whatsapp.com/frisbee-mv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-sm text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors min-h-[44px]"
-                >
-                  <WhatsAppIcon />
-                  <span>WhatsApp Group</span>
-                </a>
-              </li>
-              <li>
-                <a
                   href="https://instagram.com/frisbee.mv"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -131,10 +120,10 @@ export default function SiteFooter() {
             <div className="space-y-3 text-sm text-[var(--text-primary)]">
               <p>
                 <a
-                  href="mailto:hello@frisbee.mv"
+                  href="mailto:frisbee.mv@gmail.com"
                   className="hover:text-[var(--accent)] transition-colors"
                 >
-                  hello@frisbee.mv
+                  frisbee.mv@gmail.com
                 </a>
               </p>
               <p className="text-[var(--text-muted)] leading-relaxed">

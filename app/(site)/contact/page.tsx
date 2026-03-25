@@ -57,17 +57,8 @@ export default function ContactPage() {
                 <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-0.5">
                   Email
                 </p>
-                <ExternalLink href="mailto:hello@frisbee.mv">
-                  hello@frisbee.mv
-                </ExternalLink>
-              </li>
-
-              <li>
-                <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-0.5">
-                  WhatsApp
-                </p>
-                <ExternalLink href="https://wa.me/">
-                  WhatsApp
+                <ExternalLink href="mailto:frisbee.mv@gmail.com">
+                  frisbee.mv@gmail.com
                 </ExternalLink>
               </li>
 

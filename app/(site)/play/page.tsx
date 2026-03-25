@@ -31,14 +31,14 @@ const FAQ_ITEMS: AccordionItem[] = [
       'Whatever you have right now. People of all fitness levels play. You will get fitter over time — that tends to happen naturally. Show up as you are.',
   },
   {
-    question: 'How do I join the WhatsApp group?',
+    question: 'How do I join the community?',
     answer:
-      "Message us on WhatsApp at +960 xxxxxxx or tap 'Join the WhatsApp group' at the top of this page. The group is where session updates, cancellations, and community news are shared.",
+      "Send us a DM on Instagram @frisbee.mv and we'll get you added to the group. The group is where session updates, cancellations, and community news are shared.",
   },
   {
     question: 'What happens if it rains?',
     answer:
-      "We usually play through light rain — it's actually fun. Heavy rain or lightning means we cancel. Cancellations are announced in the WhatsApp group, so make sure you're in it before your first session.",
+      "We usually play through light rain — it's actually fun. Heavy rain or lightning means we cancel. Cancellations are announced in the group, so message us on Instagram @frisbee.mv to get added before your first session.",
   },
 ];
 
@@ -66,12 +66,12 @@ export default function PlayPage() {
             at 5:30 PM — Villingili Football Ground
           </p>
           <a
-            href="https://wa.me/"
+            href="https://instagram.com/frisbee.mv"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[var(--accent-dark)] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
-            Join the WhatsApp group
+            Message us on Instagram
           </a>
         </div>
       </section>
@@ -145,7 +145,7 @@ export default function PlayPage() {
           </div>
 
           <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-            Sessions have run every week for 113+ consecutive weeks. Fuvahmulah and Addu City
+            Sessions have run every week since January 2024. Fuvahmulah and Addu City
             sessions run informally — contact us for current schedules.
           </p>
         </div>
