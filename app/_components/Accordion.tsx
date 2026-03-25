@@ -59,7 +59,7 @@ export default function Accordion({ items }: AccordionProps) {
       */}
       <style>{`
         details[open] > div {
-          grid-template-rows: 1fr;
+          grid-template-rows: 1fr !important;
         }
       `}</style>
     </div>
