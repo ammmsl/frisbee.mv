@@ -8,8 +8,7 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+  async function handleSubmit() {
     setError('')
     setLoading(true)
 
@@ -41,7 +40,7 @@ export default function AdminLogin() {
           <p className="text-gray-400 mt-1 text-sm">Admin access</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-4">
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
               Password
@@ -51,8 +50,8 @@ export default function AdminLogin() {
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && password && handleSubmit()}
               placeholder="Admin password"
-              required
               autoFocus
               className="input-base py-3"
             />
@@ -63,13 +62,14 @@ export default function AdminLogin() {
           )}
 
           <button
-            type="submit"
+            type="button"
+            onClick={handleSubmit}
             disabled={loading || !password}
             className="btn-primary w-full py-3"
           >
             {loading ? 'Signing in…' : 'Sign in'}
           </button>
-        </form>
+        </div>
       </div>
     </div>
   )
