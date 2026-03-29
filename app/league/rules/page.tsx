@@ -39,10 +39,6 @@ export default function RulesPage() {
               <span className="text-gray-600 shrink-0">·</span>
               <span><span className="text-gray-200">Win condition.</span> First to 11 points, or the team leading when the 30-minute time cap expires.</span>
             </li>
-            <li className="flex gap-2">
-              <span className="text-gray-600 shrink-0">·</span>
-              <span><span className="text-gray-200">Mixed gender.</span> Teams must field at least 2 players of each gender on the field at all times.</span>
-            </li>
           </ul>
         </section>
 
