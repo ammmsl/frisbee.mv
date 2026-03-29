@@ -34,8 +34,6 @@ export default function AdminResultForm({
   existingResult,
   onCancel,
 }: Props) {
-  const [scoreHome, setScoreHome] = useState(existingResult?.score_home ?? 0)
-  const [scoreAway, setScoreAway] = useState(existingResult?.score_away ?? 0)
   const [absentIds, setAbsentIds] = useState<Set<string>>(
     new Set(existingResult?.absences.map((a) => a.player_id) ?? [])
   )
@@ -69,7 +67,6 @@ export default function AdminResultForm({
   )
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState('')
-  const [goalsWarning, setGoalsWarning] = useState('')
 
   const presentHomePlayers = useMemo(
     () => homePlayers.filter((p) => !absentIds.has(p.player_id)),
@@ -85,6 +82,23 @@ export default function AdminResultForm({
       ...presentAwayPlayers.map((p) => ({ ...p, team_id: awayTeam.team_id })),
     ],
     [presentHomePlayers, presentAwayPlayers, homeTeam, awayTeam]
+  )
+
+  const homeGoals = useMemo(
+    () => presentHomePlayers.reduce((s, p) => s + (stats[p.player_id]?.goals ?? 0), 0),
+    [presentHomePlayers, stats]
+  )
+  const homeAssists = useMemo(
+    () => presentHomePlayers.reduce((s, p) => s + (stats[p.player_id]?.assists ?? 0), 0),
+    [presentHomePlayers, stats]
+  )
+  const awayGoals = useMemo(
+    () => presentAwayPlayers.reduce((s, p) => s + (stats[p.player_id]?.goals ?? 0), 0),
+    [presentAwayPlayers, stats]
+  )
+  const awayAssists = useMemo(
+    () => presentAwayPlayers.reduce((s, p) => s + (stats[p.player_id]?.assists ?? 0), 0),
+    [presentAwayPlayers, stats]
   )
 
   function toggleAbsent(playerId: string) {
@@ -110,34 +124,23 @@ export default function AdminResultForm({
     }))
   }
 
-  function clamp(value: number) {
-    return Math.min(11, Math.max(0, value))
-  }
-
   async function handleSave() {
     setSaveError('')
-    setGoalsWarning('')
 
-    if (!mvpId) {
-      setSaveError('Select an MVP before saving.')
+    const errors: string[] = []
+    if (!mvpId) errors.push('Select an MVP before saving.')
+    if (homeGoals > 11)
+      errors.push(`${homeTeam.team_name} has ${homeGoals} goals — maximum is 11.`)
+    if (awayGoals > 11)
+      errors.push(`${awayTeam.team_name} has ${awayGoals} goals — maximum is 11.`)
+    if (homeGoals !== homeAssists)
+      errors.push(`${homeTeam.team_name}: ${homeGoals} goal(s) but ${homeAssists} assist(s) — they must match.`)
+    if (awayGoals !== awayAssists)
+      errors.push(`${awayTeam.team_name}: ${awayGoals} goal(s) but ${awayAssists} assist(s) — they must match.`)
+    if (errors.length > 0) {
+      setSaveError(errors.join('\n'))
       return
     }
-
-    // Goals warning — non-blocking
-    const homeGoals = presentHomePlayers.reduce((sum, p) => sum + (stats[p.player_id]?.goals ?? 0), 0)
-    const awayGoals = presentAwayPlayers.reduce((sum, p) => sum + (stats[p.player_id]?.goals ?? 0), 0)
-    const warnings: string[] = []
-    if (homeGoals > scoreHome) {
-      warnings.push(
-        `Goals entered for ${homeTeam.team_name} (${homeGoals}) exceed the match score (${scoreHome}).`
-      )
-    }
-    if (awayGoals > scoreAway) {
-      warnings.push(
-        `Goals entered for ${awayTeam.team_name} (${awayGoals}) exceed the match score (${scoreAway}).`
-      )
-    }
-    if (warnings.length > 0) setGoalsWarning(warnings.join(' ') + ' Check before saving.')
 
     setSaving(true)
 
@@ -164,8 +167,8 @@ export default function AdminResultForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           match_id: matchId,
-          score_home: scoreHome,
-          score_away: scoreAway,
+          score_home: homeGoals,
+          score_away: awayGoals,
           mvp_player_id: mvpId,
           player_stats,
           absences,
@@ -194,42 +197,19 @@ export default function AdminResultForm({
         <div className="flex items-center justify-center gap-8">
           <div className="text-center">
             <p className="text-sm text-gray-400 mb-3">{homeTeam.team_name}</p>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setScoreHome(clamp(scoreHome - 1))}
-                className="w-9 h-9 rounded-full bg-gray-700 hover:bg-gray-600 text-white font-bold text-lg transition-colors"
-              >
-                −
-              </button>
-              <span className="text-4xl font-bold tabular-nums w-12 text-center">{scoreHome}</span>
-              <button
-                onClick={() => setScoreHome(clamp(scoreHome + 1))}
-                className="w-9 h-9 rounded-full bg-gray-700 hover:bg-gray-600 text-white font-bold text-lg transition-colors"
-              >
-                +
-              </button>
-            </div>
+            <span className={`text-4xl font-bold tabular-nums ${homeGoals > 11 ? 'text-red-400' : ''}`}>
+              {homeGoals}
+            </span>
           </div>
           <span className="text-3xl text-gray-600 font-light mt-8">–</span>
           <div className="text-center">
             <p className="text-sm text-gray-400 mb-3">{awayTeam.team_name}</p>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setScoreAway(clamp(scoreAway - 1))}
-                className="w-9 h-9 rounded-full bg-gray-700 hover:bg-gray-600 text-white font-bold text-lg transition-colors"
-              >
-                −
-              </button>
-              <span className="text-4xl font-bold tabular-nums w-12 text-center">{scoreAway}</span>
-              <button
-                onClick={() => setScoreAway(clamp(scoreAway + 1))}
-                className="w-9 h-9 rounded-full bg-gray-700 hover:bg-gray-600 text-white font-bold text-lg transition-colors"
-              >
-                +
-              </button>
-            </div>
+            <span className={`text-4xl font-bold tabular-nums ${awayGoals > 11 ? 'text-red-400' : ''}`}>
+              {awayGoals}
+            </span>
           </div>
         </div>
+        <p className="text-xs text-gray-600 text-center mt-3">Computed from player goals · max 11</p>
       </div>
 
       {/* 2. Absent Players */}
@@ -295,28 +275,60 @@ export default function AdminResultForm({
               </tr>
             </thead>
             <tbody>
-              {allPresentPlayers.map((p, i) => {
-                const isFirstAway = i === presentHomePlayers.length && presentAwayPlayers.length > 0
-                return (
-                  <tr
-                    key={p.player_id}
-                    className={`border-b border-gray-800/40 ${isFirstAway ? 'border-t-2 border-t-gray-700' : ''}`}
-                  >
-                    <td className="py-1.5 pr-3 text-gray-200">{p.display_name}</td>
-                    {(['goals', 'assists', 'blocks'] as const).map((field) => (
-                      <td key={field} className="py-1 px-2 text-center">
-                        <input
-                          type="number"
-                          min={0}
-                          value={stats[p.player_id]?.[field] ?? 0}
-                          onChange={(e) => setStat(p.player_id, field, Number(e.target.value))}
-                          className="input-base w-12 px-1 py-0.5 text-sm text-center"
-                        />
-                      </td>
-                    ))}
+              {presentHomePlayers.map((p) => (
+                <tr key={p.player_id} className="border-b border-gray-800/40">
+                  <td className="py-1.5 pr-3 text-gray-200">{p.display_name}</td>
+                  {(['goals', 'assists', 'blocks'] as const).map((field) => (
+                    <td key={field} className="py-1 px-2 text-center">
+                      <input
+                        type="number"
+                        min={0}
+                        value={stats[p.player_id]?.[field] ?? 0}
+                        onChange={(e) => setStat(p.player_id, field, Number(e.target.value))}
+                        className="input-base w-12 px-1 py-0.5 text-sm text-center"
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+              {presentHomePlayers.length > 0 && (
+                <tr className="border-t border-gray-700 bg-gray-800/30">
+                  <td className="py-1.5 pr-3 text-xs text-gray-500 italic">{homeTeam.team_name} total</td>
+                  <td className="py-1 px-2 text-center text-sm font-semibold">{homeGoals}</td>
+                  <td className={`py-1 px-2 text-center text-sm font-semibold ${homeAssists !== homeGoals ? 'text-red-400' : 'text-green-400'}`}>
+                    {homeAssists}
+                  </td>
+                  <td className="py-1 px-2 text-center text-sm text-gray-600">—</td>
+                </tr>
+              )}
+              {presentAwayPlayers.length > 0 && (
+                <>
+                  {presentAwayPlayers.map((p) => (
+                    <tr key={p.player_id} className="border-b border-gray-800/40 border-t-2 first:border-t-gray-700">
+                      <td className="py-1.5 pr-3 text-gray-200">{p.display_name}</td>
+                      {(['goals', 'assists', 'blocks'] as const).map((field) => (
+                        <td key={field} className="py-1 px-2 text-center">
+                          <input
+                            type="number"
+                            min={0}
+                            value={stats[p.player_id]?.[field] ?? 0}
+                            onChange={(e) => setStat(p.player_id, field, Number(e.target.value))}
+                            className="input-base w-12 px-1 py-0.5 text-sm text-center"
+                          />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                  <tr className="border-t border-gray-700 bg-gray-800/30">
+                    <td className="py-1.5 pr-3 text-xs text-gray-500 italic">{awayTeam.team_name} total</td>
+                    <td className="py-1 px-2 text-center text-sm font-semibold">{awayGoals}</td>
+                    <td className={`py-1 px-2 text-center text-sm font-semibold ${awayAssists !== awayGoals ? 'text-red-400' : 'text-green-400'}`}>
+                      {awayAssists}
+                    </td>
+                    <td className="py-1 px-2 text-center text-sm text-gray-600">—</td>
                   </tr>
-                )
-              })}
+                </>
+              )}
             </tbody>
           </table>
         )}
@@ -412,16 +424,9 @@ export default function AdminResultForm({
         </div>
       </div>
 
-      {/* Goals warning */}
-      {goalsWarning && (
-        <div className="p-3 bg-yellow-900/40 border border-yellow-700 rounded-lg text-yellow-300 text-sm">
-          {goalsWarning}
-        </div>
-      )}
-
       {/* Save error */}
       {saveError && (
-        <div className="p-3 bg-red-900/40 border border-red-700 rounded-lg text-red-300 text-sm">
+        <div className="p-3 bg-red-900/40 border border-red-700 rounded-lg text-red-300 text-sm whitespace-pre-line">
           {saveError}
         </div>
       )}
