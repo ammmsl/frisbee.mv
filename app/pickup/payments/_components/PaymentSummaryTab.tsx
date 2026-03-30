@@ -4,8 +4,9 @@ import Image from 'next/image';
 import Badge from '@/app/_components/Badge';
 import FinancialBurnUpChart from './FinancialBurnUpChart';
 import SessionStatusCards from './SessionStatusCards';
-import { SUM } from '../_lib/constants';
+import { SUM, PAYMENT_ACCOUNT } from '../_lib/constants';
 import { parseMoney, fmtMoney } from '../_lib/utils';
+import CopyableValue from './CopyableValue';
 import { getHealthStatus } from '../_lib/ledger';
 import type { FinancialLedger, RawRow } from '../_lib/types';
 
@@ -73,11 +74,20 @@ export default function PaymentSummaryTab({ summaryRow, ledger, attRows, onShowQ
           </button>
           <div>
             <p className="font-semibold text-red-700 text-sm">
-              Outstanding Balance: {fmtMoney(pending)}
+              Outstanding Balance:{' '}
+              <CopyableValue
+                value={String(pending)}
+                display={<span className="font-semibold text-red-700">{fmtMoney(pending)}</span>}
+                label={`Copy pending amount: ${pending} MVR`}
+              />
             </p>
             <p className="text-sm text-[var(--text-muted)] mt-0.5">
               Transfer to:{' '}
-              <span className="font-mono font-medium text-[var(--text-primary)]">7730000682000</span>{' '}
+              <CopyableValue
+                value={PAYMENT_ACCOUNT}
+                display={<span className="font-mono font-medium text-[var(--text-primary)]">{PAYMENT_ACCOUNT}</span>}
+                label={`Copy account number: ${PAYMENT_ACCOUNT}`}
+              />{' '}
               (MOHD. AMSAL)
             </p>
           </div>
