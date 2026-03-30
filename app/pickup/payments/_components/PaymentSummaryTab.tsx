@@ -98,7 +98,15 @@ export default function PaymentSummaryTab({ summaryRow, ledger, attRows, onShowQ
       <div className="grid grid-cols-3 gap-3">
         <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-4 text-center">
           <p className={`text-xl font-bold ${pending > 0 ? 'text-red-600' : 'text-[var(--text-primary)]'}`}>
-            {fmtMoney(pending)}
+            {pending > 0 ? (
+              <CopyableValue
+                value={String(pending)}
+                display={<span className="text-xl font-bold text-red-600">{fmtMoney(pending)}</span>}
+                label={`Copy pending amount: ${pending} MVR`}
+              />
+            ) : (
+              fmtMoney(pending)
+            )}
           </p>
           <p className="text-xs text-[var(--text-muted)] mt-1">Pending</p>
         </div>
