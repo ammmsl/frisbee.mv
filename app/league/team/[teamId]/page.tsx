@@ -7,8 +7,6 @@ import PublicNav from '../../_components/PublicNav'
 import StatCard from '../../_components/StatCard'
 import { TeamAvatar } from '../../_components/Avatar'
 
-export const revalidate = 0
-
 async function getTeam(teamId: string) {
   const rows = await sql`
     SELECT team_id::text, team_name, season_id::text

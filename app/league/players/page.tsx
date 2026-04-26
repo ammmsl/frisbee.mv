@@ -3,8 +3,6 @@ import sql from '@/lib/league-db'
 import PublicNav from '../_components/PublicNav'
 import { TeamAvatar, PlayerAvatar } from '../_components/Avatar'
 
-export const revalidate = 0
-
 async function getAllPlayers() {
   const rows = await sql`
     SELECT

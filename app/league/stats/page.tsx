@@ -2,8 +2,6 @@ import sql from '@/lib/league-db'
 import PublicNav from '../_components/PublicNav'
 import StatsClient from './StatsClient'
 
-export const revalidate = 0
-
 async function getActiveSeason() {
   const rows = await sql`
     SELECT season_id::text, season_name

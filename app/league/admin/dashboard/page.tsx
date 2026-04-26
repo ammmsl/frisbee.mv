@@ -2,7 +2,7 @@ import sql from '@/lib/league-db'
 import Link from 'next/link'
 import AdminNav from '../../_components/AdminNav'
 
-export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-MV', {

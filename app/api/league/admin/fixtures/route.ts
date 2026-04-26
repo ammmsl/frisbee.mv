@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import sql from '@/lib/league-db'
 
 export async function GET() {
@@ -54,6 +55,7 @@ export async function POST(req: NextRequest) {
          ${kickoff_time}, ${venue ?? 'Vilimale Turf'}, ${matchweek})
       RETURNING *
     `
+    revalidatePath('/league', 'layout')
     return NextResponse.json(result[0], { status: 201 })
   } catch (e) {
     console.error(e)

@@ -7,8 +7,6 @@ import PublicNav from '../../_components/PublicNav'
 import AdminResultForm from '../../_components/AdminResultForm'
 import AdminCompletedLayout from '../../_components/AdminCompletedLayout'
 
-export const revalidate = 0
-
 async function getMatch(matchId: string) {
   const rows = await sql`
     SELECT

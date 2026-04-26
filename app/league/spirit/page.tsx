@@ -2,8 +2,6 @@ import Link from 'next/link'
 import sql from '@/lib/league-db'
 import PublicNav from '../_components/PublicNav'
 
-export const revalidate = 0
-
 async function getSpiritLeaderboard(seasonId: string) {
   const rows = await sql`
     SELECT

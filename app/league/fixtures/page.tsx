@@ -2,8 +2,6 @@ import sql from '@/lib/league-db'
 import PublicNav from '../_components/PublicNav'
 import FixturesCalendar from './FixturesCalendar'
 
-export const revalidate = 0
-
 // ─── Block derivation ─────────────────────────────────────────────────────────
 
 type Block = 'Block 1' | 'Block 2' | 'Block 3'

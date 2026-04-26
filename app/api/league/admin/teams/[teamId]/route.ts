@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import sql from '@/lib/league-db'
 
 export async function PATCH(
@@ -23,5 +24,6 @@ export async function PATCH(
     return NextResponse.json({ error: 'Team not found' }, { status: 404 })
   }
 
+  revalidatePath('/league', 'layout')
   return NextResponse.json(result[0])
 }

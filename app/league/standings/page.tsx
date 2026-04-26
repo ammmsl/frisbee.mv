@@ -5,8 +5,6 @@ import PublicNav from '../_components/PublicNav'
 import StandingsChart from './StandingsChart'
 import { TeamAvatar } from '../_components/Avatar'
 
-export const revalidate = 0
-
 async function getActiveSeason() {
   const rows = await sql`
     SELECT season_id::text, season_name

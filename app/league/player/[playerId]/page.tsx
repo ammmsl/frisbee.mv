@@ -7,8 +7,6 @@ import PublicNav from '../../_components/PublicNav'
 import StatCard from '../../_components/StatCard'
 import { PlayerAvatar } from '../../_components/Avatar'
 
-export const revalidate = 0
-
 async function getPlayer(playerId: string) {
   const rows = await sql`
     SELECT
