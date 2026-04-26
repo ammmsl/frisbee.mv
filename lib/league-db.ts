@@ -6,6 +6,9 @@ const sql = postgres(process.env.LEAGUE_DATABASE_URL ?? process.env.DATABASE_URL
   ssl: 'require',
   prepare: false,
   connect_timeout: 5,
+  connection: {
+    statement_timeout: 25000,
+  },
 })
 
 export default sql
