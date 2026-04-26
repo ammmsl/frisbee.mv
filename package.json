@@ -10,18 +10,20 @@
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.5.1",
     "html2canvas": "^1.4.1",
     "jose": "^5.9.6",
+    "lucide-react": "^0.577.0",
     "marked": "^13.0.3",
     "next": "16.1.6",
     "postgres": "^3.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "resend": "^4.1.2",
     "recharts": "^2.15.3",
-    "lucide-react": "^0.577.0"
+    "resend": "^4.1.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.14",

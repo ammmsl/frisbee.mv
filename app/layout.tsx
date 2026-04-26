@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import SkipLink from "@/app/_components/SkipLink";
 import { ToastProvider } from "@/app/_components/Toast";
 import "./globals.css";
@@ -37,6 +39,8 @@ export default function RootLayout({
         <ToastProvider>
           {children}
         </ToastProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
