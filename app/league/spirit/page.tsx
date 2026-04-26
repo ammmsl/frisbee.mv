@@ -1,31 +1,45 @@
 import Link from 'next/link'
+import { unstable_cache } from 'next/cache'
 import sql from '@/lib/league-db'
 import PublicNav from '../_components/PublicNav'
 
-async function getSpiritLeaderboard(seasonId: string) {
-  const rows = await sql`
-    SELECT
-      p.player_id::text,
-      p.display_name,
-      t.team_id::text,
-      t.team_name,
-      COUNT(sn.nomination_id)::int AS nominations
-    FROM spirit_nominations sn
-    JOIN players p ON p.player_id = sn.nominated_player_id
-    JOIN teams   t ON t.team_id   = p.team_id
-    WHERE p.season_id = ${seasonId}::uuid
-    GROUP BY p.player_id, p.display_name, t.team_id, t.team_name
-    ORDER BY nominations DESC, p.display_name
-  `
-  return rows
-}
+export const dynamic = 'force-dynamic'
+
+const getActiveSeason = unstable_cache(
+  async () => {
+    const rows = await sql`SELECT season_id::text FROM seasons WHERE status = 'active' LIMIT 1`
+    return (rows[0]?.season_id as string) ?? null
+  },
+  ['league-active-season'],
+  { tags: ['league'] }
+)
+
+const getSpiritLeaderboard = unstable_cache(
+  async (seasonId: string) => {
+    const rows = await sql`
+      SELECT
+        p.player_id::text,
+        p.display_name,
+        t.team_id::text,
+        t.team_name,
+        COUNT(sn.nomination_id)::int AS nominations
+      FROM spirit_nominations sn
+      JOIN players p ON p.player_id = sn.nominated_player_id
+      JOIN teams   t ON t.team_id   = p.team_id
+      WHERE p.season_id = ${seasonId}::uuid
+      GROUP BY p.player_id, p.display_name, t.team_id, t.team_name
+      ORDER BY nominations DESC, p.display_name
+    `
+    return rows
+  },
+  ['league-spirit'],
+  { tags: ['league'] }
+)
 
 export default async function SpiritPage() {
-  let seasonId = ''
-  try {
-    const seasons = await sql`SELECT season_id::text FROM seasons WHERE status = 'active' LIMIT 1`
-    seasonId = (seasons[0]?.season_id as string) ?? ''
-  } catch {}
+  let seasonId: string | null = null
+  try { seasonId = await getActiveSeason() } catch {}
+
   const leaderboard = seasonId
     ? await getSpiritLeaderboard(seasonId).catch(() => [])
     : []

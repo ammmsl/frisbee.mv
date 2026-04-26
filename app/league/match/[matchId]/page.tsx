@@ -1,94 +1,117 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { unstable_cache } from 'next/cache'
 import sql from '@/lib/league-db'
 import { getAdminSession } from '@/lib/league-auth'
 import PublicNav from '../../_components/PublicNav'
 import AdminResultForm from '../../_components/AdminResultForm'
 import AdminCompletedLayout from '../../_components/AdminCompletedLayout'
 
-async function getMatch(matchId: string) {
-  const rows = await sql`
-    SELECT
-      f.match_id::text,
-      f.matchweek,
-      f.kickoff_time,
-      f.status,
-      f.venue,
-      ht.team_id::text AS home_team_id,
-      ht.team_name     AS home_team_name,
-      at.team_id::text AS away_team_id,
-      at.team_name     AS away_team_name,
-      mr.score_home,
-      mr.score_away,
-      mvp.display_name AS mvp_name,
-      mvp.player_id::text AS mvp_id
-    FROM fixtures f
-    JOIN  teams ht ON ht.team_id = f.home_team_id
-    JOIN  teams at ON at.team_id = f.away_team_id
-    LEFT JOIN match_results mr  ON mr.match_id  = f.match_id
-    LEFT JOIN players mvp       ON mvp.player_id = mr.mvp_player_id
-    WHERE f.match_id = ${matchId}
-    LIMIT 1
-  `
-  return rows[0] ?? null
-}
+export const dynamic = 'force-dynamic'
 
-async function getPlayerStats(matchId: string) {
-  const rows = await sql`
-    SELECT
-      pms.player_id::text,
-      p.display_name,
-      pms.team_id::text,
-      pms.goals,
-      pms.assists,
-      pms.blocks
-    FROM player_match_stats pms
-    JOIN players p ON p.player_id = pms.player_id
-    WHERE pms.match_id = ${matchId}
-    ORDER BY p.display_name
-  `
-  return rows
-}
+const getMatch = unstable_cache(
+  async (matchId: string) => {
+    const rows = await sql`
+      SELECT
+        f.match_id::text,
+        f.matchweek,
+        f.kickoff_time,
+        f.status,
+        f.venue,
+        ht.team_id::text AS home_team_id,
+        ht.team_name     AS home_team_name,
+        at.team_id::text AS away_team_id,
+        at.team_name     AS away_team_name,
+        mr.score_home,
+        mr.score_away,
+        mvp.display_name AS mvp_name,
+        mvp.player_id::text AS mvp_id
+      FROM fixtures f
+      JOIN  teams ht ON ht.team_id = f.home_team_id
+      JOIN  teams at ON at.team_id = f.away_team_id
+      LEFT JOIN match_results mr  ON mr.match_id  = f.match_id
+      LEFT JOIN players mvp       ON mvp.player_id = mr.mvp_player_id
+      WHERE f.match_id = ${matchId}
+      LIMIT 1
+    `
+    return rows[0] ?? null
+  },
+  ['league-match'],
+  { tags: ['league'] }
+)
 
-async function getAbsences(matchId: string) {
-  const rows = await sql`
-    SELECT
-      ma.player_id::text,
-      p.display_name,
-      ma.team_id::text
-    FROM match_absences ma
-    JOIN players p ON p.player_id = ma.player_id
-    WHERE ma.match_id = ${matchId}
-    ORDER BY p.display_name
-  `
-  return rows
-}
+const getPlayerStats = unstable_cache(
+  async (matchId: string) => {
+    const rows = await sql`
+      SELECT
+        pms.player_id::text,
+        p.display_name,
+        pms.team_id::text,
+        pms.goals,
+        pms.assists,
+        pms.blocks
+      FROM player_match_stats pms
+      JOIN players p ON p.player_id = pms.player_id
+      WHERE pms.match_id = ${matchId}
+      ORDER BY p.display_name
+    `
+    return rows
+  },
+  ['league-match-stats'],
+  { tags: ['league'] }
+)
 
-async function getSpiritNominations(matchId: string) {
-  const rows = await sql`
-    SELECT
-      sn.nominating_team_id::text,
-      nt.team_name          AS nominating_team_name,
-      sn.nominated_player_id::text,
-      p.display_name        AS nominated_player_name
-    FROM spirit_nominations sn
-    JOIN teams   nt ON nt.team_id   = sn.nominating_team_id
-    JOIN players p  ON p.player_id  = sn.nominated_player_id
-    WHERE sn.match_id = ${matchId}
-  `
-  return rows
-}
+const getAbsences = unstable_cache(
+  async (matchId: string) => {
+    const rows = await sql`
+      SELECT
+        ma.player_id::text,
+        p.display_name,
+        ma.team_id::text
+      FROM match_absences ma
+      JOIN players p ON p.player_id = ma.player_id
+      WHERE ma.match_id = ${matchId}
+      ORDER BY p.display_name
+    `
+    return rows
+  },
+  ['league-match-absences'],
+  { tags: ['league'] }
+)
 
-async function getTeamRoster(teamId: string) {
-  const rows = await sql`
-    SELECT player_id::text, display_name
-    FROM players
-    WHERE team_id = ${teamId} AND is_active = true
-    ORDER BY display_name
-  `
-  return rows
-}
+const getSpiritNominations = unstable_cache(
+  async (matchId: string) => {
+    const rows = await sql`
+      SELECT
+        sn.nominating_team_id::text,
+        nt.team_name          AS nominating_team_name,
+        sn.nominated_player_id::text,
+        p.display_name        AS nominated_player_name
+      FROM spirit_nominations sn
+      JOIN teams   nt ON nt.team_id   = sn.nominating_team_id
+      JOIN players p  ON p.player_id  = sn.nominated_player_id
+      WHERE sn.match_id = ${matchId}
+    `
+    return rows
+  },
+  ['league-match-nominations'],
+  { tags: ['league'] }
+)
+
+const getTeamRoster = unstable_cache(
+  async (teamId: string) => {
+    const rows = await sql`
+      SELECT player_id::text, display_name
+      FROM players
+      WHERE team_id = ${teamId} AND is_active = true
+      ORDER BY display_name
+    `
+    return rows
+  },
+  ['league-team-roster'],
+  { tags: ['league'] }
+)
 
 function fmtKickoffShort(iso: string) {
   const d = new Date(iso)

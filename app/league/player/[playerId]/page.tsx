@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { unstable_cache } from 'next/cache'
 import sql from '@/lib/league-db'
 import { getStandings } from '@/lib/league-standings'
 import { ordinal } from '@/lib/league-utils'
@@ -7,87 +8,111 @@ import PublicNav from '../../_components/PublicNav'
 import StatCard from '../../_components/StatCard'
 import { PlayerAvatar } from '../../_components/Avatar'
 
-async function getPlayer(playerId: string) {
-  const rows = await sql`
-    SELECT
-      p.player_id::text,
-      p.display_name,
-      p.team_id::text,
-      t.team_name,
-      t.season_id::text
-    FROM players p
-    JOIN teams t ON t.team_id = p.team_id
-    WHERE p.player_id = ${playerId}
-    LIMIT 1
-  `
-  return rows[0] ?? null
-}
+export const dynamic = 'force-dynamic'
 
-async function getSpiritNominationsReceived(playerId: string) {
-  const rows = await sql`
-    SELECT COUNT(*)::int AS total
-    FROM spirit_nominations
-    WHERE nominated_player_id = ${playerId}
-  `
-  return rows[0] ? Number(rows[0].total) : 0
-}
+const getPlayer = unstable_cache(
+  async (playerId: string) => {
+    const rows = await sql`
+      SELECT
+        p.player_id::text,
+        p.display_name,
+        p.team_id::text,
+        t.team_name,
+        t.season_id::text
+      FROM players p
+      JOIN teams t ON t.team_id = p.team_id
+      WHERE p.player_id = ${playerId}
+      LIMIT 1
+    `
+    return rows[0] ?? null
+  },
+  ['league-player'],
+  { tags: ['league'] }
+)
 
-async function getSeasonTotals(playerId: string) {
-  const rows = await sql`
-    SELECT
-      COUNT(*)::int          AS appearances,
-      COALESCE(SUM(goals),   0)::int AS total_goals,
-      COALESCE(SUM(assists), 0)::int AS total_assists,
-      COALESCE(SUM(blocks),  0)::int AS total_blocks
-    FROM player_match_stats
-    WHERE player_id = ${playerId}
-  `
-  return rows[0] ?? null
-}
+const getSpiritNominationsReceived = unstable_cache(
+  async (playerId: string) => {
+    const rows = await sql`
+      SELECT COUNT(*)::int AS total
+      FROM spirit_nominations
+      WHERE nominated_player_id = ${playerId}
+    `
+    return rows[0] ? Number(rows[0].total) : 0
+  },
+  ['league-player-spirit'],
+  { tags: ['league'] }
+)
 
-async function getMatchLog(playerId: string, teamId: string) {
-  const rows = await sql`
-    SELECT
-      f.match_id::text,
-      f.kickoff_time,
-      ht.team_id::text AS home_team_id,
-      ht.team_name     AS home_team_name,
-      at.team_id::text AS away_team_id,
-      at.team_name     AS away_team_name,
-      mr.score_home,
-      mr.score_away,
-      pms.goals,
-      pms.assists,
-      pms.blocks
-    FROM player_match_stats pms
-    JOIN fixtures f     ON f.match_id  = pms.match_id
-    JOIN teams ht       ON ht.team_id  = f.home_team_id
-    JOIN teams at       ON at.team_id  = f.away_team_id
-    JOIN match_results mr ON mr.match_id = f.match_id
-    WHERE pms.player_id = ${playerId}
-    ORDER BY f.kickoff_time DESC
-  `
-  return rows.map((r) => {
-    const isHome   = (r.home_team_id as string) === teamId
-    const opponent = isHome ? (r.away_team_name as string) : (r.home_team_name as string)
-    const oppId    = isHome ? (r.away_team_id as string)   : (r.home_team_id as string)
-    const myScore  = isHome ? Number(r.score_home) : Number(r.score_away)
-    const oppScore = isHome ? Number(r.score_away) : Number(r.score_home)
-    const result   = myScore > oppScore ? 'W' : myScore < oppScore ? 'L' : 'D'
-    return {
-      match_id: r.match_id as string,
-      kickoff_time: r.kickoff_time as string,
-      opponent,
-      oppId,
-      myScore,
-      oppScore,
-      result,
-      goals:   Number(r.goals),
-      assists: Number(r.assists),
-      blocks:  Number(r.blocks),
-    }
-  })
-}
+const getSeasonTotals = unstable_cache(
+  async (playerId: string) => {
+    const rows = await sql`
+      SELECT
+        COUNT(*)::int          AS appearances,
+        COALESCE(SUM(goals),   0)::int AS total_goals,
+        COALESCE(SUM(assists), 0)::int AS total_assists,
+        COALESCE(SUM(blocks),  0)::int AS total_blocks
+      FROM player_match_stats
+      WHERE player_id = ${playerId}
+    `
+    return rows[0] ?? null
+  },
+  ['league-player-totals'],
+  { tags: ['league'] }
+)
+
+const getMatchLog = unstable_cache(
+  async (playerId: string, teamId: string) => {
+    const rows = await sql`
+      SELECT
+        f.match_id::text,
+        f.kickoff_time,
+        ht.team_id::text AS home_team_id,
+        ht.team_name     AS home_team_name,
+        at.team_id::text AS away_team_id,
+        at.team_name     AS away_team_name,
+        mr.score_home,
+        mr.score_away,
+        pms.goals,
+        pms.assists,
+        pms.blocks
+      FROM player_match_stats pms
+      JOIN fixtures f     ON f.match_id  = pms.match_id
+      JOIN teams ht       ON ht.team_id  = f.home_team_id
+      JOIN teams at       ON at.team_id  = f.away_team_id
+      JOIN match_results mr ON mr.match_id = f.match_id
+      WHERE pms.player_id = ${playerId}
+      ORDER BY f.kickoff_time DESC
+    `
+    return rows.map((r) => {
+      const isHome   = (r.home_team_id as string) === teamId
+      const opponent = isHome ? (r.away_team_name as string) : (r.home_team_name as string)
+      const oppId    = isHome ? (r.away_team_id as string)   : (r.home_team_id as string)
+      const myScore  = isHome ? Number(r.score_home) : Number(r.score_away)
+      const oppScore = isHome ? Number(r.score_away) : Number(r.score_home)
+      const result   = myScore > oppScore ? 'W' : myScore < oppScore ? 'L' : 'D'
+      return {
+        match_id: r.match_id as string,
+        kickoff_time: r.kickoff_time as string,
+        opponent,
+        oppId,
+        myScore,
+        oppScore,
+        result,
+        goals:   Number(r.goals),
+        assists: Number(r.assists),
+        blocks:  Number(r.blocks),
+      }
+    })
+  },
+  ['league-player-matchlog'],
+  { tags: ['league'] }
+)
+
+const getCachedStandings = unstable_cache(
+  getStandings,
+  ['league-standings'],
+  { tags: ['league'] }
+)
 
 function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-US', {
@@ -110,7 +135,7 @@ export default async function PlayerPage({
     getSeasonTotals(playerId),
     getMatchLog(playerId, player.team_id as string),
     getSpiritNominationsReceived(playerId),
-    getStandings(player.season_id as string),
+    getCachedStandings(player.season_id as string),
   ])
 
   const leaguePosition = standings.findIndex((s) => s.team_id === (player.team_id as string)) + 1

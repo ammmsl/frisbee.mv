@@ -1,6 +1,9 @@
+import { unstable_cache } from 'next/cache'
 import sql from '@/lib/league-db'
 import PublicNav from '../_components/PublicNav'
 import FixturesCalendar from './FixturesCalendar'
+
+export const dynamic = 'force-dynamic'
 
 // ─── Block derivation ─────────────────────────────────────────────────────────
 
@@ -46,18 +49,22 @@ function toMVTWeekday(iso: string): string {
 
 // ─── DB queries ───────────────────────────────────────────────────────────────
 
-async function getActiveSeason() {
-  const rows = await sql`
-    SELECT season_id::text, season_name
-    FROM seasons
-    WHERE status = 'active'
-    LIMIT 1
-  `
-  return rows[0] ?? null
-}
+const getActiveSeason = unstable_cache(
+  async () => {
+    const rows = await sql`
+      SELECT season_id::text, season_name
+      FROM seasons
+      WHERE status = 'active'
+      LIMIT 1
+    `
+    return rows[0] ?? null
+  },
+  ['league-active-season'],
+  { tags: ['league'] }
+)
 
-async function getAllFixtures(seasonId: string) {
-  return sql`
+const getAllFixtures = unstable_cache(
+  async (seasonId: string) => sql`
     SELECT
       f.match_id::text,
       f.matchweek,
@@ -75,20 +82,26 @@ async function getAllFixtures(seasonId: string) {
     LEFT JOIN match_results mr ON mr.match_id = f.match_id
     WHERE f.season_id = ${seasonId}
     ORDER BY f.kickoff_time ASC
-  `
-}
+  `,
+  ['league-all-fixtures'],
+  { tags: ['league'] }
+)
 
-async function getTeamNames(seasonId: string): Promise<string[]> {
-  const rows = await sql`
-    SELECT team_name FROM teams
-    WHERE season_id = ${seasonId}
-    ORDER BY team_name ASC
-  `
-  return rows.map((r) => r.team_name as string)
-}
+const getTeamNames = unstable_cache(
+  async (seasonId: string): Promise<string[]> => {
+    const rows = await sql`
+      SELECT team_name FROM teams
+      WHERE season_id = ${seasonId}
+      ORDER BY team_name ASC
+    `
+    return rows.map((r) => r.team_name as string)
+  },
+  ['league-team-names'],
+  { tags: ['league'] }
+)
 
-async function getHolidays(seasonId: string) {
-  return sql`
+const getHolidays = unstable_cache(
+  async (seasonId: string) => sql`
     SELECT
       start_date::text,
       end_date::text,
@@ -96,8 +109,10 @@ async function getHolidays(seasonId: string) {
     FROM season_holidays
     WHERE season_id = ${seasonId}
     ORDER BY start_date ASC
-  `
-}
+  `,
+  ['league-holidays'],
+  { tags: ['league'] }
+)
 
 // ─── Types exported for the client component ──────────────────────────────────
 

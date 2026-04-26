@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { revalidatePath } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 import sql from '@/lib/league-db'
 
 interface PlayerStatInput {
@@ -139,7 +139,7 @@ export async function POST(req: NextRequest) {
       `
     })
 
-    revalidatePath('/league', 'layout')
+    revalidateTag('league', 'max')
     return NextResponse.json({ ok: true })
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Database error'

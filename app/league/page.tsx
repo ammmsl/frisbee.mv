@@ -1,63 +1,84 @@
 import Link from 'next/link'
+import { unstable_cache } from 'next/cache'
 import sql from '@/lib/league-db'
 import { getStandings } from '@/lib/league-standings'
 import PublicNav from './_components/PublicNav'
 import { TeamAvatar } from './_components/Avatar'
 
-async function getActiveSeason() {
-  const rows = await sql`
-    SELECT season_id::text, season_name, status
-    FROM seasons
-    WHERE status = 'active'
-    LIMIT 1
-  `
-  return rows[0] ?? null
-}
+export const dynamic = 'force-dynamic'
 
-async function getNextFixtures(seasonId: string) {
-  const rows = await sql`
-    SELECT
-      f.match_id::text,
-      f.kickoff_time,
-      f.matchweek,
-      ht.team_id::text AS home_team_id,
-      ht.team_name AS home_team_name,
-      at.team_id::text AS away_team_id,
-      at.team_name AS away_team_name
-    FROM fixtures f
-    JOIN teams ht ON ht.team_id = f.home_team_id
-    JOIN teams at ON at.team_id = f.away_team_id
-    WHERE f.season_id = ${seasonId}
-      AND f.status = 'scheduled'
-      AND f.kickoff_time > NOW()
-    ORDER BY f.kickoff_time ASC
-    LIMIT 3
-  `
-  return rows
-}
+const getActiveSeason = unstable_cache(
+  async () => {
+    const rows = await sql`
+      SELECT season_id::text, season_name, status
+      FROM seasons
+      WHERE status = 'active'
+      LIMIT 1
+    `
+    return rows[0] ?? null
+  },
+  ['league-active-season'],
+  { tags: ['league'] }
+)
 
-async function getLastResult(seasonId: string) {
-  const rows = await sql`
-    SELECT
-      f.match_id::text,
-      f.kickoff_time,
-      f.matchweek,
-      ht.team_id::text AS home_team_id,
-      ht.team_name AS home_team_name,
-      at.team_id::text AS away_team_id,
-      at.team_name AS away_team_name,
-      mr.score_home,
-      mr.score_away
-    FROM fixtures f
-    JOIN teams ht ON ht.team_id = f.home_team_id
-    JOIN teams at ON at.team_id = f.away_team_id
-    JOIN match_results mr ON mr.match_id = f.match_id
-    WHERE f.season_id = ${seasonId}
-    ORDER BY f.kickoff_time DESC
-    LIMIT 1
-  `
-  return rows[0] ?? null
-}
+const getNextFixtures = unstable_cache(
+  async (seasonId: string) => {
+    const rows = await sql`
+      SELECT
+        f.match_id::text,
+        f.kickoff_time,
+        f.matchweek,
+        ht.team_id::text AS home_team_id,
+        ht.team_name AS home_team_name,
+        at.team_id::text AS away_team_id,
+        at.team_name AS away_team_name
+      FROM fixtures f
+      JOIN teams ht ON ht.team_id = f.home_team_id
+      JOIN teams at ON at.team_id = f.away_team_id
+      WHERE f.season_id = ${seasonId}
+        AND f.status = 'scheduled'
+        AND f.kickoff_time > NOW()
+      ORDER BY f.kickoff_time ASC
+      LIMIT 3
+    `
+    return rows
+  },
+  ['league-next-fixtures'],
+  { tags: ['league'] }
+)
+
+const getLastResult = unstable_cache(
+  async (seasonId: string) => {
+    const rows = await sql`
+      SELECT
+        f.match_id::text,
+        f.kickoff_time,
+        f.matchweek,
+        ht.team_id::text AS home_team_id,
+        ht.team_name AS home_team_name,
+        at.team_id::text AS away_team_id,
+        at.team_name AS away_team_name,
+        mr.score_home,
+        mr.score_away
+      FROM fixtures f
+      JOIN teams ht ON ht.team_id = f.home_team_id
+      JOIN teams at ON at.team_id = f.away_team_id
+      JOIN match_results mr ON mr.match_id = f.match_id
+      WHERE f.season_id = ${seasonId}
+      ORDER BY f.kickoff_time DESC
+      LIMIT 1
+    `
+    return rows[0] ?? null
+  },
+  ['league-last-result'],
+  { tags: ['league'] }
+)
+
+const getCachedStandings = unstable_cache(
+  getStandings,
+  ['league-standings'],
+  { tags: ['league'] }
+)
 
 function fmtKickoff(iso: string) {
   const d = new Date(iso)
@@ -92,7 +113,7 @@ export default async function HomePage() {
   }
 
   const data = await Promise.all([
-    getStandings(season.season_id as string),
+    getCachedStandings(season.season_id as string),
     getNextFixtures(season.season_id as string),
     getLastResult(season.season_id as string),
   ]).catch(() => null)

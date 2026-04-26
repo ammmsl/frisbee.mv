@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { unstable_cache } from 'next/cache'
 import sql from '@/lib/league-db'
 import { getStandings } from '@/lib/league-standings'
 import { ordinal } from '@/lib/league-utils'
@@ -7,169 +8,201 @@ import PublicNav from '../../_components/PublicNav'
 import StatCard from '../../_components/StatCard'
 import { TeamAvatar } from '../../_components/Avatar'
 
-async function getTeam(teamId: string) {
-  const rows = await sql`
-    SELECT team_id::text, team_name, season_id::text
-    FROM teams
-    WHERE team_id = ${teamId}
-    LIMIT 1
-  `
-  return rows[0] ?? null
-}
+export const dynamic = 'force-dynamic'
 
-async function getRoster(teamId: string) {
-  const rows = await sql`
-    SELECT
-      p.player_id::text,
-      p.display_name,
-      COALESCE(SUM(pms.goals),   0)::int AS goals,
-      COALESCE(SUM(pms.assists), 0)::int AS assists,
-      COALESCE(SUM(pms.blocks),  0)::int AS blocks,
-      COUNT(pms.stat_id)::int            AS appearances
-    FROM players p
-    LEFT JOIN player_match_stats pms ON pms.player_id = p.player_id
-    WHERE p.team_id = ${teamId} AND p.is_active = true
-    GROUP BY p.player_id, p.display_name
-    ORDER BY p.display_name
-  `
-  return rows
-}
+const getTeam = unstable_cache(
+  async (teamId: string) => {
+    const rows = await sql`
+      SELECT team_id::text, team_name, season_id::text
+      FROM teams
+      WHERE team_id = ${teamId}
+      LIMIT 1
+    `
+    return rows[0] ?? null
+  },
+  ['league-team'],
+  { tags: ['league'] }
+)
 
-async function getUpcomingFixtures(teamId: string) {
-  const rows = await sql`
-    SELECT
-      f.match_id::text,
-      f.matchweek,
-      f.kickoff_time,
-      ht.team_id::text AS home_team_id,
-      ht.team_name     AS home_team_name,
-      at.team_id::text AS away_team_id,
-      at.team_name     AS away_team_name
-    FROM fixtures f
-    JOIN  teams ht ON ht.team_id = f.home_team_id
-    JOIN  teams at ON at.team_id = f.away_team_id
-    WHERE (f.home_team_id = ${teamId} OR f.away_team_id = ${teamId})
-      AND f.status = 'scheduled'
-      AND f.kickoff_time > NOW()
-    ORDER BY f.kickoff_time ASC
-    LIMIT 2
-  `
-  return rows
-}
-
-async function getTeamRecord(teamId: string) {
-  const rows = await sql`
-    WITH results AS (
+const getRoster = unstable_cache(
+  async (teamId: string) => {
+    const rows = await sql`
       SELECT
-        f.home_team_id AS tid,
-        mr.score_home  AS gf,
-        mr.score_away  AS ga,
-        CASE WHEN mr.score_home > mr.score_away THEN 3
-             WHEN mr.score_home = mr.score_away THEN 1
-             ELSE 0 END AS pts,
-        CASE WHEN mr.score_home > mr.score_away THEN 1 ELSE 0 END AS won,
-        CASE WHEN mr.score_home = mr.score_away THEN 1 ELSE 0 END AS drawn,
-        CASE WHEN mr.score_home < mr.score_away THEN 1 ELSE 0 END AS lost
+        p.player_id::text,
+        p.display_name,
+        COALESCE(SUM(pms.goals),   0)::int AS goals,
+        COALESCE(SUM(pms.assists), 0)::int AS assists,
+        COALESCE(SUM(pms.blocks),  0)::int AS blocks,
+        COUNT(pms.stat_id)::int            AS appearances
+      FROM players p
+      LEFT JOIN player_match_stats pms ON pms.player_id = p.player_id
+      WHERE p.team_id = ${teamId} AND p.is_active = true
+      GROUP BY p.player_id, p.display_name
+      ORDER BY p.display_name
+    `
+    return rows
+  },
+  ['league-team-roster'],
+  { tags: ['league'] }
+)
+
+const getUpcomingFixtures = unstable_cache(
+  async (teamId: string) => {
+    const rows = await sql`
+      SELECT
+        f.match_id::text,
+        f.matchweek,
+        f.kickoff_time,
+        ht.team_id::text AS home_team_id,
+        ht.team_name     AS home_team_name,
+        at.team_id::text AS away_team_id,
+        at.team_name     AS away_team_name
       FROM fixtures f
-      JOIN match_results mr ON mr.match_id = f.match_id
-      UNION ALL
-      SELECT
-        f.away_team_id AS tid,
-        mr.score_away  AS gf,
-        mr.score_home  AS ga,
-        CASE WHEN mr.score_away > mr.score_home THEN 3
-             WHEN mr.score_away = mr.score_home THEN 1
-             ELSE 0 END AS pts,
-        CASE WHEN mr.score_away > mr.score_home THEN 1 ELSE 0 END AS won,
-        CASE WHEN mr.score_away = mr.score_home THEN 1 ELSE 0 END AS drawn,
-        CASE WHEN mr.score_away < mr.score_home THEN 1 ELSE 0 END AS lost
-      FROM fixtures f
-      JOIN match_results mr ON mr.match_id = f.match_id
-    )
-    SELECT
-      COUNT(tid)::int             AS played,
-      COALESCE(SUM(won),   0)::int AS won,
-      COALESCE(SUM(drawn), 0)::int AS drawn,
-      COALESCE(SUM(lost),  0)::int AS lost,
-      COALESCE(SUM(gf),    0)::int AS points_for,
-      COALESCE(SUM(ga),    0)::int AS points_against,
-      COALESCE(SUM(pts),   0)::int AS points
-    FROM results
-    WHERE tid = ${teamId}
-  `
-  return rows[0] ?? null
-}
+      JOIN  teams ht ON ht.team_id = f.home_team_id
+      JOIN  teams at ON at.team_id = f.away_team_id
+      WHERE (f.home_team_id = ${teamId} OR f.away_team_id = ${teamId})
+        AND f.status = 'scheduled'
+        AND f.kickoff_time > NOW()
+      ORDER BY f.kickoff_time ASC
+      LIMIT 2
+    `
+    return rows
+  },
+  ['league-team-upcoming'],
+  { tags: ['league'] }
+)
 
-async function getHeadToHead(teamId: string, seasonId: string) {
-  const rows = await sql`
-    SELECT
-      opp.team_id::text   AS opponent_team_id,
-      opp.team_name       AS opponent_name,
-      COALESCE(h2h.won,   0)::int AS won,
-      COALESCE(h2h.drawn, 0)::int AS drawn,
-      COALESCE(h2h.lost,  0)::int AS lost,
-      COALESCE(h2h.points_for,     0)::int AS points_for,
-      COALESCE(h2h.points_against, 0)::int AS points_against,
-      h2h.played
-    FROM teams opp
-    LEFT JOIN (
-      SELECT
-        opponent_team_id,
-        SUM(CASE WHEN my_score > opp_score THEN 1 ELSE 0 END)::int AS won,
-        SUM(CASE WHEN my_score = opp_score THEN 1 ELSE 0 END)::int AS drawn,
-        SUM(CASE WHEN my_score < opp_score THEN 1 ELSE 0 END)::int AS lost,
-        SUM(my_score)::int   AS points_for,
-        SUM(opp_score)::int  AS points_against,
-        COUNT(*)::int        AS played
-      FROM (
+const getTeamRecord = unstable_cache(
+  async (teamId: string) => {
+    const rows = await sql`
+      WITH results AS (
         SELECT
-          f.away_team_id AS opponent_team_id,
-          mr.score_home  AS my_score,
-          mr.score_away  AS opp_score
+          f.home_team_id AS tid,
+          mr.score_home  AS gf,
+          mr.score_away  AS ga,
+          CASE WHEN mr.score_home > mr.score_away THEN 3
+               WHEN mr.score_home = mr.score_away THEN 1
+               ELSE 0 END AS pts,
+          CASE WHEN mr.score_home > mr.score_away THEN 1 ELSE 0 END AS won,
+          CASE WHEN mr.score_home = mr.score_away THEN 1 ELSE 0 END AS drawn,
+          CASE WHEN mr.score_home < mr.score_away THEN 1 ELSE 0 END AS lost
         FROM fixtures f
         JOIN match_results mr ON mr.match_id = f.match_id
-        WHERE f.home_team_id = ${teamId}
         UNION ALL
         SELECT
-          f.home_team_id AS opponent_team_id,
-          mr.score_away  AS my_score,
-          mr.score_home  AS opp_score
+          f.away_team_id AS tid,
+          mr.score_away  AS gf,
+          mr.score_home  AS ga,
+          CASE WHEN mr.score_away > mr.score_home THEN 3
+               WHEN mr.score_away = mr.score_home THEN 1
+               ELSE 0 END AS pts,
+          CASE WHEN mr.score_away > mr.score_home THEN 1 ELSE 0 END AS won,
+          CASE WHEN mr.score_away = mr.score_home THEN 1 ELSE 0 END AS drawn,
+          CASE WHEN mr.score_away < mr.score_home THEN 1 ELSE 0 END AS lost
         FROM fixtures f
         JOIN match_results mr ON mr.match_id = f.match_id
-        WHERE f.away_team_id = ${teamId}
-      ) sub
-      GROUP BY opponent_team_id
-    ) h2h ON h2h.opponent_team_id = opp.team_id
-    WHERE opp.season_id = ${seasonId}
-      AND opp.team_id != ${teamId}
-    ORDER BY opp.team_name ASC
-  `
-  return rows
-}
+      )
+      SELECT
+        COUNT(tid)::int             AS played,
+        COALESCE(SUM(won),   0)::int AS won,
+        COALESCE(SUM(drawn), 0)::int AS drawn,
+        COALESCE(SUM(lost),  0)::int AS lost,
+        COALESCE(SUM(gf),    0)::int AS points_for,
+        COALESCE(SUM(ga),    0)::int AS points_against,
+        COALESCE(SUM(pts),   0)::int AS points
+      FROM results
+      WHERE tid = ${teamId}
+    `
+    return rows[0] ?? null
+  },
+  ['league-team-record'],
+  { tags: ['league'] }
+)
 
-async function getRecentFixtures(teamId: string) {
-  const rows = await sql`
-    SELECT
-      f.match_id::text,
-      f.matchweek,
-      f.kickoff_time,
-      f.status,
-      ht.team_id::text AS home_team_id,
-      ht.team_name     AS home_team_name,
-      at.team_id::text AS away_team_id,
-      at.team_name     AS away_team_name,
-      mr.score_home,
-      mr.score_away
-    FROM fixtures f
-    JOIN  teams ht ON ht.team_id = f.home_team_id
-    JOIN  teams at ON at.team_id = f.away_team_id
-    LEFT JOIN match_results mr ON mr.match_id = f.match_id
-    WHERE (f.home_team_id = ${teamId} OR f.away_team_id = ${teamId})
-    ORDER BY f.kickoff_time DESC
-    LIMIT 5
-  `
-  return rows
-}
+const getHeadToHead = unstable_cache(
+  async (teamId: string, seasonId: string) => {
+    const rows = await sql`
+      SELECT
+        opp.team_id::text   AS opponent_team_id,
+        opp.team_name       AS opponent_name,
+        COALESCE(h2h.won,   0)::int AS won,
+        COALESCE(h2h.drawn, 0)::int AS drawn,
+        COALESCE(h2h.lost,  0)::int AS lost,
+        COALESCE(h2h.points_for,     0)::int AS points_for,
+        COALESCE(h2h.points_against, 0)::int AS points_against,
+        h2h.played
+      FROM teams opp
+      LEFT JOIN (
+        SELECT
+          opponent_team_id,
+          SUM(CASE WHEN my_score > opp_score THEN 1 ELSE 0 END)::int AS won,
+          SUM(CASE WHEN my_score = opp_score THEN 1 ELSE 0 END)::int AS drawn,
+          SUM(CASE WHEN my_score < opp_score THEN 1 ELSE 0 END)::int AS lost,
+          SUM(my_score)::int   AS points_for,
+          SUM(opp_score)::int  AS points_against,
+          COUNT(*)::int        AS played
+        FROM (
+          SELECT
+            f.away_team_id AS opponent_team_id,
+            mr.score_home  AS my_score,
+            mr.score_away  AS opp_score
+          FROM fixtures f
+          JOIN match_results mr ON mr.match_id = f.match_id
+          WHERE f.home_team_id = ${teamId}
+          UNION ALL
+          SELECT
+            f.home_team_id AS opponent_team_id,
+            mr.score_away  AS my_score,
+            mr.score_home  AS opp_score
+          FROM fixtures f
+          JOIN match_results mr ON mr.match_id = f.match_id
+          WHERE f.away_team_id = ${teamId}
+        ) sub
+        GROUP BY opponent_team_id
+      ) h2h ON h2h.opponent_team_id = opp.team_id
+      WHERE opp.season_id = ${seasonId}
+        AND opp.team_id != ${teamId}
+      ORDER BY opp.team_name ASC
+    `
+    return rows
+  },
+  ['league-team-h2h'],
+  { tags: ['league'] }
+)
+
+const getRecentFixtures = unstable_cache(
+  async (teamId: string) => {
+    const rows = await sql`
+      SELECT
+        f.match_id::text,
+        f.matchweek,
+        f.kickoff_time,
+        f.status,
+        ht.team_id::text AS home_team_id,
+        ht.team_name     AS home_team_name,
+        at.team_id::text AS away_team_id,
+        at.team_name     AS away_team_name,
+        mr.score_home,
+        mr.score_away
+      FROM fixtures f
+      JOIN  teams ht ON ht.team_id = f.home_team_id
+      JOIN  teams at ON at.team_id = f.away_team_id
+      LEFT JOIN match_results mr ON mr.match_id = f.match_id
+      WHERE (f.home_team_id = ${teamId} OR f.away_team_id = ${teamId})
+      ORDER BY f.kickoff_time DESC
+      LIMIT 5
+    `
+    return rows
+  },
+  ['league-team-recent'],
+  { tags: ['league'] }
+)
+
+const getCachedStandings = unstable_cache(
+  getStandings,
+  ['league-standings'],
+  { tags: ['league'] }
+)
 
 function fmtKickoff(iso: string) {
   const d = new Date(iso)
@@ -196,7 +229,7 @@ export default async function TeamPage({
     getRecentFixtures(teamId),
     getUpcomingFixtures(teamId),
     getHeadToHead(teamId, team.season_id as string),
-    getStandings(team.season_id as string),
+    getCachedStandings(team.season_id as string),
   ])
 
   const leaguePosition = standings.findIndex((s) => s.team_id === teamId) + 1

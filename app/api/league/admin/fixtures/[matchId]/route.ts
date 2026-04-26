@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { revalidatePath } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 import sql from '@/lib/league-db'
 
 export async function PATCH(
@@ -34,7 +34,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Fixture not found' }, { status: 404 })
     }
 
-    revalidatePath('/league', 'layout')
+    revalidateTag('league', 'max')
     return NextResponse.json(result[0])
   } catch (e) {
     console.error(e)
@@ -57,7 +57,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Fixture not found' }, { status: 404 })
     }
 
-    revalidatePath('/league', 'layout')
+    revalidateTag('league', 'max')
     return NextResponse.json({ deleted: matchId })
   } catch (e) {
     console.error(e)

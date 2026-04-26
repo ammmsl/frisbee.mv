@@ -1,24 +1,31 @@
 import Link from 'next/link'
+import { unstable_cache } from 'next/cache'
 import sql from '@/lib/league-db'
 import PublicNav from '../_components/PublicNav'
 import { TeamAvatar, PlayerAvatar } from '../_components/Avatar'
 
-async function getAllPlayers() {
-  const rows = await sql`
-    SELECT
-      p.player_id::text,
-      p.display_name,
-      t.team_id::text,
-      t.team_name
-    FROM players p
-    JOIN teams t ON t.team_id = p.team_id
-    JOIN seasons s ON s.season_id = t.season_id
-    WHERE p.is_active = true
-      AND s.status = 'active'
-    ORDER BY t.team_name, p.display_name
-  `
-  return rows
-}
+export const dynamic = 'force-dynamic'
+
+const getAllPlayers = unstable_cache(
+  async () => {
+    const rows = await sql`
+      SELECT
+        p.player_id::text,
+        p.display_name,
+        t.team_id::text,
+        t.team_name
+      FROM players p
+      JOIN teams t ON t.team_id = p.team_id
+      JOIN seasons s ON s.season_id = t.season_id
+      WHERE p.is_active = true
+        AND s.status = 'active'
+      ORDER BY t.team_name, p.display_name
+    `
+    return rows
+  },
+  ['league-all-players'],
+  { tags: ['league'] }
+)
 
 interface PlayerRow {
   player_id:    string

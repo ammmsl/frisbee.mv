@@ -1,68 +1,79 @@
 import Link from 'next/link'
+import { unstable_cache } from 'next/cache'
 import sql from '@/lib/league-db'
 import PublicNav from '../_components/PublicNav'
 import { TeamAvatar } from '../_components/Avatar'
 
-async function getActiveSeason() {
-  const rows = await sql`
-    SELECT season_id::text
-    FROM seasons
-    WHERE status = 'active'
-    LIMIT 1
-  `
-  return rows[0] ?? null
-}
+export const dynamic = 'force-dynamic'
 
-async function getTeamsWithStats(seasonId: string) {
-  const rows = await sql`
-    WITH results AS (
+const getActiveSeason = unstable_cache(
+  async () => {
+    const rows = await sql`
+      SELECT season_id::text
+      FROM seasons
+      WHERE status = 'active'
+      LIMIT 1
+    `
+    return rows[0] ?? null
+  },
+  ['league-active-season'],
+  { tags: ['league'] }
+)
+
+const getTeamsWithStats = unstable_cache(
+  async (seasonId: string) => {
+    const rows = await sql`
+      WITH results AS (
+        SELECT
+          f.home_team_id AS team_id,
+          CASE WHEN mr.score_home > mr.score_away THEN 3
+               WHEN mr.score_home = mr.score_away THEN 1
+               ELSE 0 END AS pts,
+          CASE WHEN mr.score_home > mr.score_away THEN 1 ELSE 0 END AS won,
+          CASE WHEN mr.score_home = mr.score_away THEN 1 ELSE 0 END AS drawn,
+          CASE WHEN mr.score_home < mr.score_away THEN 1 ELSE 0 END AS lost
+        FROM fixtures f
+        JOIN match_results mr ON mr.match_id = f.match_id
+        WHERE f.season_id = ${seasonId}
+        UNION ALL
+        SELECT
+          f.away_team_id AS team_id,
+          CASE WHEN mr.score_away > mr.score_home THEN 3
+               WHEN mr.score_away = mr.score_home THEN 1
+               ELSE 0 END AS pts,
+          CASE WHEN mr.score_away > mr.score_home THEN 1 ELSE 0 END AS won,
+          CASE WHEN mr.score_away = mr.score_home THEN 1 ELSE 0 END AS drawn,
+          CASE WHEN mr.score_away < mr.score_home THEN 1 ELSE 0 END AS lost
+        FROM fixtures f
+        JOIN match_results mr ON mr.match_id = f.match_id
+        WHERE f.season_id = ${seasonId}
+      ),
+      player_counts AS (
+        SELECT team_id, COUNT(*)::int AS player_count
+        FROM players
+        WHERE season_id = ${seasonId} AND is_active = true
+        GROUP BY team_id
+      )
       SELECT
-        f.home_team_id AS team_id,
-        CASE WHEN mr.score_home > mr.score_away THEN 3
-             WHEN mr.score_home = mr.score_away THEN 1
-             ELSE 0 END AS pts,
-        CASE WHEN mr.score_home > mr.score_away THEN 1 ELSE 0 END AS won,
-        CASE WHEN mr.score_home = mr.score_away THEN 1 ELSE 0 END AS drawn,
-        CASE WHEN mr.score_home < mr.score_away THEN 1 ELSE 0 END AS lost
-      FROM fixtures f
-      JOIN match_results mr ON mr.match_id = f.match_id
-      WHERE f.season_id = ${seasonId}
-      UNION ALL
-      SELECT
-        f.away_team_id AS team_id,
-        CASE WHEN mr.score_away > mr.score_home THEN 3
-             WHEN mr.score_away = mr.score_home THEN 1
-             ELSE 0 END AS pts,
-        CASE WHEN mr.score_away > mr.score_home THEN 1 ELSE 0 END AS won,
-        CASE WHEN mr.score_away = mr.score_home THEN 1 ELSE 0 END AS drawn,
-        CASE WHEN mr.score_away < mr.score_home THEN 1 ELSE 0 END AS lost
-      FROM fixtures f
-      JOIN match_results mr ON mr.match_id = f.match_id
-      WHERE f.season_id = ${seasonId}
-    ),
-    player_counts AS (
-      SELECT team_id, COUNT(*)::int AS player_count
-      FROM players
-      WHERE season_id = ${seasonId} AND is_active = true
-      GROUP BY team_id
-    )
-    SELECT
-      t.team_id::text,
-      t.team_name,
-      COALESCE(pc.player_count, 0)   AS player_count,
-      COALESCE(SUM(r.pts),   0)::int AS points,
-      COALESCE(SUM(r.won),   0)::int AS won,
-      COALESCE(SUM(r.drawn), 0)::int AS drawn,
-      COALESCE(SUM(r.lost),  0)::int AS lost
-    FROM teams t
-    LEFT JOIN player_counts pc ON pc.team_id = t.team_id
-    LEFT JOIN results        r  ON r.team_id  = t.team_id
-    WHERE t.season_id = ${seasonId}
-    GROUP BY t.team_id, t.team_name, pc.player_count
-    ORDER BY t.team_name
-  `
-  return rows
-}
+        t.team_id::text,
+        t.team_name,
+        COALESCE(pc.player_count, 0)   AS player_count,
+        COALESCE(SUM(r.pts),   0)::int AS points,
+        COALESCE(SUM(r.won),   0)::int AS won,
+        COALESCE(SUM(r.drawn), 0)::int AS drawn,
+        COALESCE(SUM(r.lost),  0)::int AS lost
+      FROM teams t
+      LEFT JOIN player_counts pc ON pc.team_id = t.team_id
+      LEFT JOIN results        r  ON r.team_id  = t.team_id
+      WHERE t.season_id = ${seasonId}
+      GROUP BY t.team_id, t.team_name, pc.player_count
+      ORDER BY t.team_name
+    `
+    return rows
+  },
+  ['league-teams-stats'],
+  { tags: ['league'] }
+)
 
 export default async function TeamsPage() {
   let season = null
