@@ -41,20 +41,26 @@ async function getTeamsWithStats(seasonId: string) {
       FROM fixtures f
       JOIN match_results mr ON mr.match_id = f.match_id
       WHERE f.season_id = ${seasonId}
+    ),
+    player_counts AS (
+      SELECT team_id, COUNT(*)::int AS player_count
+      FROM players
+      WHERE season_id = ${seasonId} AND is_active = true
+      GROUP BY team_id
     )
     SELECT
       t.team_id::text,
       t.team_name,
-      COUNT(DISTINCT p.player_id)::int AS player_count,
-      COALESCE(SUM(r.pts),   0)::int   AS points,
-      COALESCE(SUM(r.won),   0)::int   AS won,
-      COALESCE(SUM(r.drawn), 0)::int   AS drawn,
-      COALESCE(SUM(r.lost),  0)::int   AS lost
+      COALESCE(pc.player_count, 0)   AS player_count,
+      COALESCE(SUM(r.pts),   0)::int AS points,
+      COALESCE(SUM(r.won),   0)::int AS won,
+      COALESCE(SUM(r.drawn), 0)::int AS drawn,
+      COALESCE(SUM(r.lost),  0)::int AS lost
     FROM teams t
-    LEFT JOIN players p ON p.team_id = t.team_id AND p.season_id = ${seasonId} AND p.is_active = true
-    LEFT JOIN results  r ON r.team_id = t.team_id
+    LEFT JOIN player_counts pc ON pc.team_id = t.team_id
+    LEFT JOIN results        r  ON r.team_id  = t.team_id
     WHERE t.season_id = ${seasonId}
-    GROUP BY t.team_id, t.team_name
+    GROUP BY t.team_id, t.team_name, pc.player_count
     ORDER BY t.team_name
   `
   return rows

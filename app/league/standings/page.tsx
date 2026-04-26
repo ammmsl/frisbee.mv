@@ -99,67 +99,74 @@ export default async function StandingsPage() {
 
         <div className="space-y-6">
           {/* Standings table */}
-          <div className="card-list overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-800">
-                  <th className="table-th table-th-l text-left w-6">#</th>
-                  <th className="table-th table-th-l text-left">Team</th>
-                  <th className="table-th table-th-sm text-right">P</th>
-                  <th className="table-th table-th-sm text-right">W</th>
-                  <th className="table-th table-th-sm text-right">D</th>
-                  <th className="table-th table-th-sm text-right">L</th>
-                  <th className="table-th table-th-sm text-right hidden md:table-cell">GS</th>
-                  <th className="table-th table-th-sm text-right hidden md:table-cell">GA</th>
-                  <th className="table-th table-th-sm text-right hidden md:table-cell">GD</th>
-                  <th className="table-th table-th-sm hidden md:table-cell">Form</th>
-                  <th className="table-th table-th-r text-right">Pts</th>
-                </tr>
-              </thead>
-              <tbody>
-                {standings.map((row, i) => (
-                  <tr key={row.team_id} className="table-row">
-                    <td className="table-td table-td-l text-gray-500 text-xs">{i + 1}</td>
-                    <td className="table-td table-td-l font-medium">
-                      <div className="flex items-center gap-2">
-                        <TeamAvatar id={row.team_id} name={row.team_name} size={20} />
-                        <Link href={`/league/team/${row.team_id}`} className="link-accent">
-                          {row.team_name}
-                        </Link>
-                      </div>
-                    </td>
-                    <td className="table-td table-td-sm text-right text-gray-400">{row.played}</td>
-                    <td className="table-td table-td-sm text-right">{row.won}</td>
-                    <td className="table-td table-td-sm text-right text-gray-400">{row.drawn}</td>
-                    <td className="table-td table-td-sm text-right">{row.lost}</td>
-                    <td className="table-td table-td-sm text-right text-gray-400 hidden md:table-cell">{row.goals_for}</td>
-                    <td className="table-td table-td-sm text-right text-gray-400 hidden md:table-cell">{row.goals_against}</td>
-                    <td className="table-td table-td-sm text-right hidden md:table-cell">
-                      <span
-                        className={
-                          row.goal_diff > 0
-                            ? 'text-green-400'
-                            : row.goal_diff < 0
-                            ? 'text-red-400'
-                            : 'text-gray-400'
-                        }
-                      >
-                        {row.goal_diff > 0 ? `+${row.goal_diff}` : row.goal_diff}
-                      </span>
-                    </td>
-                    <td className="table-td table-td-sm hidden md:table-cell">
-                      <FormGuide form={formGuide.get(row.team_id) ?? []} />
-                    </td>
-                    <td className="table-td table-td-r text-right font-bold text-green-400">{row.points}</td>
+          <div className="card-list overflow-clip">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[580px] text-sm">
+                <thead>
+                  <tr className="border-b border-gray-800">
+                    <th className="table-th table-th-l text-left w-6 sticky left-0 z-10 bg-gray-900">#</th>
+                    <th className="table-th table-th-l text-left sticky left-10 z-10 bg-gray-900">Team</th>
+                    <th className="table-th table-th-sm text-right">P</th>
+                    <th className="table-th table-th-sm text-right">W</th>
+                    <th className="table-th table-th-sm text-right">D</th>
+                    <th className="table-th table-th-sm text-right">L</th>
+                    <th className="table-th table-th-sm text-right">PS</th>
+                    <th className="table-th table-th-sm text-right">PA</th>
+                    <th className="table-th table-th-sm text-right">PD</th>
+                    <th className="table-th table-th-sm">Form</th>
+                    <th className="table-th table-th-r text-right sticky right-0 z-10 bg-gray-900">Pts</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {standings.map((row, i) => (
+                    <tr key={row.team_id} className="table-row">
+                      <td className="table-td table-td-l text-gray-500 text-xs sticky left-0 z-10 bg-gray-900">{i + 1}</td>
+                      <td className="table-td table-td-l font-medium sticky left-10 z-10 bg-gray-900">
+                        <div className="flex items-center gap-2">
+                          <TeamAvatar id={row.team_id} name={row.team_name} size={20} />
+                          <Link href={`/league/team/${row.team_id}`} className="link-accent">
+                            {row.team_name}
+                          </Link>
+                        </div>
+                      </td>
+                      <td className="table-td table-td-sm text-right text-gray-400">{row.played}</td>
+                      <td className="table-td table-td-sm text-right">{row.won}</td>
+                      <td className="table-td table-td-sm text-right text-gray-400">{row.drawn}</td>
+                      <td className="table-td table-td-sm text-right">{row.lost}</td>
+                      <td className="table-td table-td-sm text-right text-gray-400">{row.points_for}</td>
+                      <td className="table-td table-td-sm text-right text-gray-400">{row.points_against}</td>
+                      <td className="table-td table-td-sm text-right">
+                        <span
+                          className={
+                            row.point_diff > 0
+                              ? 'text-green-400'
+                              : row.point_diff < 0
+                              ? 'text-red-400'
+                              : 'text-gray-400'
+                          }
+                        >
+                          {row.point_diff > 0 ? `+${row.point_diff}` : row.point_diff}
+                        </span>
+                      </td>
+                      <td className="table-td table-td-sm">
+                        <FormGuide form={formGuide.get(row.team_id) ?? []} />
+                      </td>
+                      <td className="table-td table-td-r text-right font-bold text-green-400 sticky right-0 z-10 bg-gray-900">{row.points}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <p className="text-xs text-gray-600 -mt-2">
-            Tiebreaker order: Goal difference (GD) → Head-to-head → Goals scored (GS)
-          </p>
+          <div className="text-xs text-gray-600 -mt-2 space-y-1">
+            <p className="font-medium text-gray-500">Tiebreaker order (when teams are level on points):</p>
+            <ol className="space-y-1 list-none">
+              <li><span className="text-gray-400">1. Point difference (PD)</span> — points scored minus points conceded across all matches. A higher PD ranks above a lower one.</li>
+              <li><span className="text-gray-400">2. Head-to-head</span> — the result of the match(es) played directly between the tied teams. The team that won that encounter ranks higher.</li>
+              <li><span className="text-gray-400">3. Points scored (PS)</span> — total points scored across all matches. Used only if PD and head-to-head are also identical.</li>
+            </ol>
+          </div>
 
           {/* Position history chart */}
           <div className="card">

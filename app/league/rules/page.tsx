@@ -79,7 +79,7 @@ export default function RulesPage() {
             </li>
             <li className="flex gap-2">
               <span className="text-gray-600 shrink-0">·</span>
-              <span><span className="text-gray-200">Tiebreaker order.</span> Goal difference → Head-to-head record → Goals scored.</span>
+              <span><span className="text-gray-200">Tiebreaker order.</span> Point difference (PD) → Head-to-head record → Points scored (PS). If teams are level on points, PD (points scored minus points conceded) is applied first; then the direct head-to-head result; then total points scored.</span>
             </li>
           </ul>
         </section>

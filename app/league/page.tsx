@@ -160,7 +160,7 @@ export default async function HomePage() {
                   <th className="table-th table-th-l text-left w-6">#</th>
                   <th className="table-th table-th-l text-left">Team</th>
                   <th className="table-th table-th-r text-right w-10">Pts</th>
-                  <th className="table-th table-th-r text-right w-10">GD</th>
+                  <th className="table-th table-th-r text-right w-10">PD</th>
                 </tr>
               </thead>
               <tbody>
@@ -177,7 +177,7 @@ export default async function HomePage() {
                     </td>
                     <td className="table-td table-td-r text-right font-bold text-green-400">{row.points}</td>
                     <td className="table-td table-td-r text-right text-gray-400">
-                      {row.goal_diff > 0 ? `+${row.goal_diff}` : row.goal_diff}
+                      {row.point_diff > 0 ? `+${row.point_diff}` : row.point_diff}
                     </td>
                   </tr>
                 ))}

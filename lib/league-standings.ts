@@ -7,9 +7,9 @@ export interface StandingRow {
   won: number
   drawn: number
   lost: number
-  goals_for: number
-  goals_against: number
-  goal_diff: number
+  points_for: number
+  points_against: number
+  point_diff: number
   points: number
 }
 
@@ -51,28 +51,28 @@ export async function getStandings(seasonId: string): Promise<StandingRow[]> {
       COALESCE(SUM(r.won),  0)::int                                  AS won,
       COALESCE(SUM(r.drawn),0)::int                                  AS drawn,
       COALESCE(SUM(r.lost), 0)::int                                  AS lost,
-      COALESCE(SUM(r.gf),   0)::int                                  AS goals_for,
-      COALESCE(SUM(r.ga),   0)::int                                  AS goals_against,
-      (COALESCE(SUM(r.gf),  0) - COALESCE(SUM(r.ga), 0))::int       AS goal_diff,
+      COALESCE(SUM(r.gf),   0)::int                                  AS points_for,
+      COALESCE(SUM(r.ga),   0)::int                                  AS points_against,
+      (COALESCE(SUM(r.gf),  0) - COALESCE(SUM(r.ga), 0))::int       AS point_diff,
       COALESCE(SUM(r.pts),  0)::int                                  AS points
     FROM teams t
     LEFT JOIN results r ON r.team_id = t.team_id
     WHERE t.season_id = ${seasonId}
     GROUP BY t.team_id, t.team_name
-    ORDER BY points DESC, goal_diff DESC, goals_for DESC
+    ORDER BY points DESC, played DESC, point_diff DESC, points_for DESC
   `
 
   return rows.map((r) => ({
-    team_id:       String(r.team_id),
-    team_name:     String(r.team_name),
-    played:        Number(r.played),
-    won:           Number(r.won),
-    drawn:         Number(r.drawn),
-    lost:          Number(r.lost),
-    goals_for:     Number(r.goals_for),
-    goals_against: Number(r.goals_against),
-    goal_diff:     Number(r.goal_diff),
-    points:        Number(r.points),
+    team_id:        String(r.team_id),
+    team_name:      String(r.team_name),
+    played:         Number(r.played),
+    won:            Number(r.won),
+    drawn:          Number(r.drawn),
+    lost:           Number(r.lost),
+    points_for:     Number(r.points_for),
+    points_against: Number(r.points_against),
+    point_diff:     Number(r.point_diff),
+    points:         Number(r.points),
   }))
 }
 
@@ -117,9 +117,10 @@ export async function getHistoricalStandings(seasonId: string): Promise<Historic
         tm.mw                                        AS matchweek,
         tm.team_id,
         tm.team_name,
+        COALESCE(COUNT(mr.matchweek), 0)::int         AS played,
         COALESCE(SUM(mr.pts), 0)::int                AS points,
-        COALESCE(SUM(mr.gf - mr.ga), 0)::int         AS goal_diff,
-        COALESCE(SUM(mr.gf), 0)::int                 AS goals_for
+        COALESCE(SUM(mr.gf - mr.ga), 0)::int         AS point_diff,
+        COALESCE(SUM(mr.gf), 0)::int                 AS points_for
       FROM team_mw tm
       LEFT JOIN match_rows mr ON mr.team_id = tm.team_id AND mr.matchweek <= tm.mw
       GROUP BY tm.mw, tm.team_id, tm.team_name
@@ -130,7 +131,7 @@ export async function getHistoricalStandings(seasonId: string): Promise<Historic
       team_name,
       RANK() OVER (
         PARTITION BY matchweek
-        ORDER BY points DESC, goal_diff DESC, goals_for DESC
+        ORDER BY points DESC, played DESC, point_diff DESC, points_for DESC
       )::int AS position
     FROM cumulative
     ORDER BY matchweek, position

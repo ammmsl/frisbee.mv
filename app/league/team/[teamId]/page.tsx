@@ -93,8 +93,8 @@ async function getTeamRecord(teamId: string) {
       COALESCE(SUM(won),   0)::int AS won,
       COALESCE(SUM(drawn), 0)::int AS drawn,
       COALESCE(SUM(lost),  0)::int AS lost,
-      COALESCE(SUM(gf),    0)::int AS goals_for,
-      COALESCE(SUM(ga),    0)::int AS goals_against,
+      COALESCE(SUM(gf),    0)::int AS points_for,
+      COALESCE(SUM(ga),    0)::int AS points_against,
       COALESCE(SUM(pts),   0)::int AS points
     FROM results
     WHERE tid = ${teamId}
@@ -110,8 +110,8 @@ async function getHeadToHead(teamId: string, seasonId: string) {
       COALESCE(h2h.won,   0)::int AS won,
       COALESCE(h2h.drawn, 0)::int AS drawn,
       COALESCE(h2h.lost,  0)::int AS lost,
-      COALESCE(h2h.goals_for,     0)::int AS goals_for,
-      COALESCE(h2h.goals_against, 0)::int AS goals_against,
+      COALESCE(h2h.points_for,     0)::int AS points_for,
+      COALESCE(h2h.points_against, 0)::int AS points_against,
       h2h.played
     FROM teams opp
     LEFT JOIN (
@@ -120,8 +120,8 @@ async function getHeadToHead(teamId: string, seasonId: string) {
         SUM(CASE WHEN my_score > opp_score THEN 1 ELSE 0 END)::int AS won,
         SUM(CASE WHEN my_score = opp_score THEN 1 ELSE 0 END)::int AS drawn,
         SUM(CASE WHEN my_score < opp_score THEN 1 ELSE 0 END)::int AS lost,
-        SUM(my_score)::int   AS goals_for,
-        SUM(opp_score)::int  AS goals_against,
+        SUM(my_score)::int   AS points_for,
+        SUM(opp_score)::int  AS points_against,
         COUNT(*)::int        AS played
       FROM (
         SELECT
@@ -208,8 +208,8 @@ export default async function TeamPage({
   const lost   = record ? Number(record.lost)   : 0
   const played = record ? Number(record.played) : 0
   const pts    = record ? Number(record.points) : 0
-  const gf     = record ? Number(record.goals_for)    : 0
-  const ga     = record ? Number(record.goals_against) : 0
+  const pf     = record ? Number(record.points_for)    : 0
+  const pa     = record ? Number(record.points_against) : 0
 
   return (
     <div className="page-shell">
@@ -241,7 +241,7 @@ export default async function TeamPage({
           )}
           {played > 0 && (
             <p className="text-xs text-gray-500 mt-3 text-center">
-              {played} played · {gf} GF · {ga} GA · GD {gf - ga > 0 ? `+${gf - ga}` : gf - ga}
+              {played} played · {pf} PF · {pa} PA · PD {pf - pa > 0 ? `+${pf - pa}` : pf - pa}
             </p>
           )}
         </div>
@@ -382,7 +382,7 @@ export default async function TeamPage({
                         <span className="text-red-400">{Number(opp.lost)}L</span>
                         {'  '}
                         <span className="text-gray-500 text-xs ml-1">
-                          {Number(opp.goals_for)}–{Number(opp.goals_against)}
+                          {Number(opp.points_for)}–{Number(opp.points_against)}
                         </span>
                       </span>
                     ) : (
