@@ -130,8 +130,8 @@ export default async function StandingsPage() {
               <table className="w-full min-w-[580px] text-sm">
                 <thead>
                   <tr className="border-b border-gray-800">
-                    <th className="table-th table-th-l text-left w-6 sticky left-0 z-10 bg-gray-900">#</th>
-                    <th className="table-th table-th-l text-left sticky left-10 z-10 bg-gray-900">Team</th>
+                    <th className="table-th table-th-l text-left w-6">#</th>
+                    <th className="table-th table-th-l text-left">Team</th>
                     <th className="table-th table-th-sm text-right">P</th>
                     <th className="table-th table-th-sm text-right">W</th>
                     <th className="table-th table-th-sm text-right">D</th>
@@ -146,8 +146,8 @@ export default async function StandingsPage() {
                 <tbody>
                   {standings.map((row, i) => (
                     <tr key={row.team_id} className="table-row">
-                      <td className="table-td table-td-l text-gray-500 text-xs sticky left-0 z-10 bg-gray-900">{i + 1}</td>
-                      <td className="table-td table-td-l font-medium sticky left-10 z-10 bg-gray-900">
+                      <td className="table-td table-td-l text-gray-500 text-xs">{i + 1}</td>
+                      <td className="table-td table-td-l font-medium">
                         <div className="flex items-center gap-2">
                           <TeamAvatar id={row.team_id} name={row.team_name} size={20} />
                           <Link href={`/league/team/${row.team_id}`} className="link-accent">
