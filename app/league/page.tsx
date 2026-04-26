@@ -77,7 +77,8 @@ function fmtKickoff(iso: string) {
 }
 
 export default async function HomePage() {
-  const season = await getActiveSeason()
+  let season = null
+  try { season = await getActiveSeason() } catch {}
 
   if (!season) {
     return (
@@ -90,11 +91,24 @@ export default async function HomePage() {
     )
   }
 
-  const [standings, nextFixtures, lastResult] = await Promise.all([
+  const data = await Promise.all([
     getStandings(season.season_id as string),
     getNextFixtures(season.season_id as string),
     getLastResult(season.season_id as string),
-  ])
+  ]).catch(() => null)
+
+  if (!data) {
+    return (
+      <div className="page-shell">
+        <PublicNav />
+        <div className="page-container pt-16 text-center text-gray-400">
+          No active season.
+        </div>
+      </div>
+    )
+  }
+
+  const [standings, nextFixtures, lastResult] = data
 
   return (
     <div className="page-shell">

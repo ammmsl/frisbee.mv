@@ -122,7 +122,8 @@ async function getMvpHistory(seasonId: string): Promise<MvpHistoryRow[]> {
 }
 
 export default async function MvpPage() {
-  const season = await getActiveSeason()
+  let season = null
+  try { season = await getActiveSeason() } catch {}
 
   if (!season) {
     return (
@@ -138,10 +139,24 @@ export default async function MvpPage() {
 
   const seasonId = season.season_id as string
 
-  const [rows, history] = await Promise.all([
+  const data = await Promise.all([
     getMvpScores(seasonId),
     getMvpHistory(seasonId),
-  ])
+  ]).catch(() => null)
+
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-gray-950 text-white">
+        <PublicNav />
+        <div className="max-w-lg mx-auto px-4 pb-16 pt-6">
+          <h1 className="text-2xl font-bold mb-1">MVP Race</h1>
+          <p className="text-gray-400 text-sm">No active season.</p>
+        </div>
+      </div>
+    )
+  }
+
+  const [rows, history] = data
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">

@@ -75,14 +75,19 @@ function FormGuide({ form }: { form: ('W' | 'D' | 'L')[] }) {
 }
 
 export default async function StandingsPage() {
-  const season = await getActiveSeason()
-  const [standings, formGuide, historicalData] = season
+  let season = null
+  try { season = await getActiveSeason() } catch {}
+
+  const data = season
     ? await Promise.all([
         getStandings(season.season_id as string),
         getFormGuide(season.season_id as string),
         getHistoricalStandings(season.season_id as string),
-      ])
-    : [[], new Map<string, ('W' | 'D' | 'L')[]>(), []]
+      ]).catch(() => null)
+    : null
+
+  const [standings, formGuide, historicalData] = data
+    ?? [[], new Map<string, ('W' | 'D' | 'L')[]>(), []]
 
   const teamOrder = standings.map((row) => row.team_id)
 

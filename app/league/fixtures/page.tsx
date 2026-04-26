@@ -128,7 +128,8 @@ export type HolidayRow = {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function FixturesPage() {
-  const season = await getActiveSeason()
+  let season = null
+  try { season = await getActiveSeason() } catch {}
   if (!season) {
     return (
       <div className="page-shell">
@@ -138,11 +139,22 @@ export default async function FixturesPage() {
     )
   }
 
-  const [rawFixtures, teamNames, rawHolidays] = await Promise.all([
+  const data = await Promise.all([
     getAllFixtures(season.season_id as string),
     getTeamNames(season.season_id as string),
     getHolidays(season.season_id as string),
-  ])
+  ]).catch(() => null)
+
+  if (!data) {
+    return (
+      <div className="page-shell">
+        <PublicNav />
+        <div className="page-container text-gray-400">No active season.</div>
+      </div>
+    )
+  }
+
+  const [rawFixtures, teamNames, rawHolidays] = data
 
   // Compute bye team per (matchweek, date) — the team absent from both fixtures that day
   // Group fixtures by matchweek to identify which teams are playing

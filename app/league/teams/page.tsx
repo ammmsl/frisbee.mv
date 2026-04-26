@@ -3,8 +3,6 @@ import sql from '@/lib/league-db'
 import PublicNav from '../_components/PublicNav'
 import { TeamAvatar } from '../_components/Avatar'
 
-export const revalidate = 0
-
 async function getActiveSeason() {
   const rows = await sql`
     SELECT season_id::text
@@ -67,7 +65,8 @@ async function getTeamsWithStats(seasonId: string) {
 }
 
 export default async function TeamsPage() {
-  const season = await getActiveSeason()
+  let season = null
+  try { season = await getActiveSeason() } catch {}
   if (!season) {
     return (
       <div className="page-shell">
@@ -77,7 +76,7 @@ export default async function TeamsPage() {
     )
   }
 
-  const teams = await getTeamsWithStats(season.season_id as string)
+  const teams = await getTeamsWithStats(season.season_id as string).catch(() => [])
 
   return (
     <div className="page-shell">

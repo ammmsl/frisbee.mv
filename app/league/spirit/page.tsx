@@ -21,9 +21,14 @@ async function getSpiritLeaderboard(seasonId: string) {
 }
 
 export default async function SpiritPage() {
-  const seasons = await sql`SELECT season_id::text FROM seasons WHERE status = 'active' LIMIT 1`
-  const seasonId = (seasons[0]?.season_id as string) ?? ''
-  const leaderboard = seasonId ? await getSpiritLeaderboard(seasonId) : []
+  let seasonId = ''
+  try {
+    const seasons = await sql`SELECT season_id::text FROM seasons WHERE status = 'active' LIMIT 1`
+    seasonId = (seasons[0]?.season_id as string) ?? ''
+  } catch {}
+  const leaderboard = seasonId
+    ? await getSpiritLeaderboard(seasonId).catch(() => [])
+    : []
 
   return (
     <div className="page-shell">

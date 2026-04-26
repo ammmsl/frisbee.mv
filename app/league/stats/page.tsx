@@ -208,7 +208,8 @@ async function getMatchweekHistory(seasonId: string): Promise<MatchweekRow[]> {
 }
 
 export default async function StatsPage() {
-  const season = await getActiveSeason()
+  let season = null
+  try { season = await getActiveSeason() } catch {}
 
   if (!season) {
     return (
@@ -224,13 +225,27 @@ export default async function StatsPage() {
 
   const seasonId = season.season_id as string
 
-  const [goals, assists, blocks, appearances, history] = await Promise.all([
+  const data = await Promise.all([
     getGoals(seasonId),
     getAssists(seasonId),
     getBlocks(seasonId),
     getAppearances(seasonId),
     getMatchweekHistory(seasonId),
-  ])
+  ]).catch(() => null)
+
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-gray-950 text-white">
+        <PublicNav />
+        <div className="max-w-lg mx-auto px-4 pb-16 pt-6">
+          <h1 className="text-2xl font-bold mb-1">Stats</h1>
+          <p className="text-gray-400 text-sm">No active season.</p>
+        </div>
+      </div>
+    )
+  }
+
+  const [goals, assists, blocks, appearances, history] = data
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">

@@ -28,7 +28,7 @@ interface PlayerRow {
 }
 
 export default async function PlayersPage() {
-  const players = await getAllPlayers()
+  const players = await getAllPlayers().catch(() => [])
 
   // Group by team using a plain typed record
   const teamMap: Record<string, { team_name: string; players: PlayerRow[] }> = {}
