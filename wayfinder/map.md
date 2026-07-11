@@ -26,6 +26,7 @@ A locked, sequenced implementation route for all post-publish work — the Hallm
 - [Adopt or defer the architecture-audit findings](tickets/T01-adopt-architecture-audit-findings.md) — all seven plans adopted; credential rotation risk-accepted until 004 deploys; session time settled at 8:00 PM by spec A12
 - [Lock the implementation sequence](tickets/T02-lock-implementation-sequence.md) — six waves: correctness+security (001/003/004 + Hallmark P1 + 18 amendments) → 002 → chrome → data section → per-page macros → 005–007; stats become live server-side fetch with labelled denominators
 - [Owner calls: publication blockers](tickets/T03-owner-calls-publication-blockers.md) — b-tb2 ships with caveat; GSP stays named; C1 folds into registration, C2 softens to "late 2024", C3–C7/C9 confirmed; only agm-finance + nq-5 need redaction
+- [News engine Research category](tickets/T04-news-schema-research-category.md) — no category field exists (NewsFilter fakes it via title regex); minimal spec = one CHECK-constrained `category` column + six touchpoints, asset `assets/T04-news-schema.md`; implement in Wave 4
 
 ## Not yet specified
 
