@@ -21,12 +21,12 @@ const CITIES = [
   {
     name: 'Fuvahmulah',
     description:
-      'Regular community sessions. Growing player base in the southern atolls.',
+      'Event & outreach activity — Eid Ufaa tournament, April 2025. Growing interest in the southern atolls.',
   },
   {
     name: 'Addu City',
     description:
-      'Active community. Occasional sessions and inter-island events.',
+      'Event & outreach activity — introductory session, November 2025.',
   },
 ] as const;
 

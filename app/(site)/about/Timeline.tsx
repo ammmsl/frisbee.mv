@@ -17,8 +17,8 @@ interface Milestone {
 
 const MILESTONES: Milestone[] = [
   {
-    date: '2018',
-    title: 'First games',
+    date: '28 September 2018',
+    title: 'Founded — first games',
     description:
       'University of Nottingham Malaysia graduates introduce Ultimate to Malé.',
   },
@@ -26,18 +26,13 @@ const MILESTONES: Milestone[] = [
     date: 'January 2024',
     title: 'Weekly sessions formalised',
     description:
-      'Tuesday and Friday evening sessions established at Villingili Football Ground.',
+      'Twice-weekly sessions begin in Hulhumalé; the move to Villingili Football Ground follows on 2 February 2024.',
   },
   {
-    date: 'August 2024',
-    title: 'Association founded',
-    description: 'The Ultimate Frisbee Association (UFA) is formally established.',
-  },
-  {
-    date: '2 September 2024',
-    title: 'Registered by Commissioner of Sports',
+    date: '3 September 2024',
+    title: 'Registered with the Commissioner of Sports',
     description:
-      'UFA receives official registration as a national sports association.',
+      'UFA receives official registration as a sports association.',
   },
   {
     date: '12 December 2024',
@@ -45,21 +40,21 @@ const MILESTONES: Milestone[] = [
     description: 'Members elect the inaugural board via secret ballot.',
   },
   {
-    date: 'December 2024',
-    title: 'WFDF Provisional Membership Granted',
-    description: null,
-  },
-  {
-    date: 'January 2025',
+    date: '24 January 2025',
     title: 'First tournament',
     description:
-      "5v5 format, 49 players — the federation's inaugural competitive event.",
+      "5v5 format, 42 players across 7 teams — the federation's inaugural competitive event.",
   },
-    {
-    date: 'October 2025',
+  {
+    date: 'February 2025',
+    title: 'WFDF Provisional Membership granted',
+    description: 'Applied in late 2024; provisional membership granted February 2025.',
+  },
+  {
+    date: '17–18 October 2025',
     title: 'Largest tournament to date',
     description:
-      '7v7 format, 72 players — the biggest flying disc event held in the Maldives.',
+      '6v6 format, 64 players across 8 teams — the biggest flying disc event held in the Maldives.',
   },
 ];
 

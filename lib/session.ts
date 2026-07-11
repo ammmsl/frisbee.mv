@@ -1,7 +1,7 @@
 /**
  * Session schedule helper — pure server-side, no dependencies.
  *
- * Sessions run every Tuesday (day 2) and Friday (day 5) at 17:30 MVT.
+ * Sessions run every Tuesday (day 2) and Friday (day 5) at 20:00 MVT.
  * Location: Villingili Football Ground, Malé.
  *
  * All date arithmetic uses UTC offsets; MVT = UTC+5.
@@ -36,7 +36,7 @@ const MVT_OFFSET_MS = 5 * 60 * 60 * 1000; // UTC+5
  *
  * Edge cases:
  *  - If today is a session day and the session hasn't started yet → today.
- *  - If today is a session day and it's at or after 17:30 MVT → skip to next occurrence.
+ *  - If today is a session day and it's at or after 20:00 MVT → skip to next occurrence.
  *  - Otherwise → the next Tuesday or Friday, whichever comes first.
  */
 export function getNextSession(): NextSession {

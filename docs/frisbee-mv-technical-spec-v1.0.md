@@ -27,11 +27,11 @@
 
 ### 1.1 Context
 
-The Ultimate Frisbee Association (UFA) is a newly incorporated national sports association, registered September 2024, and a provisional WFDF member. The federation has three operational tools currently hosted as separate GitHub Pages deployments and a League Tracker on Vercel. These must be consolidated under a single Next.js application at **frisbee.mv**.
+The Ultimate Frisbee Association (UFA) is a registered sports association (Commissioner of Sports, 3 September 2024) and a provisional WFDF member (February 2025). The federation has three operational tools currently hosted as separate GitHub Pages deployments and a League Tracker on Vercel. These must be consolidated under a single Next.js application at **frisbee.mv**.
 
 The site serves two audiences simultaneously:
 
-- **Internal community** — 167 players in Malé, Fuvahmulah, and Addu City who need session schedules, payment status, league data, and team tools.
+- **Internal community** — ~322 players who have ever played (172 on the current roster), centred in Malé with event & outreach activity in Fuvahmulah and Addu City, who need session schedules, payment status, league data, and team tools.
 - **External world** — WFDF, AOFDF, potential sponsors, local media, schools, and newcomers who need to see a credible national federation with active governance and programming.
 
 ### 1.2 Phase Goals
@@ -307,15 +307,14 @@ The home page replaces the current League Tracker home. The league home moves to
 
 3. **Timeline**
    - Vertical timeline component (alternating left/right on desktop, single column on mobile)
-   - Key dates:
-     - 2018 — First games, University of Nottingham Malaysia graduates
-     - January 2024 — Weekly sessions formalised (Tuesdays and Fridays)
-     - January 2024 — First tournament (5v5, 49 players)
-     - March 2024 — Federation founded
-     - September 2, 2024 — Registered by Commissioner of Sports
-     - October 2024 — Largest tournament (7v7, 72 players)
-     - December 12, 2024 — First AGM and executive committee election
-     - December 2024 — WFDF Provisional Membership application submitted
+   - Key dates (corrected per UFA data publication spec §6, 2026-07-12):
+     - 28 September 2018 — Founded; first games, University of Nottingham Malaysia graduates
+     - January 2024 — Weekly sessions formalised (Tuesdays and Fridays; Villingili from 2 Feb 2024)
+     - 3 September 2024 — Registered with Commissioner of Sports
+     - 12 December 2024 — First AGM and executive committee election
+     - 24 January 2025 — First tournament (5v5, 42 players, 7 teams)
+     - February 2025 — WFDF Provisional Membership granted (applied late 2024)
+     - 17–18 October 2025 — Largest tournament (6v6, 64 players, 8 teams)
    - Expandable: add future milestones without code changes (data-driven)
 
 4. **About the Sport**

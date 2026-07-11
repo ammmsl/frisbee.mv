@@ -119,7 +119,7 @@ export default async function CalendarPage() {
         <div className="mx-auto max-w-3xl">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Calendar</h1>
           <p className="text-white/80">
-            Sessions every Tuesday &amp; Friday · 5:30 PM · Villingili Football Ground, Malé
+            Sessions every Tuesday &amp; Friday · 8:00 PM · Villingili Football Ground, Malé
           </p>
         </div>
       </section>

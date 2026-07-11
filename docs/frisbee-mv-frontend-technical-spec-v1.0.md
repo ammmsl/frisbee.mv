@@ -305,14 +305,15 @@ These components live in `app/_components/` and are built before any page work b
 
 | Date | Milestone |
 |---|---|
-| 2018 | First games — University of Nottingham Malaysia graduates |
-| January 2024 | Weekly sessions formalised (Tuesdays and Fridays) |
-| January 2024 | First tournament (5v5, 49 players) |
-| March 2024 | Federation founded |
-| September 2, 2024 | Registered by Commissioner of Sports |
-| October 2024 | Largest tournament (7v7, 72 players) |
-| December 12, 2024 | First AGM and executive committee election |
-| December 2024 | WFDF Provisional Membership application submitted |
+| 28 September 2018 | Founded — first games, University of Nottingham Malaysia graduates |
+| January 2024 | Weekly sessions formalised (Tuesdays and Fridays; Villingili from 2 Feb 2024) |
+| 3 September 2024 | Registered with Commissioner of Sports |
+| 12 December 2024 | First AGM and executive committee election |
+| 24 January 2025 | First tournament (5v5, 42 players, 7 teams) |
+| February 2025 | WFDF Provisional Membership granted (applied late 2024) |
+| 17–18 October 2025 | Largest tournament (6v6, 64 players, 8 teams) |
+
+*(Corrected per UFA data publication spec §6, 2026-07-12.)*
 
 **4.4 About the Sport**
 - Brief description of Ultimate Frisbee and Spirit of the Game

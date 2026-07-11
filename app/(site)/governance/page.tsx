@@ -117,7 +117,7 @@ export default function GovernancePage() {
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-4">
             The UFA is governed by an elected executive committee. Registered members vote by secret
-            ballot at the Annual General Meeting (AGM). Committee members serve four-year terms.
+            ballot at the Annual General Meeting (AGM). Committee members serve five-year terms.
           </p>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed">
             The federation operates under a formal constitution. 
@@ -139,9 +139,9 @@ export default function GovernancePage() {
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-6">
             The Ultimate Frisbee Association applied for WFDF Provisional National Federation
-            Membership in December 2024. Provisional membership recognises UFA as the sole national
-            governing body for flying disc sports in the Maldives and is the first step toward full
-            WFDF membership.
+            Membership in late 2024, and provisional membership was granted in February 2025.
+            Provisional membership recognises UFA as the sole national governing body for flying
+            disc sports in the Maldives and is the first step toward full WFDF membership.
           </p>
           <QuoteBlock>
             The Asia Oceania Flying Disc Federation has confirmed its support for the Maldives

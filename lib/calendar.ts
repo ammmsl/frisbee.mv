@@ -9,7 +9,7 @@ export type CalendarDay = {
   type: 'session' | 'event' | 'cancelled' | 'special'
   label?: string         // event title, override note, or undefined
   eventSlug?: string     // present only when type === 'event'
-  time?: string          // '5:30 PM' for sessions
+  time?: string          // '8:00 PM' for sessions
   location?: string      // 'Villingili Football Ground' for sessions
 }
 
@@ -104,7 +104,7 @@ export async function getCalendarDays(month: string): Promise<CalendarDay[]> {
         result.push({
           date,
           type: 'session',
-          time: '5:30 PM',
+          time: '8:00 PM',
           location: 'Villingili Football Ground',
         })
       }
@@ -113,7 +113,7 @@ export async function getCalendarDays(month: string): Promise<CalendarDay[]> {
       result.push({
         date,
         type: 'session',
-        time: '5:30 PM',
+        time: '8:00 PM',
         location: 'Villingili Football Ground',
       })
     }

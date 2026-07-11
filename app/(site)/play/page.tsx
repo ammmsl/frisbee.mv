@@ -63,7 +63,7 @@ export default function PlayPage() {
             <span className="font-semibold">
               {session.dayName}, {session.fullDate}
             </span>{' '}
-            at 5:30 PM — Villingili Football Ground
+            at 8:00 PM — Villingili Football Ground
           </p>
           <a
             href="https://instagram.com/frisbee.mv"
@@ -145,8 +145,9 @@ export default function PlayPage() {
           </div>
 
           <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-            Sessions have run every week since January 2024. Fuvahmulah and Addu City
-            sessions run informally — contact us for current schedules.
+            Weekly sessions have run since January 2024 — at Villingili Football Ground
+            from February 2024. Fuvahmulah and Addu City have hosted event and outreach
+            activity — contact us to get involved.
           </p>
         </div>
       </section>
@@ -268,8 +269,8 @@ export default function PlayPage() {
             relevant.
           </p>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-8">
-            Membership is open to all. Annual fee: MVR 200. Register using the form below — it takes
-            two minutes.
+            Membership is open to all. Annual fee: MVR 350 in your first year, MVR 250 to renew.
+            Register using the form below — it takes two minutes.
           </p>
           <a
             href="https://forms.gle/a3KcMV5zJnfWLxB57"

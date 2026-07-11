@@ -34,9 +34,9 @@ const PLACEHOLDER_NEWS = [
   {
     id: 'federation-update',
     headline: 'Federation Update',
-    date: 'December 2024',
+    date: 'September 2024',
     excerpt:
-      'Ultimate Frisbee Association has been officially registered with the Commissioner of Sports, marking a landmark moment for the sport in the Maldives.',
+      'Ultimate Frisbee Association was officially registered with the Commissioner of Sports on 3 September 2024, marking a landmark moment for the sport in the Maldives.',
   },
   {
     id: 'agm-2024',
@@ -46,11 +46,11 @@ const PLACEHOLDER_NEWS = [
       'The inaugural Annual General Meeting of the UFA was held in Malé, with the executive committee elected by registered members through a secret ballot.',
   },
   {
-    id: 'season-1',
-    headline: 'Season 1 Underway',
-    date: 'January 2025',
+    id: 'league-season-1',
+    headline: 'League Season 1 Underway',
+    date: 'February 2026',
     excerpt:
-      'Weekly pickup sessions continue every Tuesday and Friday at Villingili Football Ground. Sessions have now run for over 113 consecutive weeks without interruption.',
+      'The first UFA league season kicked off in February 2026, building on more than 240 tracked pickup sessions every Tuesday and Friday.',
   },
 ] as const;
 
@@ -314,10 +314,10 @@ export default async function HomePage() {
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-8">
             The Ultimate Frisbee Association (UFA) is the national governing body for
-            Ultimate Frisbee in the Republic of Maldives. Founded in 2024 and registered
-            with the Commissioner of Sports, we are a provisional member of the World
-            Flying Disc Federation. We run weekly sessions in Malé and support growing
-            communities across the islands.
+            Ultimate Frisbee in the Republic of Maldives. Founded in 2018 and registered
+            with the Commissioner of Sports in 2024, we are a provisional member of the
+            World Flying Disc Federation. We run weekly sessions in Malé and support
+            growing communities across the islands.
           </p>
           <Link
             href="/about"
