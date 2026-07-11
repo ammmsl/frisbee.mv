@@ -2,8 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import sql from '@/lib/league-db'
 import { invalidateLeagueCache } from '@/lib/league-cache'
+import { getAdminSession } from '@/lib/league-auth'
 
 export async function GET() {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const rows = await sql`
       SELECT
@@ -30,6 +35,10 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { season_id, home_team_id, away_team_id, kickoff_time, venue, matchweek } =
     await req.json()
 
@@ -66,6 +75,10 @@ export async function POST(req: NextRequest) {
 
 /** Delete all fixtures for the current season (used by auto-schedule reset). */
 export async function DELETE() {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const season = await sql`
       SELECT season_id FROM seasons ORDER BY created_at DESC LIMIT 1

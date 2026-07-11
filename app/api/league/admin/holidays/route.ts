@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/league-db'
 import { invalidateLeagueCache } from '@/lib/league-cache'
+import { getAdminSession } from '@/lib/league-auth'
 
 export async function GET(req: NextRequest) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const seasonId = req.nextUrl.searchParams.get('seasonId')
 
   if (!seasonId) {
@@ -27,6 +32,10 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { season_id, start_date, end_date, name } = await req.json()
 
   if (!season_id || !start_date || !end_date || !name) {

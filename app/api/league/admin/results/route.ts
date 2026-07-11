@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import sql from '@/lib/league-db'
+import { getAdminSession } from '@/lib/league-auth'
 
 interface PlayerStatInput {
   player_id: string
@@ -21,6 +22,10 @@ interface SpiritInput {
 }
 
 export async function POST(req: NextRequest) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const body = await req.json()
   const {
     match_id,

@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/league-db'
 import { invalidateLeagueCache } from '@/lib/league-cache'
+import { getAdminSession } from '@/lib/league-auth'
 
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ holidayId: string }> }
 ) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { holidayId } = await params
 
   try {

@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server'
 import sql from '@/lib/league-db'
+import { getAdminSession } from '@/lib/league-auth'
 
 export async function GET() {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const teams = await sql`
     SELECT
       t.team_id,

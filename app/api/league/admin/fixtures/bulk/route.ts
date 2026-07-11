@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/league-db'
 import { invalidateLeagueCache } from '@/lib/league-cache'
+import { getAdminSession } from '@/lib/league-auth'
 
 interface BulkUpdate {
   match_id: string
@@ -8,6 +9,10 @@ interface BulkUpdate {
 }
 
 export async function PATCH(req: NextRequest) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const body = await req.json()
   const { updates } = body as { updates: BulkUpdate[] }
 

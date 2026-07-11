@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/db'
+import { getAdminSession } from '@/lib/auth'
 
 const VALID_STATUSES = ['cancelled', 'special'] as const
 
 export async function GET() {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const rows = await sql`
     SELECT
       override_id::text,
@@ -18,6 +23,10 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   let body: Record<string, unknown>
   try {
     body = await request.json()

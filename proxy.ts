@@ -17,7 +17,8 @@ export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   // ── League admin routes ── cookie: ufa_admin_session, secret: LEAGUE_JWT_SECRET
-  if (pathname.startsWith('/league/admin/') || pathname.startsWith('/api/league/admin/')) {
+  if (pathname === '/league/admin' || pathname.startsWith('/league/admin/') ||
+      pathname === '/api/league/admin' || pathname.startsWith('/api/league/admin/')) {
     const isLogin =
       pathname === '/league/admin/login' ||
       pathname === '/api/league/admin/login'
@@ -34,7 +35,8 @@ export async function proxy(req: NextRequest) {
   }
 
   // ── Frisbee.mv admin routes ── cookie: frisbee_admin_session, secret: JWT_SECRET
-  if (pathname.startsWith('/admin/') || pathname.startsWith('/api/admin/')) {
+  if (pathname === '/admin' || pathname.startsWith('/admin/') ||
+      pathname === '/api/admin' || pathname.startsWith('/api/admin/')) {
     const isLogin =
       pathname === '/admin/login' ||
       pathname === '/api/admin/login'

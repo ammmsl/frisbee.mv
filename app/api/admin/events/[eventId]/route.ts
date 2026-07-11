@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/db'
+import { getAdminSession } from '@/lib/auth'
 
 type Params = { params: Promise<{ eventId: string }> }
 
 export async function GET(_req: NextRequest, { params }: Params) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { eventId } = await params
   const rows = await sql`
     SELECT
@@ -18,6 +23,10 @@ export async function GET(_req: NextRequest, { params }: Params) {
 }
 
 export async function PATCH(request: NextRequest, { params }: Params) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { eventId } = await params
 
   let body: Record<string, unknown>
@@ -64,6 +73,10 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 }
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { eventId } = await params
   try {
     await sql`DELETE FROM events WHERE event_id = ${eventId}::uuid`

@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import sql from '@/lib/league-db'
+import { getAdminSession } from '@/lib/league-auth'
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ matchId: string }> }
 ) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { matchId } = await params
   const { home_team_id, away_team_id, kickoff_time, venue, matchweek } = await req.json()
 
@@ -46,6 +51,10 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ matchId: string }> }
 ) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { matchId } = await params
 
   try {

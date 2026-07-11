@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/league-db'
 import { invalidateLeagueCache } from '@/lib/league-cache'
+import { getAdminSession } from '@/lib/league-auth'
 
 export async function GET() {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const rows = await sql`
       SELECT * FROM seasons ORDER BY created_at DESC LIMIT 1
@@ -18,6 +23,10 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const body = await req.json()
 
   const start_date: string | null = body.start_date || null

@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import sql from '@/lib/league-db'
+import { getAdminSession } from '@/lib/league-auth'
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { teamId } = await params
   const { team_name } = await req.json()
 

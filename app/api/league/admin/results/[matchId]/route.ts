@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/league-db'
+import { getAdminSession } from '@/lib/league-auth'
 
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ matchId: string }> }
 ) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { matchId } = await params
 
   // Check if a result exists for this match

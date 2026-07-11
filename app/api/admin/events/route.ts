@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/db'
+import { getAdminSession } from '@/lib/auth'
 
 const VALID_EVENT_TYPES = ['tournament', 'social', 'clinic', 'agm', 'other'] as const
 
 export async function POST(request: NextRequest) {
+  if (!(await getAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   let body: Record<string, unknown>
   try {
     body = await request.json()
