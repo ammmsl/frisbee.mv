@@ -701,7 +701,7 @@ export default function TeamDrafter() {
       </Modal>
 
       {/* ── Hidden export container (captured by html2canvas) ── */}
-      <div id="draft-export-container">
+      <div id="draft-export-container" aria-hidden="true">
         <div className="text-center mb-10">
           <h1 style={{ fontSize: 36, fontWeight: 900, color: accent.base, fontStyle: 'italic', textTransform: 'uppercase', letterSpacing: '-0.03em' }}>
             Lineup Draft

@@ -104,6 +104,10 @@
   --accent-dark:  #2f6e7a;
   --accent-light: #92C2CF;
 
+  /* One-off component colours (lifted from hardcoded hex — Hallmark P1 #18) */
+  --swap-selected: #1e1b4b;  /* indigo-950 — draft-tool swap selection */
+  --note-special:  #9333ea;  /* purple-600 — special session override note */
+
   /* Surfaces */
   --bg-page:    #ffffff;
   --bg-surface: #f9fafb;
@@ -252,12 +256,15 @@ body {
   grid-auto-flow: column;
 }
 
-.swap-selected {
-  background-color: #1e1b4b !important;
-  color: white !important;
-  border-color: #1e1b4b !important;
+/* Doubled class raises specificity above single-class utilities — no !important */
+.swap-selected.swap-selected {
+  background-color: var(--swap-selected);
+  color: white;
+  border-color: var(--swap-selected);
 }
 
+/* Offscreen positioning kept deliberately: html2canvas captures this element,
+   and opacity/clip-path hiding renders a blank export. */
 #draft-export-container {
   position: absolute;
   left: -9999px;
@@ -266,10 +273,24 @@ body {
   background: white;
   padding: 40px;
   font-family: ui-sans-serif, system-ui, sans-serif;
+  pointer-events: none;
 }
 
 .export-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────────────────
+   Global guard: collapse all animation/transition for users who ask for it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

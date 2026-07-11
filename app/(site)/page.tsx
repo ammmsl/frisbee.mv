@@ -6,9 +6,10 @@ import HeroCarousel from './HeroCarousel';
 import StatTile from '@/app/_components/StatTile';
 import Badge from '@/app/_components/Badge';
 import NewsCard from '@/app/_components/NewsCard';
-import { getNextSession, getNextSessionAfterDate, getConsecutiveWeeks } from '@/lib/session';
+import { getNextSession, getNextSessionAfterDate } from '@/lib/session';
 import { getPublishedPosts, getSessionOverrides } from '@/lib/events';
 import { getTodayMVT, addDays } from '@/lib/calendar';
+import { getHomeStats } from '@/lib/pickup-sheets';
 
 export const revalidate = 0;
 
@@ -109,25 +110,6 @@ function TikTokIcon() {
   );
 }
 
-function DiscIcon() {
-  return (
-    <svg
-      width="48"
-      height="48"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="white"
-      strokeWidth="1.25"
-      strokeLinecap="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <circle cx="12" cy="12" r="3" />
-      <path d="M12 2v20M2 12h20" />
-    </svg>
-  );
-}
-
 /* ─── Hero slide discovery ────────────────────────────────────────────────── */
 
 function getHeroSlides(): string[] {
@@ -178,6 +160,10 @@ export default async function HomePage() {
   const specialNote = specialNotes.get(session.dateStr) ?? null;
   const heroSlides = getHeroSlides();
 
+  // Live stats from the attendance tracker — no hardcoded counts (spec §6).
+  // Cached 300s in lib/pickup-sheets; the bar hides when the sheet is unreachable.
+  const homeStats = await getHomeStats();
+
   return (
     <>
       {/* ── 1. Hero ──────────────────────────────────────────────────────── */}
@@ -185,13 +171,10 @@ export default async function HomePage() {
         className="relative flex items-center justify-center min-h-screen -mt-16 overflow-hidden"
         aria-label="Hero"
       >
-        {/* Pacific-blue gradient — fallback when images are absent or loading */}
+        {/* Pacific-blue fallback when carousel images are absent or loading */}
         <div
           className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(135deg, var(--accent) 0%, #498EAD 45%, var(--accent-dark) 100%)',
-          }}
+          style={{ background: 'var(--accent-dark)' }}
         />
 
         {/* Radial highlight — adds depth to the gradient fallback */}
@@ -261,18 +244,20 @@ export default async function HomePage() {
       </section>
 
       {/* ── 2. Live Stats Bar ────────────────────────────────────────────── */}
-      <section
-        className="py-12 px-4 bg-[var(--bg-surface)] border-y border-[var(--border)]"
-        aria-label="Live community statistics"
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="flex gap-6 overflow-x-auto pb-2 lg:justify-center lg:overflow-visible lg:pb-0">
-            <StatTile value={167} suffix="+" label="Players" />
-            <StatTile value={getConsecutiveWeeks()} suffix="+" label="Consecutive Weeks" />
-            <StatTile value={3481} suffix="+" label="Attendances" />
+      {homeStats && (
+        <section
+          className="py-12 px-4 bg-[var(--bg-surface)] border-y border-[var(--border)]"
+          aria-label="Live community statistics"
+        >
+          <div className="mx-auto max-w-7xl">
+            <div className="flex gap-6 overflow-x-auto pb-2 lg:justify-center lg:overflow-visible lg:pb-0">
+              <StatTile value={homeStats.playersEverPlayed} label="Players — ever played" />
+              <StatTile value={homeStats.trackedSessions} label="Tracked sessions — since Jul 2024" />
+              <StatTile value={homeStats.attendances} label="Attendances — since Jul 2024" />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── 3. Next Session ──────────────────────────────────────────────── */}
       <section
@@ -300,7 +285,9 @@ export default async function HomePage() {
 
           {/* Special override note */}
           {specialNote && (
-            <p className="text-sm text-purple-600 mb-4">{specialNote}</p>
+            <p className="text-sm mb-4" style={{ color: 'var(--note-special)' }}>
+              {specialNote}
+            </p>
           )}
 
           {/* Ghost link styled as button */}
@@ -382,15 +369,15 @@ export default async function HomePage() {
                   key={card.id}
                   className="shrink-0 w-[280px] lg:w-auto flex flex-col rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] overflow-hidden"
                 >
-                  {/* Placeholder thumbnail — disc-orange rectangle */}
-                  <div
-                    className="h-44 w-full bg-[var(--accent)] flex items-center justify-center opacity-90"
+                  {/* Placeholder thumbnail — typographic, hairline-bordered */}
+                  <figure
+                    className="h-44 w-full border-b border-[var(--border)] bg-[var(--bg-page)] flex items-center justify-center"
                     aria-hidden="true"
                   >
-                    <div className="opacity-40">
-                      <DiscIcon />
-                    </div>
-                  </div>
+                    <span className="text-xs font-medium uppercase tracking-widest text-[var(--text-muted)]">
+                      Cover image — pending
+                    </span>
+                  </figure>
 
                   {/* Card body */}
                   <div className="p-5 flex flex-col flex-1">

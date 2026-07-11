@@ -5,7 +5,7 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────────────────────── */
 
-:root {
+.league-root {
   /* Surface hierarchy (always dark) */
   --surface-base:    #030712;   /* gray-950 — page background */
   --surface-card:    #111827;   /* gray-900 — cards, tables */
@@ -26,6 +26,7 @@
   --accent:        #4ade80;     /* green-400 — text, icons */
   --accent-bold:   #16a34a;     /* green-600 — primary button bg */
   --accent-hover:  #15803d;     /* green-700 — primary button hover */
+  --accent-hover-light: #86efac; /* green-300 — link hover */
   --accent-subtle: #14532d40;   /* green-900/25 — badge bg */
 
   /* Semantic colors */
@@ -322,7 +323,7 @@
   }
 
   .link-accent:hover {
-    color: #86efac; /* green-300 */
+    color: var(--accent-hover-light);
   }
 
   .link-muted {

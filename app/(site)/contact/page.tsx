@@ -29,7 +29,7 @@ export default function ContactPage() {
       <div className="bg-[var(--accent)] text-white py-14 px-4">
         <div className="mx-auto max-w-7xl">
           <h1 className="text-4xl font-bold mb-2">Contact Us</h1>
-          <p className="text-orange-100 text-lg">
+          <p className="text-white/85 text-lg">
             Get in touch with the Ultimate Frisbee Association.
           </p>
         </div>

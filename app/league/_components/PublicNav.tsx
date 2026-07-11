@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 
@@ -27,7 +28,7 @@ export default function PublicNav() {
         {/* Topbar — always visible */}
         <div className="max-w-7xl mx-auto px-4 flex items-center h-14 justify-between md:justify-center md:gap-8">
           <Link href="/league" className="shrink-0">
-            <img src="/bannerlogo.svg" alt="UFA League" className="h-10 w-auto" />
+            <Image src="/bannerlogo.svg" alt="UFA League" width={120} height={40} className="h-10 w-auto" priority />
           </Link>
 
           {/* Desktop links — hidden on mobile */}

@@ -118,9 +118,14 @@ export default function SiteNav() {
     <>
       <header
         className={[
-          "fixed top-0 left-0 right-0 z-30 transition-all duration-300",
+          "fixed top-0 left-0 right-0 z-30",
           navBg,
         ].join(" ")}
+        style={{
+          // Explicit transition list — focus rings must appear instantly, so no `outline` here
+          transition:
+            "background-color 300ms var(--ease-default), border-color 300ms var(--ease-default), box-shadow 300ms var(--ease-default)",
+        }}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
