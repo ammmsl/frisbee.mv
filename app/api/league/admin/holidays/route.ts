@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/league-db'
+import { invalidateLeagueCache } from '@/lib/league-cache'
 
 export async function GET(req: NextRequest) {
   const seasonId = req.nextUrl.searchParams.get('seasonId')
@@ -48,6 +49,7 @@ export async function POST(req: NextRequest) {
       VALUES (${season_id}, ${start_date}, ${end_date}, ${name})
       RETURNING *
     `
+    invalidateLeagueCache()
     return NextResponse.json(result[0], { status: 201 })
   } catch (e) {
     console.error(e)

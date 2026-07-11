@@ -16,8 +16,8 @@ const getActiveSeason = unstable_cache(
     `
     return rows[0] ?? null
   },
-  ['league-active-season'],
-  { tags: ['league'] }
+  ['league-active-season-id-row'],
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getTeamsWithStats = unstable_cache(
@@ -72,7 +72,7 @@ const getTeamsWithStats = unstable_cache(
     return rows
   },
   ['league-teams-stats'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 export default async function TeamsPage() {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/league-db'
+import { invalidateLeagueCache } from '@/lib/league-cache'
 
 interface BulkUpdate {
   match_id: string
@@ -39,6 +40,7 @@ export async function PATCH(req: NextRequest) {
         updated++
       }
     })
+    invalidateLeagueCache()
     return NextResponse.json({ updated })
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Database error'

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/league-db'
+import { invalidateLeagueCache } from '@/lib/league-cache'
 
 export async function DELETE(
   _req: NextRequest,
@@ -21,6 +22,7 @@ export async function DELETE(
       )
     }
 
+    invalidateLeagueCache()
     return NextResponse.json({ deleted: result[0].holiday_id })
   } catch (e) {
     console.error(e)

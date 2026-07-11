@@ -10,8 +10,8 @@ const getActiveSeason = unstable_cache(
     const rows = await sql`SELECT season_id::text FROM seasons WHERE status = 'active' LIMIT 1`
     return (rows[0]?.season_id as string) ?? null
   },
-  ['league-active-season'],
-  { tags: ['league'] }
+  ['league-active-season-id-str'],
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getSpiritLeaderboard = unstable_cache(
@@ -33,7 +33,7 @@ const getSpiritLeaderboard = unstable_cache(
     return rows
   },
   ['league-spirit'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 export default async function SpiritPage() {

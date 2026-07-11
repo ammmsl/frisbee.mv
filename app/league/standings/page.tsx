@@ -19,19 +19,19 @@ const getActiveSeason = unstable_cache(
     return rows[0] ?? null
   },
   ['league-active-season'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getCachedStandings = unstable_cache(
   getStandings,
   ['league-standings'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getCachedHistoricalStandings = unstable_cache(
   getHistoricalStandings,
   ['league-historical-standings'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 // Returns Record (not Map) so unstable_cache can serialize it with JSON.stringify
@@ -78,7 +78,7 @@ const getFormGuide = unstable_cache(
     return result
   },
   ['league-form-guide'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 function FormGuide({ form }: { form: ('W' | 'D' | 'L')[] }) {

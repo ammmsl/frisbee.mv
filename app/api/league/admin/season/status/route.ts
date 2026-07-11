@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/league-db'
+import { invalidateLeagueCache } from '@/lib/league-cache'
 
 const VALID_STATUSES = ['draft', 'active', 'complete']
 
@@ -25,6 +26,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: 'No season found' }, { status: 404 })
     }
 
+    invalidateLeagueCache()
     return NextResponse.json(result[0])
   } catch (e) {
     console.error(e)

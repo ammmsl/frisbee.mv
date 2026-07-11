@@ -60,7 +60,7 @@ const getActiveSeason = unstable_cache(
     return rows[0] ?? null
   },
   ['league-active-season'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getAllFixtures = unstable_cache(
@@ -84,7 +84,7 @@ const getAllFixtures = unstable_cache(
     ORDER BY f.kickoff_time ASC
   `,
   ['league-all-fixtures'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getTeamNames = unstable_cache(
@@ -97,7 +97,7 @@ const getTeamNames = unstable_cache(
     return rows.map((r) => r.team_name as string)
   },
   ['league-team-names'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getHolidays = unstable_cache(
@@ -111,7 +111,7 @@ const getHolidays = unstable_cache(
     ORDER BY start_date ASC
   `,
   ['league-holidays'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 // ─── Types exported for the client component ──────────────────────────────────

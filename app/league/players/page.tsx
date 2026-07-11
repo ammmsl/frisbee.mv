@@ -24,7 +24,7 @@ const getAllPlayers = unstable_cache(
     return rows
   },
   ['league-all-players'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 interface PlayerRow {

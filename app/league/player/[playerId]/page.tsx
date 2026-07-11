@@ -27,7 +27,7 @@ const getPlayer = unstable_cache(
     return rows[0] ?? null
   },
   ['league-player'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getSpiritNominationsReceived = unstable_cache(
@@ -40,7 +40,7 @@ const getSpiritNominationsReceived = unstable_cache(
     return rows[0] ? Number(rows[0].total) : 0
   },
   ['league-player-spirit'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getSeasonTotals = unstable_cache(
@@ -57,7 +57,7 @@ const getSeasonTotals = unstable_cache(
     return rows[0] ?? null
   },
   ['league-player-totals'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getMatchLog = unstable_cache(
@@ -105,13 +105,13 @@ const getMatchLog = unstable_cache(
     })
   },
   ['league-player-matchlog'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getCachedStandings = unstable_cache(
   getStandings,
   ['league-standings'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 function fmtDate(iso: string) {

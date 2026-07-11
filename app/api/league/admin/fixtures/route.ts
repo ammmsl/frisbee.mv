@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import sql from '@/lib/league-db'
+import { invalidateLeagueCache } from '@/lib/league-cache'
 
 export async function GET() {
   try {
@@ -76,6 +77,7 @@ export async function DELETE() {
     const result = await sql`
       DELETE FROM fixtures WHERE season_id = ${season[0].season_id} RETURNING match_id
     `
+    invalidateLeagueCache()
     return NextResponse.json({ deleted: result.length })
   } catch (e) {
     console.error(e)

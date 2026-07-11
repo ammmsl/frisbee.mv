@@ -16,7 +16,7 @@ const getActiveSeason = unstable_cache(
     return rows[0] ?? null
   },
   ['league-active-season'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 export type MvpRow = {
@@ -88,7 +88,7 @@ const getMvpScores = unstable_cache(
     }))
   },
   ['league-mvp-scores'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getMvpHistory = unstable_cache(
@@ -133,7 +133,7 @@ const getMvpHistory = unstable_cache(
     }))
   },
   ['league-mvp-history'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 export default async function MvpPage() {

@@ -17,8 +17,8 @@ const getActiveSeason = unstable_cache(
     `
     return rows[0] ?? null
   },
-  ['league-active-season'],
-  { tags: ['league'] }
+  ['league-active-season-with-status'],
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getNextFixtures = unstable_cache(
@@ -44,7 +44,7 @@ const getNextFixtures = unstable_cache(
     return rows
   },
   ['league-next-fixtures'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getLastResult = unstable_cache(
@@ -71,13 +71,13 @@ const getLastResult = unstable_cache(
     return rows[0] ?? null
   },
   ['league-last-result'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getCachedStandings = unstable_cache(
   getStandings,
   ['league-standings'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 function fmtKickoff(iso: string) {

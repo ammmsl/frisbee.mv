@@ -38,7 +38,7 @@ const getMatch = unstable_cache(
     return rows[0] ?? null
   },
   ['league-match'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getPlayerStats = unstable_cache(
@@ -59,7 +59,7 @@ const getPlayerStats = unstable_cache(
     return rows
   },
   ['league-match-stats'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getAbsences = unstable_cache(
@@ -77,7 +77,7 @@ const getAbsences = unstable_cache(
     return rows
   },
   ['league-match-absences'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getSpiritNominations = unstable_cache(
@@ -96,7 +96,7 @@ const getSpiritNominations = unstable_cache(
     return rows
   },
   ['league-match-nominations'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getTeamRoster = unstable_cache(
@@ -110,7 +110,7 @@ const getTeamRoster = unstable_cache(
     return rows
   },
   ['league-team-roster'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 function fmtKickoffShort(iso: string) {

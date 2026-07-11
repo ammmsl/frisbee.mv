@@ -21,7 +21,7 @@ const getTeam = unstable_cache(
     return rows[0] ?? null
   },
   ['league-team'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getRoster = unstable_cache(
@@ -42,8 +42,8 @@ const getRoster = unstable_cache(
     `
     return rows
   },
-  ['league-team-roster'],
-  { tags: ['league'] }
+  ['league-team-roster-with-stats'],
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getUpcomingFixtures = unstable_cache(
@@ -69,7 +69,7 @@ const getUpcomingFixtures = unstable_cache(
     return rows
   },
   ['league-team-upcoming'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getTeamRecord = unstable_cache(
@@ -116,7 +116,7 @@ const getTeamRecord = unstable_cache(
     return rows[0] ?? null
   },
   ['league-team-record'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getHeadToHead = unstable_cache(
@@ -167,7 +167,7 @@ const getHeadToHead = unstable_cache(
     return rows
   },
   ['league-team-h2h'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getRecentFixtures = unstable_cache(
@@ -195,13 +195,13 @@ const getRecentFixtures = unstable_cache(
     return rows
   },
   ['league-team-recent'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getCachedStandings = unstable_cache(
   getStandings,
   ['league-standings'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 function fmtKickoff(iso: string) {

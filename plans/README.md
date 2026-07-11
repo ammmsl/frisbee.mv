@@ -16,7 +16,7 @@ selection defaults to the top findings by leverage.
 
 | Plan | Title | Priority | Effort | Depends on | Status |
 |------|-------|----------|--------|------------|--------|
-| 001  | Fix league cache invalidation gaps and cache-key collisions | P1 | S | — | TODO |
+| 001  | Fix league cache invalidation gaps and cache-key collisions | P1 | S | — | DONE (2026-07-12, wave-1-correctness; 6 handlers patched, not 8 — results/[matchId] and teams/route.ts are GET-only, no writes exist) |
 | 002  | Centralize league data access into lib/league-queries.ts    | P1 | M | 001 | TODO |
 | 003  | Close the /admin proxy bypass; handler-level auth            | P1 | M | — | TODO |
 | 004  | Pickup payments server-side; stop shipping credentials       | P1 | M | — | TODO |

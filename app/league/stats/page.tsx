@@ -16,7 +16,7 @@ const getActiveSeason = unstable_cache(
     return rows[0] ?? null
   },
   ['league-active-season'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 export type StatRow = {
@@ -81,7 +81,7 @@ const getGoals = unstable_cache(
     }))
   },
   ['league-goals'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getAssists = unstable_cache(
@@ -116,7 +116,7 @@ const getAssists = unstable_cache(
     }))
   },
   ['league-assists'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getBlocks = unstable_cache(
@@ -151,7 +151,7 @@ const getBlocks = unstable_cache(
     }))
   },
   ['league-blocks'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getAppearances = unstable_cache(
@@ -184,7 +184,7 @@ const getAppearances = unstable_cache(
     }))
   },
   ['league-appearances'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 const getMatchweekHistory = unstable_cache(
@@ -231,7 +231,7 @@ const getMatchweekHistory = unstable_cache(
     }))
   },
   ['league-mw-history'],
-  { tags: ['league'] }
+  { tags: ['league'], revalidate: 300 }
 )
 
 export default async function StatsPage() {
