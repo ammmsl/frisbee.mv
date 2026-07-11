@@ -28,6 +28,15 @@ A locked, sequenced implementation route for all post-publish work — the Hallm
 - [Owner calls: publication blockers](tickets/T03-owner-calls-publication-blockers.md) — b-tb2 ships with caveat; GSP stays named; C1 folds into registration, C2 softens to "late 2024", C3–C7/C9 confirmed; only agm-finance + nq-5 need redaction
 - [News engine Research category](tickets/T04-news-schema-research-category.md) — no category field exists (NewsFilter fakes it via title regex); minimal spec = one CHECK-constrained `category` column + six touchpoints, asset `assets/T04-news-schema.md`; implement in Wave 4
 
+## Wave 1 status (2026-07-12, branch `wave-1-correctness`, unpushed)
+
+- **Package A (T04 research)** — ✅ closed; asset `assets/T04-news-schema.md`
+- **Package B (plan 001, league cache)** — ✅ done; note: only 6 of the plan's 8 handlers had writes (results/[matchId] and teams/route.ts are GET-only)
+- **Package C (plan 003, admin hardening)** — ✅ done; all gates pass
+- **Package D (plan 004, payments server-side)** — ✅ done; server env vars added to .env.local; rotation still owner-deferred
+- **Package E (Hallmark P1)** — ✅ done; #8 superseded by live labelled stats; **#22 deviation**: -9999px offscreen kept for `#draft-export-container` because html2canvas captures it live and opacity/clip-path hiding produces a blank export — added aria-hidden + pointer-events:none instead; a compliant fix needs an on-demand clone render (small follow-up)
+- **Package F (§6 amendments + T03 calls)** — ✅ done; all 18 applied; dev showcases (`app/dev-preview`, `app/_dev`) deliberately left with sample data
+
 ## Not yet specified
 
 - **Drafting the remaining 5 posts** — voice set by the two spec drafts (#1, #6); can't ticket until the section shape and sequence are locked.
