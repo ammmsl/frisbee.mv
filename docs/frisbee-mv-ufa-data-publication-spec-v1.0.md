@@ -59,7 +59,7 @@ Two hard sensitivity rules on top of the tiers:
   speakers, no verbatim.
 - **Role-tied Treasurer/President findings:** rejected — role-stripped aggregates only.
 
-Full detail: `UFA Analysis/wayfinder/assets/T04-confirmed-verdicts.md`.
+Full detail: `UFA Analysis/wayfinder/archive/publication-handoff/assets/T04-confirmed-verdicts.md`.
 
 ### Gating fixes applied (T12, 2026-07-12) — reflected in the figures below
 1. Sponsor names scrubbed from the archive pages (a-tb1, b3, oms-7) → generic "sponsorship".
@@ -75,7 +75,7 @@ Full detail: `UFA Analysis/wayfinder/assets/T04-confirmed-verdicts.md`.
 
 **57 cleared findings across 11 themes.** Posts may cite these and only these. Each keeps its
 denominator/freshness wording. Figures below are final (post T05/T06/T07/T12). Full catalogue with
-method notes: `UFA Analysis/wayfinder/assets/T01-publishable-findings-catalogue.md`.
+method notes: `UFA Analysis/wayfinder/archive/publication-handoff/assets/T01-publishable-findings-catalogue.md`.
 
 ### 3.1 Freshness resolutions baked into these figures
 - **Counts are current** (T05 nickname-overlay fold was a verified no-op): 350 people / 172 roster /
@@ -190,7 +190,7 @@ heavy visuals stay inside the linked archive report (self-contained d3, rides al
 
 **Which report pages may ship in the archive** — the T11 page clearance (post-T12): **34
 publish-as-is · 4 needs-redaction · 21 internal-only.** Full table:
-`UFA Analysis/wayfinder/assets/T11-page-clearance-list.md`.
+`UFA Analysis/wayfinder/archive/publication-handoff/assets/T11-page-clearance-list.md`.
 
 - **Publish-as-is (34):** the cleared-finding pages, incl. pb-c2/soc-4/cb-a (visitor caveat +
   two-denominator labels already on-page) and pb-g1/pb-x1/oms-7/sm-6 (cleared by the T12 fixes).
@@ -230,7 +230,7 @@ Publish order below is by *safe-and-broad first, careful-and-sensitive later*.
 squeeze (sensitive-adjacent), periphery 7.2/7.3 — the natural home of the 81–87% figure, which
 stays out of the post layer entirely.
 
-Full briefs: `UFA Analysis/wayfinder/assets/T09-post-list-and-samples.md`.
+Full briefs: `UFA Analysis/wayfinder/archive/publication-handoff/assets/T09-post-list-and-samples.md`.
 
 ---
 
@@ -239,7 +239,7 @@ Full briefs: `UFA Analysis/wayfinder/assets/T09-post-list-and-samples.md`.
 The current site (written from memory) has **18 conflicts** with the evidence. Fix these as part of
 the data-section work (or as a prior pass). 14 claims verified correct, 9 unverifiable (owner to
 confirm). Full detail with file:line refs:
-`UFA Analysis/wayfinder/assets/T02-site-amendment-list.md`.
+`UFA Analysis/wayfinder/archive/publication-handoff/assets/T02-site-amendment-list.md`.
 
 | # | Claim | Current site | Correct |
 |---|---|---|---|
