@@ -5,8 +5,6 @@ import Modal from '@/app/_components/Modal';
 import Button from '@/app/_components/Button';
 import { ADMIN_AUTH_KEY } from '../_lib/constants';
 
-const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD!;
-
 interface Props {
   onAuthenticated: () => void;
 }
@@ -18,8 +16,7 @@ export default function AdminGate({ onAuthenticated }: Props) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(ADMIN_AUTH_KEY);
-    if (stored === ADMIN_PASSWORD) {
+    if (localStorage.getItem(ADMIN_AUTH_KEY) === 'ok') {
       onAuthenticated();
     } else {
       setModalOpen(true);
@@ -27,14 +24,24 @@ export default function AdminGate({ onAuthenticated }: Props) {
     setChecked(true);
   }, [onAuthenticated]);
 
-  function handleSubmit() {
-    if (input === ADMIN_PASSWORD) {
-      localStorage.setItem(ADMIN_AUTH_KEY, input);
-      setModalOpen(false);
-      setError(false);
-      setInput('');
-      onAuthenticated();
-    } else {
+  async function handleSubmit() {
+    try {
+      const res = await fetch('/api/pickup/admin/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: input }),
+      });
+      if (res.ok) {
+        localStorage.setItem(ADMIN_AUTH_KEY, 'ok');
+        setModalOpen(false);
+        setError(false);
+        setInput('');
+        onAuthenticated();
+      } else {
+        setError(true);
+        setInput('');
+      }
+    } catch {
       setError(true);
       setInput('');
     }
