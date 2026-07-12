@@ -67,9 +67,7 @@ Applied via `[data-theme="dark"]` on a page wrapper. Reserved for `/league/*` ro
 
 ## Typography
 
-**Body font:** Inter (variable), loaded via `next/font/google` in `app/layout.tsx`. Applied as `font-[family-name:var(--font-inter)]` on `<body>`. System stack as fallback.
-
-**Display font:** Fraunces (variable serif, wght 400..900 + opsz), loaded via `next/font/google`, exposed as `--font-fraunces` → `@theme --font-display` → Tailwind `font-display` utility. **Usage discipline: hero `<h1>` and major section `<h2>` only, federation pages only.** `<h3>` and below, UI chrome, and the entire `/league` sub-site stay Inter.
+**Font:** Inter (variable), loaded via `next/font/google` in `app/layout.tsx`. Applied as `font-[family-name:var(--font-inter)]` on `<body>`. No external secondary font — system stack as fallback. (A Fraunces display serif was trialled in Hallmark Phase 2 and reverted by owner call, 2026-07-12 — the site stays single-font.)
 
 ### Size Scale
 

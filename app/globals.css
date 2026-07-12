@@ -4,11 +4,6 @@
    DESIGN TOKENS — frisbee.mv
    Single source of truth for all design decisions.
 
-   FONT DISCIPLINE — Fraunces (var(--font-fraunces), Tailwind `font-display`)
-   is used ONLY on the hero <h1> and major section <h2>s of federation pages.
-   <h3> and below, body copy, UI chrome, and the entire /league sub-site stay
-   Inter. Do not widen this.
-
    Structure:
      @theme  → Tailwind utility classes (bg-accent, text-accent-dark, etc.)
      :root   → CSS custom properties for use in component styles + JS contexts
@@ -45,9 +40,7 @@
   /* ── Typography: Font family ────────────────────────────────────────────── */
   /* Inter variable font loaded in app/layout.tsx via next/font/google          */
   /* Applied as: font-[family-name:var(--font-inter)] on <body>                 */
-  /* Fraunces variable serif (display) — Tailwind `font-display` utility.       */
-  /* Usage discipline: hero h1 + major section h2 only (see file header).       */
-  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  /* Single-font site — no display serif (owner call, 2026-07-12).              */
 
   /* ── Typography: Font sizes ─────────────────────────────────────────────── */
   --font-size-xs:   0.75rem;    /* 12px — captions, timestamps, badge labels  */

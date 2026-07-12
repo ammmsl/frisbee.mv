@@ -194,7 +194,7 @@ export default async function HomePage() {
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
           <div className="max-w-2xl">
             <h1
-              className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 tracking-tight"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 tracking-tight"
               style={{ textShadow: '0 1px 3px rgba(0,0,0,0.85), 0 4px 16px rgba(0,0,0,0.65), 0 12px 40px rgba(0,0,0,0.35)' }}
             >
               Ultimate Frisbee Association
@@ -298,7 +298,7 @@ export default async function HomePage() {
         aria-label="About UFA"
       >
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6">
             About the Federation
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-8">
@@ -321,7 +321,7 @@ export default async function HomePage() {
       <section className="py-16 px-4" aria-label="Latest news">
         <div className="mx-auto max-w-7xl">
           <div className="flex items-baseline justify-between mb-8">
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
               Latest News
             </h2>
             {latestPosts.length > 0 && (

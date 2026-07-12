@@ -40,7 +40,7 @@ A locked, sequenced implementation route for all post-publish work — the Hallm
 ## Wave 2 + 3 status (2026-07-12, branch `wave-2-3-structure-and-chrome`, unpushed)
 
 - **Wave 2 (plan 002, league query centralization)** — ✅ done; 30 loaders in `lib/league-queries.ts`, all key strings preserved, `getActiveSeason` merged under new `league-active-season-v2` key; drift check matched the expected Wave-1 baseline exactly; dead `getConsecutiveWeeks()` deleted. All plan gates pass.
-- **Wave 3 (Hallmark Phase 2 chrome)** — ✅ done; 2a–2f all applied. Deviations/calls (details in `docs/wave-2-3-report.md`):
+- **Wave 3 (Hallmark Phase 2 chrome)** — ✅ done; 2a–2f applied, then **2a (Fraunces) reverted by owner call** (2026-07-12 morning review: "the home font change is unnecessary — stick to the design tokens"). The site stays single-font Inter; Hallmark Phase 3 macros must NOT reintroduce a display serif. Other deviations/calls (details in `docs/wave-2-3-report.md`):
   - **Play dropdown flattened** — the N6 masthead carries a flat link row (About · Play · Rules · League · Pickup · News · Contact); the dropdown pattern doesn't exist in a masthead. Rules promoted to top level.
   - **lucide-react drift**: plan 2e only knew about PublicNav's Menu/X, but `FixturesCalendar.tsx` used 9 more icons. All 11 hand-rolled in `app/league/_components/icons.tsx` (same size/className API — FixturesCalendar only changed its import line); dependency dropped.
   - **--text-muted darkened** #6b7280 → #626d7b: gray-500 fell to 4.32:1 on the tinted surface; new value is 4.7:1 (AA).
