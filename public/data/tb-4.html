@@ -1,0 +1,120 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>How far has UFA professionalised, 2018 to 2026? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">TB-4</span><span class="sep">·</span><span>Maturity &amp; lifecycle</span></p>
+  <h1 class="q">How far has UFA professionalised, 2018 to 2026?</h1>
+  <p class="howto">UFA's dated formalisation milestones coded against the Dowling-Nagel professionalisation dimensions, drawn as a cumulative step chart from the 2018 informal founding to 2026.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">2018</div><div class="l">informal founding</div></div>
+  <div class="stat"><div class="n tnum">7</div><div class="l">formalisation milestones</div></div>
+  <div class="stat"><div class="n tnum">8</div><div class="l">cumulative professionalisation steps</div></div>
+  <div class="stat"><div class="n tnum">2025</div><div class="l">membership + committee year</div></div>
+</div>
+
+<div class="caveat"><b>Dated events, framework coding.</b> Every milestone is a real DB
+date; the <b>Dowling-Nagel axis</b> tags and the +step weights are our coding of the
+framework, marked <b>[ASSUMPTION]</b>. The score is an <b>ordinal trajectory</b> (how far
+along the informal&rarr;formal path), not a validated professionalisation index. UFA is
+entirely volunteer, so the <em>occupational</em> axis (volunteer&rarr;paid) stays at zero
+&mdash; that itself is a finding.</div>
+
+<div class="caveat"><b>Tracked era only.</b> The tracker starts Jan&nbsp;2024. The club was founded 28&nbsp;Sep&nbsp;2018, but 2018–~2023 was Friday-morning pickup on the free FAM Malé pitch — <b>untracked</b>. A 2018–2021 chat gap (Android→iPhone data loss) and no per-session attendance before 2024 mean every "since 2018" figure here describes the <b>2024+ tracked era</b>, not the club's full history.</div>
+
+<div class="slab">The professionalisation trajectory</div>
+<figure class="fig">
+  <div class="cap">From one WhatsApp chat to a committee &mdash; UFA's formalisation, 2018&ndash;2026</div>
+  <div class="sub">Step chart: each formalisation event lifts the cumulative score. The big
+    riser is the 2025 membership+committee jump. Flat stretches = years of
+    informal running.</div>
+  <div id="step"></div>
+</figure>
+
+<div class="slab">Milestone ledger</div>
+<div class="tbl-wrap"><table class="data">
+  <thead><tr><th>Date</th><th>Formalisation event</th><th>Dowling-Nagel axis</th><th class="num">Cum.</th><th>Detail</th></tr></thead>
+  <tbody>
+  <tr><td class="num">2018-09-28</td><td>Informal group founded (WhatsApp)</td><td>organisational</td>
+    <td class="num">1</td><td>single chat, no roles, no records &mdash; the pre-professional baseline</td></tr><tr><td class="num">2021-07-15</td><td>Structured coordination (@-mentions)</td><td>organisational</td>
+    <td class="num">2</td><td>directed callouts to organise games &mdash; first coordination system</td></tr><tr><td class="num">2024-01-05</td><td>Session records begin</td><td>systemic</td>
+    <td class="num">3</td><td>recurring sessions logged with location, cost, headcount</td></tr><tr><td class="num">2024-07-02</td><td>Financial system (ledger)</td><td>systemic</td>
+    <td class="num">4</td><td>FIFO payment ledger + surcharge accounting &mdash; formal money handling</td></tr><tr><td class="num">2024-08-09</td><td>Newcomer intake system</td><td>systemic</td>
+    <td class="num">5</td><td>first-timer onboarding tracked as a process</td></tr><tr><td class="num">2025-01-01</td><td>Membership + fee + committee</td><td>organisational</td>
+    <td class="num">7</td><td>registration, 700 MVR patronage fee, 51 members, 4-role committee &mdash; the big formalisation jump</td></tr><tr><td class="num">2026-05-18</td><td>Fee restructure + second venue</td><td>systemic</td>
+    <td class="num">8</td><td>membership set to 250 MVR + surcharge (patronage; new joiners 350 incl. a one-time 100 registration), 56 members, a second paid pitch &mdash; tuning a mature system</td></tr>
+  </tbody>
+</table></div>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>UFA spent <b>~7 years informal</b> (2018&ndash;2024) &mdash; a WhatsApp chat with @-mention coordination and no records &mdash; before any systemic formalisation. The professionalisation path started late and moved fast.</li><li>The formalisation is <b>front-loaded into 2024&ndash;2025</b>: session records, the payment ledger and newcomer intake all appeared in 2024, then membership + fee + a 4-role committee in <b>2025</b> &mdash; the single biggest step (+2).</li><li>Growth is on the <b>organisational</b> and <b>systemic</b> axes; the <b>occupational axis stays at zero</b> &mdash; UFA is 100% volunteer, no paid staff. On Dowling-Nagel it is a <b>structurally + systemically formalising, occupationally amateur</b> club.</li><li>The 2026 fee restructure (to a 250 MVR patronage price) and the second paid venue are <b>system-tuning</b>, not new formalisation &mdash; the trajectory is plateauing at a 'lightly professionalised volunteer club' level, consistent with its small scale (56 members).</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Milestones are real DB dates: informal founding (min
+<code>membership_events.date</code> = 2018-09-28); @-mention coordination (2021-07-15);
+session records (2024-01-05); payment ledger (2024-07-02); newcomer intake
+(2024-08-09); membership+fee+committee (min <code>reg_2025</code> = 2025-01-01); fee
+restructure + second venue (first 2026 Hulhumalé HDC session = 2026-05-18). Each event is coded to a
+<b>Dowling-Nagel professionalisation axis</b> (organisational / systemic / occupational)
+and given an ordinal +step (the 2025 membership+committee event = +2 as the largest jump).
+Cumulative score = running sum (8 total). <b>[ASSUMPTION]</b> axis tags and step
+weights are our framework coding, not measured; the score is an ordinal trajectory, not a
+validated index. <b>[ASSUMPTION]</b> occupational axis = 0 because the DB shows no paid
+roles (all volunteer). Corroborates OMS-1 (Greiner Direction phase) and TB's lifecycle
+placement. No individuals named. Script: <code>analysis/gC_tb4.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-02 · founded 2018 · Dowling-Nagel professionalisation</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"events":[{"date":"2018-09-28","event":"Informal group founded (WhatsApp)","axis":"organisational","step":1,"detail":"single chat, no roles, no records &mdash; the pre-professional baseline","cum":1},{"date":"2021-07-15","event":"Structured coordination (@-mentions)","axis":"organisational","step":1,"detail":"directed callouts to organise games &mdash; first coordination system","cum":2},{"date":"2024-01-05","event":"Session records begin","axis":"systemic","step":1,"detail":"recurring sessions logged with location, cost, headcount","cum":3},{"date":"2024-07-02","event":"Financial system (ledger)","axis":"systemic","step":1,"detail":"FIFO payment ledger + surcharge accounting &mdash; formal money handling","cum":4},{"date":"2024-08-09","event":"Newcomer intake system","axis":"systemic","step":1,"detail":"first-timer onboarding tracked as a process","cum":5},{"date":"2025-01-01","event":"Membership + fee + committee","axis":"organisational","step":2,"detail":"registration, 700 MVR patronage fee, 51 members, 4-role committee &mdash; the big formalisation jump","cum":7},{"date":"2026-05-18","event":"Fee restructure + second venue","axis":"systemic","step":1,"detail":"membership set to 250 MVR + surcharge (patronage; new joiners 350 incl. a one-time 100 registration), 56 members, a second paid pitch &mdash; tuning a mature system","cum":8}],"max_score":8,"axis_totals":[{"axis":"organisational","n":4},{"axis":"systemic","n":4}],"founded_year":"2018"}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  const el=document.querySelector('#step');
+  const ev=DATA.events.map(d=>({...d, t:new Date(d.date+'T00:00:00')}));
+  ev.forEach((d,i)=>{ d.lab = d.event.length>26 ? d.event.slice(0,24)+'…' : d.event; });
+  // pad the x-domain right so the last (rightmost, highest) label has room to sit
+  // start-anchored without clipping the frame; anchor the last one 'end' as a belt.
+  const last=ev[ev.length-1];
+  const t0=ev[0].t, t1=new Date('2028-06-01');
+  el.append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px',overflow:'visible'},
+    marginLeft:44,marginRight:16,marginTop:24,marginBottom:34,height:350,width:860,
+    x:{type:'time',label:null,domain:[t0,t1]},
+    y:{grid:true,label:'cumulative professionalisation',nice:true,domain:[0,DATA.max_score+1]},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      Plot.lineY(ev,{x:'t',y:'cum',curve:'step-after',stroke:'#0E7C86',strokeWidth:2}),
+      Plot.dot(ev,{x:'t',y:'cum',r:4,fill:'#0E7C86',stroke:'#fff',strokeWidth:1.5}),
+      Plot.text(ev.filter(d=>d!==last),{x:'t',y:'cum',text:'lab',dy:-12,dx:-2,textAnchor:'start',
+        fill:T.ink,fontSize:10,lineWidth:12}),
+      Plot.text([last],{x:'t',y:'cum',text:'lab',dy:-12,dx:2,textAnchor:'end',
+        fill:T.ink,fontSize:10,lineWidth:12})
+    ]
+  }));
+})();
+
+</script>
+</body>
+</html>

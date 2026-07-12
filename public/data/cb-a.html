@@ -1,0 +1,89 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>What participation trajectories do the 150 actually follow? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">CB-A</span><span class="sep">·</span><span>Periphery &amp;amp; newcomers</span></p>
+  <h1 class="q">What participation trajectories do the 150 actually follow?</h1>
+  <p class="howto">Each of the 150 played-not-on-roster people is coded to one of Wenger&#39;s five trajectories from their monthly activity sequence (play-months from the Actual-Attendees presence substrate), then funnelled by count. <b>n=150.</b></p>
+
+  <div class="stats"><div class="stat"><div class="n tnum">150</div><div class="l">played, never on the roster</div></div><div class="stat"><div class="n tnum">83%</div><div class="l">peripheral (single-touch)</div></div><div class="stat"><div class="n tnum">25</div><div class="l">durable core (insider + boundary)</div></div></div><div class="caveat"><b>Short, sparse sequences — trajectory labels are shape descriptions, not clusters.</b> The monthly play states come from the Session Input <b>&quot;Actual Attendees&quot;</b> presence substrate (<code>gS_rsvp.presence()</code>, 99.4% resolution; <code>new_players</code> fallback for the 4 never on an attendee list) plus chat linkage for talk-months; most of the 150 still have activity in <b>only one month</b>, so the "sequence" is often a single point — and that sparseness is real, not a logging artifact. Trajectory rules are <b>[ASSUMPTION]</b>-set cut-offs on sequence length, span and recency — a coarse read of Wenger&#39;s five modes, not an optimal-matching typology. Descriptive; opaque ids only.</div><div class="caveat"><b>Denominator label — this page counts the never-joined periphery.</b> Re-analysed in full on the presence substrate (2026-07-11): of the 150 who played but never joined the roster, <b>83% are purely peripheral</b> (a single active month, then gone) and ~87% played exactly once — essentially the same funnel the first-timer log gave (~84%), confirming the old figure was never a measurement artifact. The other headline, ~50% one-and-done (<a href="pb-c2.html">PB-C2</a>), uses a <i>different denominator</i>: <b>all</b> newcomers, including those who joined the roster and became regulars (median ~7 plays each). Both are correct at their own denominator; never quote one as the other.</div><figure class="fig"><div class="cap">The 150 by Wenger participation trajectory</div><div class="sub">A stacked funnel of the whole cohort — width is share of 150. Overwhelmingly peripheral, with a thin durable core. n=150.</div><div id="funnel"></div></figure><figure class="fig"><div class="cap">Monthly footprint of the 150 (played vs talk-only)</div><div class="sub">How many of the 150 show any activity each month — the periphery is a churn of one-off appearances, not a growing cohort.</div><div id="ribbon"></div></figure>
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li><b>124 of 150 (83%) are purely peripheral</b> — a single month of activity and gone. Wenger&#39;s "legitimate peripheral participation" here mostly never deepens.</li><li>A durable core of <b>25 people</b> (12 insider + 13 boundary) sustains real engagement <b>without ever joining the paying roster</b> — the club&#39;s uncounted regulars.</li><li><b>Inbound (building-up) is almost empty: 0</b>, and outbound 1 — few peripheral players are visibly moving toward or away from the centre; the pattern is touch-and-go, not a pipeline.</li><li>The monthly footprint confirms it: the periphery is a <b>rolling churn of one-off appearances</b>, not an accumulating cohort — a recruitment funnel that leaks at the very first step.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Sequence analysis of the 150 (<code>engagement=&#39;player&#39;</code>). Monthly state sequences over 2024-01…2026-06: A (played that month, from the presence substrate <code>gS_rsvp.presence()</code> — Session Input &quot;Actual Attendees&quot; person×session, 99.4% resolution, with <code>new_players</code> fallback for the 4 people never on an attendee list), T (talk-only, from message linkage), _ (absent). Each sequence is assigned a Wenger trajectory from its length, time span and recency: insider = ≥4 active months over ≥6-month span; boundary = ≥2 intermittent months spanning a gap; inbound = ≥2 months still active in the last 6; outbound = ≥2 months then lapsed; peripheral = a single touch. Rendered as a stacked-bar funnel (no d3-sankey vendored, per the shared lib rule). <b>[ASSUMPTION]</b> trajectory thresholds are analyst-set (not optimal-matching clusters); <b>[ASSUMPTION]</b> unresolved attendee names keep stable raw keys — a small bias toward single-touch sequences. Descriptive; no names emitted. Script: <code>analysis/gB_cba.py</code>. <b>[Interpretation limitation, internally verified]</b> A portion of the never-joined periphery single-touch players are short-stay visitors — travelling players and novelty drop-ins who were never convertible — so the count of genuine conversion <i>failures</i> is smaller than the peripheral share implies. The adjustment falls on the <i>count, not the rate</i> (visitors leave after one play at about the periphery's base rate). The basis is a decision-grade internal owner-coding worksheet; no figure from it is published here.</div>
+  </details>
+
+  <footer class="foot">
+    <span>re-analysed 2026-07-11 on the presence substrate · n=150 · sequence → Wenger trajectory</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"funnel":[{"traj":"peripheral","n":124,"pct":82.7,"desc":"single brief touch, never returns"},{"traj":"inbound","n":0,"pct":0.0,"desc":"building up \u2014 multiple months, still present recently"},{"traj":"insider","n":12,"pct":8.0,"desc":"sustained multi-month core over a wide span"},{"traj":"boundary","n":13,"pct":8.7,"desc":"recurring but intermittent (broker-like, spans gaps)"},{"traj":"outbound","n":1,"pct":0.7,"desc":"had a real spell, then stopped (lapsed)"}],"ribbon":[{"month":"2024-01","played":0,"talk":0},{"month":"2024-02","played":0,"talk":1},{"month":"2024-03","played":0,"talk":0},{"month":"2024-04","played":0,"talk":1},{"month":"2024-05","played":0,"talk":1},{"month":"2024-06","played":2,"talk":0},{"month":"2024-07","played":0,"talk":0},{"month":"2024-08","played":7,"talk":0},{"month":"2024-09","played":9,"talk":1},{"month":"2024-10","played":12,"talk":0},{"month":"2024-11","played":4,"talk":0},{"month":"2024-12","played":5,"talk":3},{"month":"2025-01","played":8,"talk":3},{"month":"2025-02","played":16,"talk":4},{"month":"2025-03","played":9,"talk":2},{"month":"2025-04","played":6,"talk":1},{"month":"2025-05","played":17,"talk":0},{"month":"2025-06","played":7,"talk":0},{"month":"2025-07","played":4,"talk":0},{"month":"2025-08","played":9,"talk":0},{"month":"2025-09","played":6,"talk":1},{"month":"2025-10","played":11,"talk":2},{"month":"2025-11","played":11,"talk":0},{"month":"2025-12","played":16,"talk":0},{"month":"2026-01","played":11,"talk":1},{"month":"2026-02","played":11,"talk":0},{"month":"2026-03","played":8,"talk":0},{"month":"2026-04","played":6,"talk":0},{"month":"2026-05","played":7,"talk":1},{"month":"2026-06","played":3,"talk":1}],"n":150,"pct_peripheral":82.7,"core":25}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+const el = document.querySelector('#funnel');
+const F = DATA.funnel, N = DATA.n;
+const pal = {peripheral:'#6E828A',inbound:'#3F6C8E',insider:'#0E7C86',
+             boundary:'#B07B23',outbound:'#C0492E'};
+// single stacked horizontal bar = funnel of the whole cohort
+let acc = 0;
+const seg = F.map(d=>{const x0=acc; acc+=d.n; return {...d, x0, x1:acc};});
+el.append(Plot.plot({
+  style:{background:'transparent',fontFamily:'ui-monospace,Consolas',fontSize:'12px',overflow:'visible'},
+  marginLeft:16, marginRight:16, marginTop:12, marginBottom:56, height:150,
+  x:{label:null, domain:[0,N]},
+  y:{label:null, domain:['cohort'], axis:null},
+  marks:[
+    Plot.barX(seg,{x1:'x0',x2:'x1',y:()=>'cohort',fill:d=>pal[d.traj],tip:true,
+      title:d=>`${d.traj}: ${d.n} (${d.pct}%) — ${d.desc}`, stroke:'white',strokeWidth:1}),
+    Plot.text(seg.filter(d=>d.n>=6),{x:d=>(d.x0+d.x1)/2,y:()=>'cohort',
+      text:d=>`${d.traj}`,fill:'white',fontWeight:600}),
+    Plot.text(seg.filter(d=>d.n>=6),{x:d=>(d.x0+d.x1)/2,y:()=>'cohort',dy:16,
+      text:d=>`${d.n}`,fill:'white',fontVariant:'tabular-nums'})
+  ]
+}));
+// legend row below for small segments
+const leg = document.createElement('div');
+leg.style.cssText='display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-family:ui-monospace,Consolas;font-size:12px;color:#3C525A';
+F.forEach(d=>{const s=document.createElement('span');
+  s.innerHTML=`<span style="display:inline-block;width:10px;height:10px;background:${pal[d.traj]};border-radius:2px;margin-right:5px"></span>${d.traj} <b>${d.n}</b> (${d.pct}%)`;
+  leg.append(s);});
+el.append(leg);
+
+const el2 = document.querySelector('#ribbon');
+const R = DATA.ribbon.map(d=>({...d, date:new Date(d.month+'-01T00:00:00')}));
+const long = [];
+R.forEach(d=>{long.push({date:d.date,kind:'played',v:d.played});
+              long.push({date:d.date,kind:'talk-only',v:d.talk});});
+el2.append(Plot.plot({
+  style:{background:'transparent',fontFamily:'ui-monospace,Consolas',fontSize:'12px',overflow:'visible'},
+  marginLeft:40, marginRight:16, marginBottom:34, marginTop:24, height:230,
+  x:{type:'time', label:null, nice:true},
+  y:{grid:true, label:'people active', nice:true},
+  color:{domain:['played','talk-only'], range:['#0E7C86','#B07B23'], legend:true},
+  marks:[
+    Plot.rectY(long,{x:'date',y:'v',fill:'kind',tip:true, interval:'month'}),
+    Plot.ruleY([0],{stroke:'#D8E0DE'})
+  ]
+}));
+
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>Constitution says X — what does the data show? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">OMS-5</span><span class="sep">·</span><span>Legitimacy, conflation &amp; decoupling</span></p>
+  <h1 class="q">Constitution says X — what does the data show?</h1>
+  <p class="howto">Stand the AoA's stated objectives (grassroots → national teams → international, all-atoll, schools) next to the real DB numbers: ~322 people reached, 244 tracked sessions, 89% at one core venue, all in Greater Malé. The data-anchored companion to B1.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">322</div><div class="l">people actually reached (roster 172 + periphery 150)</div></div>
+  <div class="stat"><div class="n tnum">244</div><div class="l">tracked sessions (Jan 2024 → Jun 2026)</div></div>
+  <div class="stat"><div class="n tnum">89%</div><div class="l">of sessions at one core venue (Villingili)</div></div>
+  <div class="stat"><div class="n tnum">1</div><div class="l">of ~20 atolls with tracked play — all Greater Malé</div></div>
+</div>
+
+<div class="caveat"><b>Tracked era only.</b> The tracker starts Jan&nbsp;2024. The club was founded 28&nbsp;Sep&nbsp;2018, but 2018–~2023 was Friday-morning pickup on the free FAM Malé pitch — <b>untracked</b>. A 2018–2021 chat gap (Android→iPhone data loss) and no per-session attendance before 2024 mean every "since 2018" figure here describes the <b>2024+ tracked era</b>, not the club's full history.</div>
+<div class="caveat"><b>Sources &amp; tier.</b> Coded from the organised admin archive at <b>PUBLIC + INTERNAL-aggregate</b> tier only — the Articles of Association (Dhivehi, translated), AGM 2024/2025 records, the WFDF NF application, Ministry/Council correspondence and funding proposals. No RESTRICTED data (member register, bank statements, IDs) is read; office-holders appear as <b>roles, not names</b>. AGM financials appear only as category totals. This is a document-coded institutional reading, not a statistical claim.</div>
+
+<div class="slab">Charter breadth vs data reality</div>
+<figure class="fig">
+  <div class="cap">A federation-sized mandate, a single-venue club's footprint</div>
+  <div class="sub">The <span style="color:#3F6C8E">charter</span> promises span all atolls and
+  many formats; the <span style="color:#C0492E">data</span> collapses to one core venue in
+  Greater Malé. Each pair contrasts what the AoA promises with what the tracked record shows.</div>
+  <div id="breadth"></div>
+</figure>
+
+<div class="slab">Objective by objective — says X, data shows Y</div>
+<div class="tbl-wrap"><table class="data"><thead><tr><th>Charter says (AoA)</th><th>Data shows (dist/ufa.sqlite, aggregate)</th><th class="num">Number</th></tr></thead><tbody><tr><td><b>Age-group NATIONAL TEAMS + international success</b></td><td>No standing national team in the tracked data; the reach is a recreational player base of ~322 people (roster 172 + periphery 150).</td><td class='num'>322</td></tr><tr><td><b>Development across ALL ATOLLS</b></td><td>244 tracked sessions, 89% at one core venue (Villingili); every tracked venue is in Greater Malé — 0 tracked sessions in the atolls.</td><td class='num'>89%</td></tr><tr><td><b>Grassroots pipeline into SCHOOLS</b></td><td>A fee-free junior/school member class exists in the AoA, but the tracked activity is adult pickup; school-club sessions are not visible as a tracked programme.</td><td class='num'>—</td></tr><tr><td><b>A federation spanning many venues / formats</b></td><td>One core venue carries the club; 6 venues appear but the tail is incidental (2–16 sessions each). Single-venue concentration is the operational reality.</td><td class='num'>1 of 6</td></tr></tbody></table></div>
+
+<div class="slab">Where the 244 tracked sessions actually happen</div>
+<figure class="fig">
+  <div class="cap">89% of tracked sessions are at one venue</div>
+  <div class="sub">Tracked sessions by venue (Jan 2024 → Jun 2026). The all-atoll, many-venue
+  federation of the charter is, on the tracker, one core turf plus an incidental tail.</div>
+  <div id="venues"></div>
+</figure>
+
+<div class="slab">Self-reported vs reconciled counts</div>
+<figure class="fig">
+  <div class="cap">The public numbers drift; the DB reconciles them</div>
+  <div class="sub">Members, players and sessions each take several values across the letters and
+  decks (a decoupling signal in its own right); the right column is the reconciled DB / deduped
+  figure. Counts folded through the confirmed alias map, so denominators are 350 / 172 / 150.</div>
+  <div class="tbl-wrap"><table class="data"><thead><tr><th>Figure</th><th>Self-reported across docs</th><th>Reconciled (DB / deduped)</th></tr></thead><tbody><tr><td><b>Registered / paid members</b></td><td>40+ (deck) · 50+ (field proposal) · 60 (AGM 2025) · 56 (DB member_2026)</td><td>56 (DB member_2026)</td></tr><tr><td><b>Active players</b></td><td>200+ (Ministry letter, field proposal) · 250+ (deck) · 100+ (AGM 2025 deck)</td><td>~322 reached (deduped roster 172 + periphery 150)</td></tr><tr><td><b>Sessions</b></td><td>100+ in 2024 (deck) · 200+ over 2 yrs (field proposal) · 1,780 total (AGM 2025) · 244 tracked sessions (DB)</td><td>244 tracked sessions (DB, Jan 2024→Jun 2026)</td></tr></tbody></table></div>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>The AoA reads like a <b>national federation</b> — grassroots into age-group national teams and international success, across all atolls, into schools. The DB shows a <b>single-venue pickup club</b>: ~<b>322 people</b> reached (roster 172 + periphery 150) and <b>244 tracked sessions</b> since Jan 2024.</li><li><b>One core venue carries the whole club.</b> 89% of tracked sessions are at Villingili; every one of the 6 tracked venues is in Greater Malé. Against an <b>all-atoll</b> objective, the data shows <b>zero tracked sessions</b> outside the capital region — the geographic promise is the widest data-anchored gap.</li><li><b>No standing national team appears in the data</b>, and no school-club programme is visible as tracked activity — the developmental pipeline the charter describes is not yet a measurable programme, just adult pickup plus a few tournaments. This is the same means–ends decoupling B1 codes from the text, now quantified.</li><li>The <b>self-reported counts don't agree with themselves</b>: active players are variously '200+', '250+', '100+'; members '40+/50+/60'; sessions '100+/200+/1,780'. Reconciled, the DB gives ~322 reached and 244 tracked sessions — a decoupled body reports the ceremonial figure, and the ceremonial figures don't reconcile.</li><li>[ASSUMPTION] The tracker starts Jan 2024, so the 2018–2023 free-FAM Friday-morning era is <b>outside the data</b> — 'zero atoll sessions' and '244 sessions' describe the <b>tracked era</b>, not the club's full history. Atoll introductions (Fuvahmulah/Addu) may have happened as events not captured as tracked sessions.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body"><b>Approach.</b> The data-anchored sibling of B1's policy-text audit:
+pull aggregate numbers from <code>dist/ufa.sqlite</code> and set them against the
+Articles of Association's stated objectives (grassroots → national teams →
+international; all-atoll; schools — <code>GD.EVIDENCE</code>). <b>Sessions</b>
+grouped by <code>corrections.venue()</code> over the <code>sessions</code> table
+(244 rows, Jan 2024 → Jun 2026); 89% at Villingili, all venues in
+Greater Malé. <b>People reached</b> = roster 172 + periphery 150 =
+322, from <code>corrections.COUNTS</code> (deduped via the confirmed alias
+map — never <code>select * from people</code> raw). Members from
+<code>people.member_2026</code> (aggregate count). Self-reported vs reconciled
+counts from <code>GD.SELF_REPORT_CONFLICTS</code>. DB use is <b>aggregate only</b>;
+no money, no PII, office-holders as roles. <b>Tracked-era caveat</b>: pre-2024 is
+untracked. Descriptive, not causal. Script: <code>analysis/gD_oms5.py</code>;
+substrate: <code>analysis/gD_evidence.py</code>, <code>analysis/corrections.py</code>,
+<code>dist/ufa.sqlite</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-03 · n=322 reached / 244 sessions · DB-anchored decoupling</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"reached":322,"people":350,"roster":172,"periphery":150,"n_sess":244,"top_pct":89,"top_venue":"Villingili","n_venues":6,"venues":[{"venue":"Villingili","n":218},{"venue":"Mal\u00e9 FAM Turf","n":16},{"venue":"Hulhumal\u00e9 HDC Turf","n":4},{"venue":"Hulhumal\u00e9 Rehendhi School","n":3},{"venue":"Hulhumal\u00e9 Running Track","n":2},{"venue":"Henveiru Dhandu","n":1}],"breadth":[{"label":"Atolls promised (all ~20)","v":20,"kind":"charter"},{"label":"Atolls with tracked play (Greater Mal\u00e9)","v":1,"kind":"data"},{"label":"Venue formats promised (federation)","v":6,"kind":"charter"},{"label":"Core venue carrying the club","v":1,"kind":"data"}]}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  // --- breadth: paired charter vs data bars ---
+  const el=document.querySelector('#breadth');
+  const rows=DATA.breadth.slice().reverse();
+  el.append(Plot.plot({style:{background:'transparent',fontFamily:T.mono,fontSize:'12px',overflow:'visible'},
+    marginLeft:280,marginRight:60,marginTop:12,marginBottom:34,height:230,width:820,
+    x:{grid:true,label:'count →',nice:true},
+    y:{domain:rows.map(d=>d.label),label:null},
+    marks:[
+      Plot.ruleX([0],{stroke:T.line}),
+      Plot.barX(rows,{y:'label',x:'v',fill:d=>d.kind==='charter'?'#3F6C8E':'#C0492E',insetTop:7,insetBottom:7}),
+      Plot.text(rows,{y:'label',x:'v',text:d=>d.v,dx:12,textAnchor:'start',fill:T.soft,fontVariant:'tabular-nums'})
+    ]}));
+  // --- venues: session concentration ---
+  const ve=document.querySelector('#venues');
+  const vv=DATA.venues;
+  ve.append(Plot.plot({style:{background:'transparent',fontFamily:T.mono,fontSize:'11px',overflow:'visible'},
+    marginLeft:210,marginRight:60,marginTop:12,marginBottom:34,height:230,width:820,
+    x:{grid:true,label:'tracked sessions →',nice:true},
+    y:{domain:vv.map(d=>d.venue),label:null},
+    marks:[
+      Plot.ruleX([0],{stroke:T.line}),
+      Plot.barX(vv,{y:'venue',x:'n',fill:(d,i)=>i===0?'#0E7C86':T.soft,insetTop:5,insetBottom:5}),
+      Plot.text(vv,{y:'venue',x:'n',text:d=>d.n,dx:12,textAnchor:'start',fill:T.soft,fontVariant:'tabular-nums'})
+    ]}));
+})();
+
+</script>
+</body>
+</html>

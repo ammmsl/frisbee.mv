@@ -1,0 +1,147 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>Do women play and connect less — or does the model just look that way? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">SM-5</span><span class="sep">·</span><span>Network &amp; social capital</span></p>
+  <h1 class="q">Do women play and connect less — or does the model just look that way?</h1>
+  <p class="howto">A Poisson→Negative-Binomial GLM of check-ins by gender (exposure-adjusted), plus @-mention centrality by gender. The overdispersion correction is the whole story. <b>Roster only: 112 M, 60 F.</b></p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">0.771</div><div class="l">check-in rate ratio, women ÷ men<br><span style="color:var(--muted)">NB 95% CI 0.579–1.028</span></div></div>
+  <div class="stat"><div class="n tnum">4 / 9</div><div class="l">median @-in-degree, F / M</div></div>
+  <div class="stat"><div class="n tnum">112·60</div><div class="l">roster men · women (gender known)</div></div>
+</div>
+
+<div class="caveat"><b>Roster only.</b> Gender is recorded for the 172
+roster players (112 M, 60 F); <b>178 non-roster people have no
+recorded gender</b> and are excluded from every gender chart here. Check-in counts
+are modelled with an <b>exposure offset</b> (days active) so a short-tenure player
+isn't mistaken for a low-participation one.</div>
+
+<div class="caveat"><b>Identity dedup applied.</b> A confirmed alias map collapses duplicate periphery identities (people 367→350, periphery 166→150, chat-only 29→28; roster 172 unchanged). Every confirmed pair had ≤1 half inside the @-mention graph, so the network is <b>136 nodes either way</b> and centrality is unaffected — only periphery counts move.</div>
+
+<div class="slab">The overdispersion trap</div>
+<figure class="fig">
+  <div class="cap">Same data, two models — why the Poisson CI lies</div>
+  <div class="sub">A naive Poisson GLM reports a razor-thin CI, but the data are wildly overdispersed (deviance/df = 19.1). The Negative-Binomial fit corrects this — and the "significant" gap widens into uncertainty.</div>
+  <div id="models"></div>
+  <figcaption>Poisson IRR 0.714 [0.667, 0.764]
+  vs Negative-Binomial 0.771 [0.579, 1.028] (p=0.076).
+  Trust the NB.</figcaption>
+</figure>
+
+<div class="slab">Participation rate by gender</div>
+<figure class="fig">
+  <div class="cap">Check-ins per year of active tenure</div>
+  <div class="sub">Each dot is a roster player; red tick = median. Women's median rate is 13.0 vs 20.9 for men, but the spread is large and the modelled rate ratio's CI includes parity.</div>
+  <div id="rate"></div>
+</figure>
+
+<div class="slab">Network centrality by gender</div>
+<figure class="fig">
+  <div class="cap">@-mention in-degree, roster men vs women</div>
+  <div class="sub">Attention (inbound @-mentions) among roster members who appear in the network. Men sit higher on the median, but both distributions overlap heavily.</div>
+  <div id="cen"></div>
+  <figcaption>Median in-degree 4 (F) vs
+  9 (M); Mann–Whitney p=0.062.</figcaption>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>After correcting for overdispersion, participation shows <b>no distinguishable gap</b>: women check in at a rate ratio of <b>0.771</b> vs men (Negative-Binomial 95% CI 0.579–1.028, p=0.076). The point estimate leans lower for women, but the interval includes parity.</li><li>The naive <b>Poisson model would have lied</b>: it reports IRR 0.714 with a tight CI [0.667, 0.764], but deviance/df = <b>19.1</b> (≫1) means the counts are far more variable than Poisson allows. The honest CI is roughly 4× wider — a small-n modelling caution, not a gender result.</li><li>Centrality tilts male on the median (@-in-degree 9 for men vs 4 for women, Mann–Whitney p=0.062), but the distributions overlap heavily — a lean, not a wall.</li><li>[ASSUMPTION] Gender is roster-only and binary as recorded; 178 people are excluded. Exposure = days from first_activity to last_attended (floored at 30). No causal claim — this is who plays and who is named, not why.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body"><b>Poisson GLM</b> (statsmodels) of attendance_count ~ gender with an
+<code>offset = log(exposure days)</code>, exposure = first_activity→last_attended
+(floored at 30 days). The Poisson fit is badly overdispersed (deviance/df =
+19.1), so we refit a <b>Negative-Binomial (NB2)</b> — reported as the
+honest model (estimated α=0.7); the rate ratio is exp(β_female) with
+its Wald 95% CI. <b>Centrality</b> = weighted @-mention in-degree and eigenvector on
+the roster nodes present in the graph; gender difference tested with Mann–Whitney.
+Roster only; 112 M / 60 F; 178 non-roster people excluded.
+Substrate <code>analysis/gA_graph.py</code>; script <code>analysis/gA_sm5.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-02 · roster only n=172 · Poisson/NB GLM</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"nM":112,"nF":60,"poisson_irr":0.714,"poisson_ci":[0.667,0.764],"dispersion":19.1,"nb_irr":0.771,"nb_ci":[0.579,1.028],"nb_p":0.076,"nb_alpha":0.7,"rate_points":[{"g":"F","rate":14.3},{"g":"M","rate":53.4},{"g":"F","rate":11.8},{"g":"M","rate":44.3},{"g":"M","rate":21.8},{"g":"M","rate":2.6},{"g":"M","rate":27.1},{"g":"F","rate":59.2},{"g":"M","rate":62.6},{"g":"F","rate":55.7},{"g":"M","rate":28.6},{"g":"M","rate":12.2},{"g":"M","rate":39.6},{"g":"M","rate":17.4},{"g":"F","rate":5.5},{"g":"F","rate":57.9},{"g":"F","rate":15.5},{"g":"M","rate":40.0},{"g":"F","rate":34.8},{"g":"M","rate":9.0},{"g":"M","rate":26.1},{"g":"M","rate":12.2},{"g":"M","rate":66.1},{"g":"M","rate":42.6},{"g":"M","rate":46.4},{"g":"F","rate":37.4},{"g":"M","rate":39.3},{"g":"M","rate":47.7},{"g":"M","rate":11.8},{"g":"M","rate":28.2},{"g":"M","rate":69.3},{"g":"M","rate":50.4},{"g":"F","rate":13.6},{"g":"F","rate":12.2},{"g":"M","rate":22.0},{"g":"M","rate":13.3},{"g":"F","rate":30.5},{"g":"M","rate":62.1},{"g":"M","rate":16.2},{"g":"M","rate":46.8},{"g":"M","rate":18.0},{"g":"M","rate":46.8},{"g":"M","rate":18.9},{"g":"M","rate":3.3},{"g":"M","rate":14.7},{"g":"M","rate":77.2},{"g":"M","rate":7.7},{"g":"M","rate":37.7},{"g":"M","rate":34.9},{"g":"F","rate":21.0},{"g":"F","rate":78.4},{"g":"M","rate":6.8},{"g":"M","rate":29.2},{"g":"M","rate":5.7},{"g":"M","rate":63.1},{"g":"M","rate":36.5},{"g":"F","rate":12.5},{"g":"M","rate":12.2},{"g":"M","rate":44.1},{"g":"M","rate":12.2},{"g":"F","rate":9.2},{"g":"F","rate":12.2},{"g":"M","rate":46.7},{"g":"M","rate":26.1},{"g":"M","rate":12.2},{"g":"M","rate":8.7},{"g":"M","rate":9.2},{"g":"F","rate":8.8},{"g":"F","rate":12.2},{"g":"M","rate":56.9},{"g":"M","rate":4.9},{"g":"F","rate":12.6},{"g":"M","rate":5.3},{"g":"F","rate":4.1},{"g":"M","rate":24.8},{"g":"M","rate":8.1},{"g":"M","rate":24.3},{"g":"M","rate":41.6},{"g":"M","rate":12.2},{"g":"M","rate":12.2},{"g":"F","rate":34.6},{"g":"M","rate":20.9},{"g":"F","rate":13.4},{"g":"F","rate":21.5},{"g":"M","rate":9.5},{"g":"M","rate":5.6},{"g":"F","rate":25.5},{"g":"F","rate":12.2},{"g":"M","rate":22.6},{"g":"M","rate":0.0},{"g":"F","rate":14.6},{"g":"F","rate":12.6},{"g":"F","rate":12.2},{"g":"F","rate":48.3},{"g":"F","rate":31.5},{"g":"F","rate":24.3},{"g":"M","rate":23.2},{"g":"M","rate":7.0},{"g":"M","rate":38.0},{"g":"M","rate":3.2},{"g":"M","rate":9.9},{"g":"F","rate":42.2},{"g":"F","rate":12.2},{"g":"F","rate":40.0},{"g":"M","rate":24.6},{"g":"F","rate":24.3},{"g":"M","rate":47.9},{"g":"M","rate":8.8},{"g":"F","rate":24.3},{"g":"M","rate":12.2},{"g":"M","rate":10.9},{"g":"F","rate":2.6},{"g":"F","rate":20.3},{"g":"M","rate":2.0},{"g":"M","rate":12.2},{"g":"F","rate":0.9},{"g":"M","rate":9.7},{"g":"M","rate":13.0},{"g":"M","rate":2.6},{"g":"F","rate":6.4},{"g":"M","rate":36.5},{"g":"M","rate":36.5},{"g":"F","rate":14.2},{"g":"M","rate":26.1},{"g":"M","rate":3.1},{"g":"F","rate":4.5},{"g":"F","rate":6.2},{"g":"M","rate":5.3},{"g":"F","rate":2.9},{"g":"F","rate":14.9},{"g":"M","rate":23.7},{"g":"F","rate":10.7},{"g":"F","rate":15.8},{"g":"M","rate":56.2},{"g":"M","rate":36.5},{"g":"M","rate":50.7},{"g":"M","rate":17.8},{"g":"M","rate":16.9},{"g":"M","rate":19.8},{"g":"M","rate":67.6},{"g":"M","rate":46.3},{"g":"M","rate":61.1},{"g":"F","rate":12.2},{"g":"F","rate":39.7},{"g":"F","rate":1.7},{"g":"M","rate":49.9},{"g":"M","rate":22.1},{"g":"F","rate":12.2},{"g":"F","rate":1.2},{"g":"F","rate":20.1},{"g":"F","rate":12.2},{"g":"M","rate":1.3},{"g":"F","rate":24.3},{"g":"M","rate":37.8},{"g":"F","rate":12.2},{"g":"M","rate":17.4},{"g":"M","rate":20.9},{"g":"M","rate":1.4},{"g":"F","rate":12.2},{"g":"M","rate":4.2},{"g":"M","rate":24.3},{"g":"M","rate":12.2},{"g":"M","rate":2.0},{"g":"M","rate":12.0},{"g":"M","rate":12.2},{"g":"M","rate":37.9},{"g":"M","rate":1.2},{"g":"M","rate":0.6},{"g":"M","rate":63.2},{"g":"M","rate":2.8},{"g":"F","rate":0.7},{"g":"F","rate":12.2}],"centrality":{"F":{"n":39,"indeg_med":4.0,"eig_med":0.0114},"M":{"n":71,"indeg_med":9.0,"eig_med":0.0219}},"cen_points":[{"g":"F","indeg":3,"eig":0.0109},{"g":"F","indeg":12,"eig":0.038},{"g":"F","indeg":10,"eig":0.0382},{"g":"M","indeg":1,"eig":0.0038},{"g":"F","indeg":1,"eig":0.0038},{"g":"M","indeg":10,"eig":0.0373},{"g":"M","indeg":3,"eig":0.013},{"g":"M","indeg":54,"eig":0.0488},{"g":"F","indeg":1,"eig":0.0038},{"g":"M","indeg":11,"eig":0.0134},{"g":"F","indeg":9,"eig":0.0345},{"g":"M","indeg":1,"eig":0.0038},{"g":"M","indeg":1,"eig":0.0039},{"g":"F","indeg":1,"eig":0.0038},{"g":"M","indeg":1,"eig":0.0004},{"g":"F","indeg":1,"eig":0.0038},{"g":"M","indeg":2,"eig":0.0045},{"g":"F","indeg":21,"eig":0.0772},{"g":"M","indeg":1,"eig":0.0039},{"g":"M","indeg":65,"eig":0.1817},{"g":"F","indeg":2,"eig":0.0042},{"g":"F","indeg":4,"eig":0.0121},{"g":"M","indeg":2,"eig":0.0008},{"g":"M","indeg":2,"eig":0.0055},{"g":"M","indeg":5,"eig":0.0168},{"g":"M","indeg":1,"eig":0.0038},{"g":"M","indeg":1,"eig":0.0076},{"g":"M","indeg":1,"eig":0.0038},{"g":"F","indeg":3,"eig":0.0114},{"g":"M","indeg":2,"eig":0.0087},{"g":"F","indeg":1,"eig":0.004},{"g":"F","indeg":3,"eig":0.019},{"g":"F","indeg":1,"eig":0.0038},{"g":"F","indeg":2,"eig":0.0076},{"g":"F","indeg":1,"eig":0.0038},{"g":"F","indeg":24,"eig":0.0706},{"g":"M","indeg":3,"eig":0.0116},{"g":"M","indeg":22,"eig":0.0551},{"g":"F","indeg":21,"eig":0.0829},{"g":"M","indeg":1,"eig":0.0049},{"g":"F","indeg":1,"eig":0.0038},{"g":"M","indeg":3,"eig":0.008},{"g":"F","indeg":17,"eig":0.0555},{"g":"M","indeg":72,"eig":0.2938},{"g":"M","indeg":16,"eig":0.059},{"g":"M","indeg":34,"eig":0.122},{"g":"M","indeg":24,"eig":0.0694},{"g":"M","indeg":59,"eig":0.2019},{"g":"M","indeg":4,"eig":0.0101},{"g":"F","indeg":10,"eig":0.0232},{"g":"M","indeg":15,"eig":0.0445},{"g":"M","indeg":34,"eig":0.1217},{"g":"M","indeg":23,"eig":0.0858},{"g":"F","indeg":21,"eig":0.0745},{"g":"M","indeg":7,"eig":0.0219},{"g":"M","indeg":83,"eig":0.3401},{"g":"M","indeg":39,"eig":0.0883},{"g":"F","indeg":1,"eig":0.0008},{"g":"M","indeg":5,"eig":0.0177},{"g":"M","indeg":2,"eig":0.0045},{"g":"F","indeg":24,"eig":0.0501},{"g":"M","indeg":14,"eig":0.0608},{"g":"M","indeg":47,"eig":0.2023},{"g":"M","indeg":52,"eig":0.1371},{"g":"M","indeg":80,"eig":0.2417},{"g":"M","indeg":34,"eig":0.1065},{"g":"M","indeg":17,"eig":0.0481},{"g":"M","indeg":6,"eig":0.0161},{"g":"M","indeg":2,"eig":0.0041},{"g":"M","indeg":5,"eig":0.0148},{"g":"M","indeg":90,"eig":0.3383},{"g":"M","indeg":16,"eig":0.0446},{"g":"M","indeg":14,"eig":0.0344},{"g":"M","indeg":22,"eig":0.0584},{"g":"F","indeg":21,"eig":0.0568},{"g":"F","indeg":70,"eig":0.3336},{"g":"M","indeg":12,"eig":0.0445},{"g":"M","indeg":2,"eig":0.0261},{"g":"M","indeg":60,"eig":0.4302},{"g":"M","indeg":3,"eig":0.0055},{"g":"F","indeg":5,"eig":0.0139},{"g":"M","indeg":1,"eig":0.0033},{"g":"M","indeg":43,"eig":0.0954},{"g":"F","indeg":3,"eig":0.0114},{"g":"M","indeg":18,"eig":0.1107},{"g":"M","indeg":1,"eig":0.0038},{"g":"F","indeg":4,"eig":0.0085},{"g":"M","indeg":32,"eig":0.0888},{"g":"M","indeg":10,"eig":0.0267},{"g":"F","indeg":1,"eig":0.0038},{"g":"M","indeg":1,"eig":0.0038},{"g":"F","indeg":8,"eig":0.0185},{"g":"M","indeg":4,"eig":0.0048},{"g":"M","indeg":8,"eig":0.0209},{"g":"F","indeg":1,"eig":0.0038},{"g":"F","indeg":9,"eig":0.0339},{"g":"M","indeg":2,"eig":0.0045},{"g":"F","indeg":5,"eig":0.0114},{"g":"M","indeg":14,"eig":0.0541},{"g":"M","indeg":17,"eig":0.0589},{"g":"F","indeg":2,"eig":0.0076},{"g":"M","indeg":20,"eig":0.0396},{"g":"M","indeg":55,"eig":0.1297},{"g":"M","indeg":0,"eig":0.0006},{"g":"F","indeg":3,"eig":0.0038},{"g":"F","indeg":9,"eig":0.0435},{"g":"F","indeg":9,"eig":0.0278},{"g":"M","indeg":0,"eig":0.0008},{"g":"M","indeg":5,"eig":0.0141},{"g":"M","indeg":9,"eig":0.0091}],"cen_mw_p":0.062,"median_rate_M":20.9,"median_rate_F":13.0}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+// two-model forest (rate ratio ± CI)
+const models = [
+  {m:'Poisson (naive)', irr:DATA.poisson_irr, lo:DATA.poisson_ci[0], hi:DATA.poisson_ci[1], c:'#9DAAB0'},
+  {m:'Negative-Binomial', irr:DATA.nb_irr, lo:DATA.nb_ci[0], hi:DATA.nb_ci[1], c:'#0E7C86'},
+];
+const me = document.querySelector('#models');
+me.append(Plot.plot({
+  style:{background:'transparent',fontFamily:'ui-monospace,Consolas',fontSize:'12px'},
+  marginLeft:140, marginBottom:40, height:170, width:640,
+  x:{label:'rate ratio, women ÷ men (log scale)', type:'log', domain:[0.4,1.6], grid:true, ticks:[0.5,0.7,1,1.4]},
+  y:{label:null, domain:models.map(d=>d.m)},
+  marks:[
+    Plot.ruleX([1], {stroke:'#10242B', strokeDasharray:'3,3'}),
+    Plot.ruleY(models, {y:'m', x1:'lo', x2:'hi', stroke:d=>d.c, strokeWidth:2}),
+    Plot.dot(models, {y:'m', x:'irr', r:5, fill:d=>d.c}),
+    Plot.text(models, {y:'m', x:'irr', text:d=>d.irr+' ['+d.lo+', '+d.hi+']', dy:-12, fill:'#3C525A', fontSize:11}),
+    Plot.text([{x:1}], {x:'x', y:()=>models[1].m, text:['parity'], dy:22, fill:'#6E828A', fontSize:10})
+  ]
+}));
+
+// participation rate dots by gender
+const R = DATA.rate_points;
+R.forEach((d,i)=>{ d.jy=(i%9)/9-0.5; d.grp = d.g==='F'?'women':'men'; });
+const re = document.querySelector('#rate');
+re.append(Plot.plot({
+  style:{background:'transparent',fontFamily:'ui-monospace,Consolas',fontSize:'12px'},
+  marginLeft:70, marginBottom:38, height:230, width:760,
+  x:{label:'check-ins per year of tenure →', grid:true, nice:true},
+  fy:{label:null, domain:['women','men']},
+  y:{axis:null, domain:[-0.6,0.6]},
+  color:{domain:['men','women'], range:['#3F6C8E','#B07B23']},
+  marks:[
+    Plot.dot(R, {x:'rate', y:'jy', fy:'grp', fill:'grp', r:3.2, fillOpacity:0.6}),
+    Plot.ruleX([{x:DATA.median_rate_F, grp:'women'}], {x:'x', fy:'grp', stroke:'#C0492E', strokeWidth:2}),
+    Plot.ruleX([{x:DATA.median_rate_M, grp:'men'}], {x:'x', fy:'grp', stroke:'#C0492E', strokeWidth:2})
+  ]
+}));
+
+// centrality dots by gender
+const C = DATA.cen_points;
+C.forEach((d,i)=>{ d.jy=(i%9)/9-0.5; d.grp=d.g==='F'?'women':'men'; });
+const ce = document.querySelector('#cen');
+ce.append(Plot.plot({
+  style:{background:'transparent',fontFamily:'ui-monospace,Consolas',fontSize:'12px'},
+  marginLeft:70, marginBottom:38, height:230, width:760,
+  x:{label:'weighted @-mention in-degree →', grid:true, nice:true},
+  fy:{label:null, domain:['women','men']},
+  y:{axis:null, domain:[-0.6,0.6]},
+  color:{domain:['men','women'], range:['#3F6C8E','#B07B23']},
+  marks:[
+    Plot.dot(C, {x:'indeg', y:'jy', fy:'grp', fill:'grp', r:3.2, fillOpacity:0.6}),
+    Plot.ruleX([{x:DATA.centrality.F.indeg_med, grp:'women'}], {x:'x', fy:'grp', stroke:'#C0492E', strokeWidth:2}),
+    Plot.ruleX([{x:DATA.centrality.M.indeg_med, grp:'men'}], {x:'x', fy:'grp', stroke:'#C0492E', strokeWidth:2})
+  ]
+}));
+
+</script>
+</body>
+</html>

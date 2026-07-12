@@ -1,0 +1,131 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>How does UFA's retention compare to parkrun, gyms and clubs? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">PB-C2</span><span class="sep">·</span><span>Part B — breakpoints benchmarking</span></p>
+  <h1 class="q">How does UFA's retention compare to parkrun, gyms and clubs?</h1>
+  <p class="howto">Part A's strongest retention benchmarks: parkrun's 22%-once / 76%-few-timers / 4.3%-weekly split, gym cliffs of 47%/63%/81% dropout at 3/6/12 months, ~66% gym annual retention, and the 10–30% event-turnout band. This page computes UFA's analogues from the full presence record (cohort n=307, 2024–26).</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">50%</div><div class="l">of newcomers play exactly once (parkrun once-only: 22%)</div></div>
+  <div class="stat"><div class="n tnum">30%</div><div class="l">still playing after 12 months (gyms: ~19%)</div></div>
+  <div class="stat"><div class="n tnum">64% vs 24%</div><div class="l">6-month survival with ≥4 sessions in the first 6 weeks vs below</div></div>
+  <div class="stat"><div class="n tnum">72%</div><div class="l">2025→26 membership renewal (37 of 51, +19 new)</div></div>
+</div>
+
+<div class="slab">The survival curve: a steeper cliff, then a flatter tail than gyms</div>
+<figure class="fig">
+  <div class="cap">Share of newcomers still playing after m months (cohort n=307, first seen Feb 2024+)</div>
+  <div class="sub">Gym benchmarks (Sperandei, Rio; n=5,240) lose 47% by month 3 and 81% by month 12. UFA loses <b>more</b> by month 3 — free-to-try pickup has a harder front door — but its survivors are stickier: the curves cross before month 12.</div>
+  <div id="curve"></div>
+</figure>
+
+<div class="slab">Engagement categories vs parkrun</div>
+<figure class="fig">
+  <div class="cap">Newcomer engagement distribution, UFA vs parkrun's published categories</div>
+  <div class="sub">parkrun (n=60k–223k): 22% attend exactly once, 76.4% are "few-timers" over 3 years, 4.3% become ~weekly "high maintainers". UFA's measured analogues use total sessions: once / ≤5 / ≥20. Same front-loaded shape, fatter heavy tail — a small paid community retains its converts harder than a free mass event.</div>
+  <div id="cats"></div>
+</figure>
+
+<div class="slab">Dose, cadence and turnout</div>
+<figure class="fig">
+  <div class="cap">Turnout: mean session headcount ÷ trailing-90-day playing pool, monthly</div>
+  <div class="sub">The practitioner band for engaged communities is 10–30% of the pool at any given event. UFA's median is 24% on a twice-weekly cadence — at the top of the band, twice a week.</div>
+  <div id="turnout"></div>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li><b>The front door is the leak, exactly as the periphery reports say:</b> 50% of 307 newcomers played exactly once and 72% five times or fewer. This all-newcomer figure sits below SOC-4/CB-A's ~81–87% because those pages count only the periphery who <i>never joined the roster</i>, whereas this cohort also includes the newcomers who converted to regulars (median ~7 plays). It is a denominator difference, not a substrate one — SOC-4/CB-A are now re-analysed in full (2026-07-11) on the same Actual-Attendees presence substrate this page uses, and periphery repeat-play barely moves (13% vs 14% played 2+ on the old first-timer log). Both figures are correct at their own denominator.</li><li><b>Against gyms, UFA trades a harder entry for a stickier core:</b> survival is 37% at 3 months (gyms ~53%) but 30% at 12 (gyms ~19%). That is the parkrun pattern from Part A — free/cheap entry produces front-loaded attrition, and whoever converts becomes far more durable than a gym member.</li><li><b>The habit-dose threshold replicates behaviourally:</b> newcomers reaching ≥4 sessions in their first 6 weeks survive to 6 months at 64% vs 24% below the dose (n=52/207) — the Kaushal & Rhodes gym-habit dose, visible in pickup data. Selection and causation are confounded (keen people both attend early and stay), so this is a screening marker, not a lever, until tested.</li><li><b>Membership renewal is strong:</b> 37 of 51 first-year members renewed (72%) plus 19 new joiners — against the ~66% commercial-gym annual retention benchmark, and despite the fee dropping 700→250 (the renewal decision was made <i>at</i> the cheaper price; see OMS-13).</li><li><b>Turnout runs at the top of the engaged band:</b> a median 24% of the trailing-90-day pool shows up to any given session, twice a week — versus the 10–30% single-event heuristic for engaged communities. On cadence UFA is already at Part A's 'natural rhythm' (weekly-plus), which the habit literature says is the regime where routines consolidate.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Cohort = persons first seen after 2024-02-01 in the presence substrate
+(<code>gS_rsvp.presence()</code>: Session Input "Actual Attendees" resolved at
+99.4%, deduped, 307 people) — the opening 2024 wave is
+excluded as left-truncated incumbents. <b>Survival beyond m months</b> = last presence ≥ first
+presence + m months, computed only over people with ≥m months of possible follow-up (curve stops
+when n&lt;40). Being "alive" is retrospective (a later return revives a person), which slightly
+flatters the tail vs a gym-contract definition — the gym comparison is directional. Engagement
+categories are total session counts (once / ≤5 / ≥20) against parkrun's published once/few/high
+categories (different windows; shape comparison, not a like-for-like rate). Dose = ≥4
+presences within 42 days of first session (Kaushal & Rhodes: 4×/week × 6 weeks in gyms; pickup
+caps at 2/week, so the analogue is ~a third of their dose). Turnout = monthly mean
+<code>real_pax</code> ÷ distinct players in the trailing 90 days. Renewal from
+<code>member_2025/member_2026</code> flags. All aggregates, dedup applied, no names.
+Script <code>analysis/gP_c2.py</code>. <b>[Interpretation limitation, internally verified]</b> A portion of the newcomers who play exactly once are short-stay visitors — travelling players and novelty drop-ins who were never convertible — so the count of genuine conversion <i>failures</i> is smaller than the one-and-done share implies. The adjustment falls on the <i>count, not the rate</i> (visitors leave after one play at about the base rate). The basis is a decision-grade internal owner-coding worksheet; no figure from it is published here.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-04 · cohort 307 · 12-mo survival 30% · renewal 72%</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"curve":[{"m":1,"s":0.418,"n":304},{"m":2,"s":0.389,"n":298},{"m":3,"s":0.367,"n":289},{"m":4,"s":0.348,"n":279},{"m":5,"s":0.322,"n":270},{"m":6,"s":0.32,"n":259},{"m":7,"s":0.318,"n":242},{"m":8,"s":0.317,"n":227},{"m":9,"s":0.321,"n":218},{"m":10,"s":0.286,"n":213},{"m":11,"s":0.289,"n":204},{"m":12,"s":0.298,"n":198},{"m":13,"s":0.285,"n":193},{"m":14,"s":0.299,"n":174},{"m":15,"s":0.304,"n":168},{"m":16,"s":0.304,"n":158},{"m":17,"s":0.317,"n":142},{"m":18,"s":0.336,"n":128},{"m":19,"s":0.311,"n":122},{"m":20,"s":0.31,"n":113},{"m":21,"s":0.29,"n":100},{"m":22,"s":0.287,"n":87},{"m":23,"s":0.29,"n":62},{"m":24,"s":0.271,"n":48}],"gym":[{"m":3,"s":0.53},{"m":6,"s":0.37},{"m":12,"s":0.19}],"cohort_n":307,"cats":{"once":0.505,"few":0.717,"heavy":0.13},"parkrun":{"once":0.22,"few":0.764,"heavy":0.043},"dose":{"thr":4,"hi_n":52,"hi_s":0.635,"lo_n":207,"lo_s":0.242},"turnout":[{"month":"2024-01","v":0.426},{"month":"2024-02","v":0.414},{"month":"2024-03","v":0.355},{"month":"2024-04","v":0.285},{"month":"2024-05","v":0.284},{"month":"2024-06","v":0.277},{"month":"2024-07","v":0.341},{"month":"2024-08","v":0.277},{"month":"2024-09","v":0.271},{"month":"2024-10","v":0.186},{"month":"2024-11","v":0.194},{"month":"2024-12","v":0.235},{"month":"2025-01","v":0.278},{"month":"2025-02","v":0.214},{"month":"2025-03","v":0.237},{"month":"2025-04","v":0.225},{"month":"2025-05","v":0.214},{"month":"2025-06","v":0.212},{"month":"2025-07","v":0.188},{"month":"2025-08","v":0.245},{"month":"2025-09","v":0.297},{"month":"2025-10","v":0.252},{"month":"2025-11","v":0.211},{"month":"2025-12","v":0.204},{"month":"2026-01","v":0.227},{"month":"2026-02","v":0.244},{"month":"2026-03","v":0.243},{"month":"2026-04","v":0.258},{"month":"2026-05","v":0.222},{"month":"2026-06","v":0.256}],"turnout_med":0.244,"renewal":{"m25":51,"m26":56,"renewed":37,"rate":0.725}}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  document.querySelector('#curve').append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:44,marginBottom:36,height:280,width:840,
+    x:{label:'months since first session',domain:[0,Math.max(...DATA.curve.map(d=>d.m))]},
+    y:{grid:true,label:'still playing',tickFormat:'.0%',domain:[0,1]},
+    color:{domain:['UFA newcomers','gym benchmark'],range:['#0E7C86','#9A9A9A'],legend:true},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      Plot.lineY(DATA.curve,{x:'m',y:'s',stroke:()=>'UFA newcomers',strokeWidth:2}),
+      Plot.dot(DATA.curve,{x:'m',y:'s',fill:()=>'UFA newcomers',r:2}),
+      Plot.lineY(DATA.gym,{x:'m',y:'s',stroke:()=>'gym benchmark',strokeWidth:1.5,strokeDasharray:'5,3'}),
+      Plot.dot(DATA.gym,{x:'m',y:'s',fill:()=>'gym benchmark',r:3}),
+      Plot.text(DATA.gym,{x:'m',y:'s',text:d=>(d.s*100)+'%',dy:-8,fontSize:10,fill:T.muted})
+    ]
+  }));
+  const cats=[];
+  [['played once','once'],['≤5 sessions ("few-timers")','few'],['≥20 sessions ("high")','heavy']].forEach(([lab,k])=>{
+    cats.push({cat:lab, who:'UFA', v:DATA.cats[k]});
+    cats.push({cat:lab, who:'parkrun', v:DATA.parkrun[k]});
+  });
+  document.querySelector('#cats').append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:44,marginBottom:34,height:250,width:840,
+    x:{label:null}, y:{grid:true,label:'share of newcomers',tickFormat:'.0%',domain:[0,0.9]},
+    color:{domain:['UFA','parkrun'],range:['#0E7C86','#9A9A9A'],legend:true},
+    fx:{label:null},
+    marks:[Plot.ruleY([0],{stroke:T.line}),
+           Plot.barY(cats,{x:'who',y:'v',fill:'who',fx:'cat'}),
+           Plot.text(cats,{x:'who',y:'v',fx:'cat',text:d=>(d.v*100).toFixed(1)+'%',dy:-6,fontSize:10,fill:T.muted})]
+  }));
+  const tu = DATA.turnout.map(d=>({...d, t:new Date(d.month+'-15T00:00:00')}));
+  document.querySelector('#turnout').append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:44,marginBottom:34,height:250,width:840,
+    x:{label:null,type:'time'},
+    y:{grid:true,label:'mean session ÷ 90-day pool',tickFormat:'.0%',domain:[0,0.55]},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      Plot.rectY([{y1:0.10,y2:0.30}],{y1:'y1',y2:'y2',x1:()=>tu[0].t,x2:()=>tu[tu.length-1].t,fill:'#0E7C86',fillOpacity:0.07}),
+      Plot.lineY(tu,{x:'t',y:'v',stroke:'#0E7C86',strokeWidth:1.5}),
+      Plot.dot(tu,{x:'t',y:'v',fill:'#0E7C86',r:2.5})
+    ]
+  }));
+})();
+
+</script>
+</body>
+</html>

@@ -72,7 +72,6 @@ const THEMES: { theme: string; reports: Report[] }[] = [
     theme: 'Network',
     reports: [
       { slug: 'nq-2', title: 'Does the @-mention network split into admin and play?' },
-      { slug: 'oms-15', title: 'Does informal power match formal authority?' },
       { slug: 'nq-5', title: 'Is the played-not-on-roster crowd a real periphery — or off the map?' },
     ],
   },
@@ -83,7 +82,6 @@ const THEMES: { theme: string; reports: Report[] }[] = [
       { slug: 'oms-16', title: 'Where does UFA sit on the Kitchen-Table → Board-led continuum?' },
       { slug: 'b1', title: "Where does UFA's formal policy decouple from practice?" },
       { slug: 'tb-3', title: 'How does UFA score on a good-governance self-audit?' },
-      { slug: 'b-tb1', title: 'Is UFA a developer or a regulator of the sport?' },
       { slug: 'b3', title: 'How does UFA respond to competing institutional demands?' },
       { slug: 'cb-b', title: "Is UFA's shared turf a well-governed commons?" },
       { slug: 'a-tb1', title: 'SPLISS-lite — which success pillars does UFA actually have?' },

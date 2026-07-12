@@ -1,0 +1,130 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>Where is UFA on Greiner's growth curve, and what breaks next? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">OMS-1</span><span class="sep">·</span><span>Maturity &amp; lifecycle</span></p>
+  <h1 class="q">Where is UFA on Greiner's growth curve, and what breaks next?</h1>
+  <p class="howto">UFA's dated milestones (2018&ndash;2026) mapped onto Greiner's five growth phases, to place the club today and name the next predicted management crisis.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">2018</div><div class="l">founded (WhatsApp group)</div></div>
+  <div class="stat"><div class="n tnum">2</div><div class="l">Greiner phase now (Direction)</div></div>
+  <div class="stat"><div class="n tnum">244</div><div class="l">sessions logged to date</div></div>
+  <div class="stat"><div class="n tnum">4</div><div class="l">committee roles</div></div>
+</div>
+
+<div class="caveat"><b>Framework reasoning, grounded in dated data.</b> Every milestone is
+a real DB date (WhatsApp group 2018-09-28; sessions from 2024-01-05; payment ledger
+2024-07-02; membership/fee 2025-01-01; second venue 2026-05-18). Phase boundaries
+and the crisis forecast are our <b>interpretation</b> of Greiner's model, not measured
+facts &mdash; treat the forecast as a reactable hypothesis, not a prediction.</div>
+
+<div class="caveat"><b>Tracked era only.</b> The tracker starts Jan&nbsp;2024. The club was founded 28&nbsp;Sep&nbsp;2018, but 2018–~2023 was Friday-morning pickup on the free FAM Malé pitch — <b>untracked</b>. A 2018–2021 chat gap (Android→iPhone data loss) and no per-session attendance before 2024 mean every "since 2018" figure here describes the <b>2024+ tracked era</b>, not the club's full history.</div>
+
+<div class="caveat"><b>The venue cadence is the recent era only.</b> The DB's
+evening-Villingili rhythm dates from 2024; the club's first ~6 years (2018–~2023)
+were Friday-morning pickup on the free FAM Malé pitch (untracked). So the growth
+curve below is anchored on a 2018 founding but its <em>operational</em> texture
+begins in 2024.</div>
+
+<div class="slab">The growth timeline</div>
+<figure class="fig">
+  <div class="cap">UFA on Greiner's growth curve, 2018&ndash;2026</div>
+  <div class="sub">Dated milestones on a timeline; coloured bands are Greiner phases. UFA has
+    passed <b>Creativity</b> and sits in a late <b>Direction</b> phase &mdash; approaching
+    the crisis of <b>autonomy</b>.</div>
+  <div id="timeline"></div>
+</figure>
+
+<div class="slab">Phase-by-phase reading</div>
+<div class="tbl-wrap"><table class="data">
+  <thead><tr><th>Phase</th><th>Window</th><th>State</th><th>Ends in crisis of</th><th>What the data shows</th></tr></thead>
+  <tbody>
+  <tr><td><b>1 Creativity</b></td><td class="num">2018-09&ndash;2024-01</td>
+    <td>passed</td><td>Leadership</td><td>Founders organise play informally via one chat; growth by enthusiasm, no formal roles. Ends when ad-hoc coordination can't scale.</td></tr><tr><td><b>2 Direction</b></td><td class="num">2024-01&ndash;2026-06</td>
+    <td>current</td><td>Autonomy</td><td>A small committee (President + Treasurer) directs: session scheduling, a payment ledger, membership, a set fee. Efficient but founder-centric.</td></tr><tr><td><b>3 Delegation</b></td><td class="num">2026-06&ndash;2028-01</td>
+    <td>predicted</td><td>Control</td><td>Predicted next phase: delegating admin (multiple treasurers/venue leads) as volume outgrows one pair of hands.</td></tr>
+  </tbody>
+</table></div>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>UFA has cleanly traversed Greiner <b>Phase 1 (Creativity)</b> &mdash; informal WhatsApp-organised play from 2018 &mdash; into <b>Phase 2 (Direction)</b>, marked by the 2024 session logging and 2024-07 payment ledger: a small committee now <em>directs</em> operations.</li><li>The Phase-1&rarr;2 transition resolved a <b>crisis of leadership</b>: the 2025 move to a <b>4-role committee + a set fee</b> (51 members) is exactly the professional-management response Greiner predicts.</li><li>UFA is now in a <b>late Direction</b> phase and founder-centric &mdash; run day-to-day by President + Treasurer, all records held by one role. The <b>next predicted crisis is AUTONOMY</b>: as sessions and money scale, mid-level organisers come to need decision rights the current structure doesn't grant.</li><li>The 2026 fee restructure (to a 250 MVR patronage price) and the second paid venue are <b>Direction-phase fine-tuning</b>, not a phase change &mdash; they optimise the existing centralised model rather than delegate it. Watch for a move to multiple venue/finance leads as the autonomy tell.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Milestones are real DB dates: WhatsApp group created (min
+<code>membership_events.date</code> = 2018-09-28); first @-mention coordination
+(2021-07-15); first logged session (2024-01-05); payment/ledger start
+(2024-07-02); newcomer intake (2024-08-09); membership + fee
+(min <code>reg_2025</code> = 2025-01-01); second paid venue (first 2026 Hulhumalé
+HDC session = 2026-05-18). Scale figures: 51/56 members 2025/2026,
+244 sessions, 172 roster, 4 committee roles. <b>Greiner's
+model</b> (1972, 5 phases each ending in a crisis) supplies the frame; the phase
+assignment and the <b>autonomy-crisis forecast</b> are our reasoning, marked
+<b>[ASSUMPTION]</b> &mdash; a reactable hypothesis, not a measured prediction. The
+"founder-centric" read is corroborated by OMS-2/OMS-3 (admin + records concentrated on
+President/Treasurer). No individuals named. Script: <code>analysis/gC_oms1.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-02 · founded 2018 · Greiner (1972) 5-phase model</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"milestones":[{"date":"2018-09-28","label":"WhatsApp group founded","note":"informal play organised in one chat","phase":"Creativity"},{"date":"2021-07-15","label":"@-mention coordination","note":"directed callouts to organise games (first @ mention)","phase":"Creativity"},{"date":"2024-01-05","label":"Sessions logged","note":"structured, recurring session records begin","phase":"Direction"},{"date":"2024-07-02","label":"Payment tracking","note":"field-cost ledger + surcharge accounting begins","phase":"Direction"},{"date":"2024-08-09","label":"Newcomer intake tracked","note":"first-timer onboarding recorded","phase":"Direction"},{"date":"2025-01-01","label":"Membership + fee (committee)","note":"700 MVR patronage fee, 51 members, 4-role committee formalised","phase":"Direction"},{"date":"2026-05-18","label":"Fee restructure + second venue","note":"membership set to 250 MVR + surcharge (patronage; new joiners 350 incl. a one-time 100 registration), 56 members; play extended to a second paid pitch (Hulhumal\u00e9 futsal)","phase":"Direction"}],"phases":[{"phase":"1 Creativity","start":"2018-09-28","end":"2024-01-05","crisis":"Leadership","state":"passed","desc":"Founders organise play informally via one chat; growth by enthusiasm, no formal roles. Ends when ad-hoc coordination can't scale."},{"phase":"2 Direction","start":"2024-01-05","end":"2026-06-30","crisis":"Autonomy","state":"current","desc":"A small committee (President + Treasurer) directs: session scheduling, a payment ledger, membership, a set fee. Efficient but founder-centric."},{"phase":"3 Delegation","start":"2026-06-30","end":"2028-01-01","crisis":"Control","state":"predicted","desc":"Predicted next phase: delegating admin (multiple treasurers/venue leads) as volume outgrows one pair of hands."}],"founding_year":"2018","cutoff":"2026-06-30"}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  const el=document.querySelector('#timeline');
+  const ms=DATA.milestones.map(d=>({...d, t:new Date(d.date+'T00:00:00')}));
+  const ph=DATA.phases.map(d=>({...d, x1:new Date(d.start+'T00:00:00'), x2:new Date(d.end+'T00:00:00')}));
+  const band=['#DCEEEC','#F6EDD9','#F6E2DB'];
+  // padded domain so first/last labels don't jam the frame; the axis already shows
+  // the years, so we drop the redundant per-milestone year sub-label.
+  const t0=new Date('2017-10-01'), t1=new Date('2028-09-01');
+  // lane-pack labels: milestones within MINGAP of a lane's last use get the next lane
+  // (2 above, 2 below) so the clustered 2024–25 events never overlap.
+  const MINGAP=(t1-t0)/9;
+  const laneY=[1.1,-1.1,1.8,-1.8], laneLast=[-1e18,-1e18,-1e18,-1e18];
+  ms.forEach(d=>{ let k=0; for(;k<laneY.length;k++){ if(d.t-laneLast[k]>=MINGAP) break; } if(k>=laneY.length)k=ms.indexOf(d)%laneY.length; d.y=laneY[k]; laneLast[k]=d.t; });
+  el.append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px',overflow:'visible'},
+    marginLeft:16,marginRight:16,marginTop:46,marginBottom:26,height:350,width:860,
+    x:{type:'time',label:null,grid:false,domain:[t0,t1]},
+    y:{axis:null,domain:[-2.7,2.7]},
+    marks:[
+      Plot.rect(ph,{x1:'x1',x2:'x2',y1:-2.7,y2:2.7,fill:(d,i)=>band[i%3],fillOpacity:0.55}),
+      Plot.text(ph,{x:d=>new Date((d.x1.getTime()+d.x2.getTime())/2),y:2.5,
+        text:d=>d.phase+(d.state==='current'?' (now)':d.state==='predicted'?' (next)':''),
+        fill:T.soft,fontWeight:600,fontSize:11}),
+      Plot.text(ph,{x:d=>new Date((d.x1.getTime()+d.x2.getTime())/2),y:2.26,
+        text:d=>'crisis: '+d.crisis,fill:'#C0492E',fontSize:10}),
+      Plot.ruleY([0],{stroke:T.ink,strokeWidth:1.5}),
+      Plot.ruleX(ms,{x:'t',y1:0,y2:d=>d.y*0.78,stroke:T.line}),
+      Plot.dot(ms,{x:'t',y:0,r:4,fill:'#0E7C86',stroke:'#fff',strokeWidth:1.5}),
+      Plot.text(ms,{x:'t',y:d=>d.y,text:'label',fill:T.ink,fontWeight:600,
+        textAnchor:'middle',lineWidth:9,dy:d=>d.y>0?-2:2})
+    ]
+  }));
+})();
+
+</script>
+</body>
+</html>

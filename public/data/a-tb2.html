@@ -1,0 +1,109 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>Does admin load per member rise as the club grows? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">A-TB2</span><span class="sep">·</span><span>Key-person risk &amp; load</span></p>
+  <h1 class="q">Does admin load per member rise as the club grows?</h1>
+  <p class="howto">Admin actions ÷ active members, quarter by quarter — a flat line means coordination scales cleanly; a rising line is a diseconomy of scale. Plus an HHI of who does the admin. <b>10 quarters.</b></p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">4.2</div><div class="l">effective admins<br><span style="color:var(--muted)">of 34 who ever acted · HHI 0.235</span></div></div>
+  <div class="stat"><div class="n tnum">43→81</div><div class="l">active members / quarter (the growth)</div></div>
+  <div class="stat"><div class="n tnum">0.265→0.214</div><div class="l">admin actions per member, early → late</div></div>
+</div>
+
+<div class="caveat"><b>Small-n, 10 quarters.</b> "Active members" is
+distinct check-in persons per quarter — available only from <b>2024-Q1</b>, so the
+window is 10 quarters. "Admin actions" = all membership-event
+rows (added/removed/left/changed-number). A per-member ratio over ~10 points is a
+<b>shape, not an effect</b>: read the direction, not the decimals. HHI is over the
+34 people who took any admin action since 2024.</div>
+
+<div class="caveat"><b>Identity dedup applied.</b> A confirmed alias map collapses duplicate periphery identities (people 367→350, periphery 166→150, chat-only 29→28; roster 172 unchanged). Every confirmed pair had ≤1 half inside the @-mention graph, so the network is <b>136 nodes either way</b> and centrality is unaffected — only periphery counts move.</div>
+
+<div class="slab">Does per-member admin load rise with size?</div>
+<figure class="fig">
+  <div class="cap">Admin actions per active member, by quarter</div>
+  <div class="sub">If coordination scaled cleanly this line would be flat; a rising line is a diseconomy of scale. Active-member count (the club's size) shown faintly for context.</div>
+  <div id="load"></div>
+  <figcaption>Trend: Spearman &rho; = <b>-0.224</b> (p=0.533),
+  OLS slope <b>-0.0112</b> actions/member per quarter (p=0.519).</figcaption>
+</figure>
+
+<div class="slab">How few hands do the admin</div>
+<figure class="fig">
+  <div class="cap">Herfindahl concentration of admin actions</div>
+  <div class="sub">HHI = &Sigma; share². 1/HHI is the "effective number" of admins — as if that many people split the work equally.</div>
+  <div class="stats">
+    <div class="stat"><div class="n tnum">0.235</div><div class="l">HHI (raw)</div></div>
+    <div class="stat"><div class="n tnum">0.212</div><div class="l">HHI (normalised 0–1)</div></div>
+    <div class="stat"><div class="n tnum">4.2</div><div class="l">effective admins (1/HHI)</div></div>
+  </div>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>The club grew from <b>43</b> to <b>81</b> active members/quarter (OLS +2.78/qtr, p=0.02) — a real scaling test over 10 quarters.</li><li>Per-member admin load <b>does not clearly rise</b> over the window: early 0.265 → late 0.214 actions/member, Spearman &rho;=-0.224 (p=0.533). On this short series the per-member cost is <b>not clearly rising</b> — the club is absorbing growth without a proportional admin blow-up, at least so far.</li><li>But the work is done by very few hands: HHI <b>0.235</b> means an effective <b>4.2</b> admins carry all roster maintenance, out of 34 who ever acted. The scale risk is <em>concentration</em>, not yet <em>volume</em>.</li><li>[ASSUMPTION] All membership-event actions count as admin load (including 'removed' bulk cleanups). Excluding removals would smooth the 2025-Q1 spike but not change the flat/low per-member trend or the HHI story.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body"><b>Load per member</b> = membership-event actions in a quarter ÷
+distinct check-in persons that quarter. Window = 2024-Q1 … latest, the span where
+the attendance denominator exists (10 quarters). Trend tested
+with Spearman &rho; (rank, robust to the short series) and an OLS slope for
+magnitude. <b>HHI</b> = &Sigma;(actor share of actions)² over the 34
+distinct admin actors since 2024; 1/HHI = effective number of admins; normalised
+HHI rescales to [0,1]. Growth confirmed by an OLS slope on active-members. No
+causal claim — this is a descriptive scale-vs-load shape on a small series.
+Script <code>analysis/gA_atb2.py</code> (uses <code>membership_events</code>,
+<code>attendance</code>; substrate not required here).</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-02 · 10 quarters · membership_events ÷ attendance · HHI</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"series":[{"qtr":"2024-Q1","active":43,"actions":16,"load":0.3721},{"qtr":"2024-Q2","active":58,"actions":14,"load":0.2414},{"qtr":"2024-Q3","active":77,"actions":14,"load":0.1818},{"qtr":"2024-Q4","active":61,"actions":13,"load":0.2131},{"qtr":"2025-Q1","active":72,"actions":48,"load":0.6667},{"qtr":"2025-Q2","active":62,"actions":16,"load":0.2581},{"qtr":"2025-Q3","active":69,"actions":17,"load":0.2464},{"qtr":"2025-Q4","active":81,"actions":21,"load":0.2593},{"qtr":"2026-Q1","active":80,"actions":13,"load":0.1625},{"qtr":"2026-Q2","active":73,"actions":16,"load":0.2192}],"hhi":0.235,"hhi_norm":0.212,"n_effective_admins":4.2,"n_actors":34,"spearman_rho":-0.224,"spearman_p":0.533,"ols_slope":-0.0112,"ols_p":0.519,"growth_slope":2.78,"growth_p":0.02,"early_load":0.265,"late_load":0.214,"n_quarters":10,"peak_active":81,"min_active":43}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+const el = document.querySelector('#load');
+const S = DATA.series;
+S.forEach((d,i)=>{ d.i=i; });
+const maxLoad = Math.max(...S.map(d=>d.load));
+const maxAct = Math.max(...S.map(d=>d.active));
+// scale active onto the load axis for a faint context line
+S.forEach(d=> d.active_scaled = d.active/maxAct*maxLoad);
+el.append(Plot.plot({
+  style:{background:'transparent',fontFamily:'ui-monospace,Consolas',fontSize:'12px'},
+  marginLeft:52, marginBottom:48, marginRight:60, height:340, width:760,
+  x:{label:null, tickRotate:-40, domain:S.map(d=>d.qtr)},
+  y:{label:'admin actions / active member', grid:true, nice:true},
+  marks:[
+    Plot.ruleY([0],{stroke:'#D8E0DE'}),
+    Plot.lineY(S,{x:'qtr',y:'active_scaled', stroke:'#9DAAB0', strokeWidth:1.25, strokeDasharray:'3,3', curve:'monotone-x'}),
+    Plot.text([S[S.length-1]],{x:'qtr',y:'active_scaled', text:['club size →'], dx:4, dy:-6, fill:'#9DAAB0', fontSize:10, textAnchor:'end'}),
+    Plot.lineY(S,{x:'qtr',y:'load', stroke:'#0E7C86', strokeWidth:2, curve:'monotone-x'}),
+    Plot.dot(S,{x:'qtr',y:'load', fill:'#0E7C86', r:3}),
+    Plot.text([S[S.length-1]],{x:'qtr',y:'load', text:['load/member'], dx:4, fill:'#0E7C86', fontSize:11, textAnchor:'end', dy:-8})
+  ]
+}));
+
+</script>
+</body>
+</html>

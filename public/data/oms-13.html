@@ -1,0 +1,136 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>The fee cut as a rationing signal — read against the AGM books — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">OMS-13</span><span class="sep">·</span><span>Structural design — cognitive-offload &amp; buffering</span></p>
+  <h1 class="q">The fee cut as a rationing signal — read against the AGM books</h1>
+  <p class="howto">UFA cut membership <b>700→350</b> (2025→2026). With the org-wide AGM books now in hand — <b>debt-free surplus</b>, field booking a pass-through — the cut is not financial necessity. It is a <b>demand-side rationing / patronage lever</b>: a flat 700 over-rationed the low-attendance member; the cut widens access while non-member surcharges rise. The fee is a governance choice, not cost recovery.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">50%</div><div class="l">membership cut, 700 → 350 (2025→2026)</div></div>
+  <div class="stat"><div class="n tnum">Rf 19,566 (US$1,271)</div><div class="l">2025 surplus — <b>debt-free</b>, so not a distress cut</div></div>
+  <div class="stat"><div class="n tnum">15 → 25</div><div class="l">non-member surcharge <b>rose</b> as the fee fell (MVR/session)</div></div>
+  <div class="stat"><div class="n tnum">Rf 63,425 (US$4,119)</div><div class="l">field pass-through — the real cost driver, not the fee</div></div>
+</div>
+
+<div class="caveat"><b>Org-wide, INTERNAL-aggregate.</b> These are AGM 2025 category totals (MVR), the authoritative org-wide picture from 2025 on — distinct from the pickup field-booking slice in <code>ufa.sqlite</code> that OMS-6/OMS-12 analyse. The association closed 2025 <b>debt-free with a surplus</b>; solvency is not at risk. Field booking is a pass-through (income≈expense).</div>
+
+<div class="caveat"><b>Not necessity — a rationing choice.</b> With the org-wide AGM
+2025 books in hand, the fee cut cannot be a solvency move: the association closed
+2025 <b>debt-free with a ~Rf 19,566 (US$1,271) surplus</b>, and the field booking that
+drives cost is a <b>pass-through</b> (income ≈ expense ≈ Rf 63,425 (US$4,119)) that the
+membership fee neither funds nor tracks. The surplus comes from membership +
+sponsorship, not from pricing play. So 700→350 is a <b>demand-side rationing /
+patronage lever set by governance</b>: a flat 700 over-rationed the low-attendance
+member; the cut widens the entry gate while the <b>non-member surcharge rises</b>
+(15→25 MVR/session), moving the load from the joining price to per-use.</div>
+
+<div class="slab">Two prices, two signals — and neither is the cost</div>
+<figure class="fig">
+  <div class="cap">The entry fee fell while the per-player field cost rose</div>
+  <div class="sub">Bars are the <b>membership entry price</b> per era (700 in 2025; 350 new / 250
+  renewing in 2026). The dashed line is the <b>per-player field cost</b> — the real driver —
+  which <em>rose</em> ~34 → ~46 MVR/session even as the fee was cut. A cost-recovery fee would
+  track the line up; UFA cut the fee <b>away</b> from cost. The fee is a rationing signal, not a price of play.</div>
+  <div id="fees"></div>
+</figure>
+
+<div class="slab">Where the money actually comes from</div>
+<figure class="fig">
+  <div class="cap">The surplus is membership + sponsorship; field play is cost-neutral</div>
+  <div class="sub">2025 org-wide income Rf 165,475 (US$10,745) vs expense
+  Rf 145,909 (US$9,475). The field pass-through (Rf 63,425 (US$4,119)) cancels on both sides,
+  so <b>pickup play is ~cost-neutral</b>; the surplus is carried by membership dues
+  (Rf 34,800 (US$2,260)) and sponsorship (Rf 26,100 (US$1,695)). The membership fee is a
+  patronage contribution to that surplus, free to be set for access — not to recover field cost.</div>
+  <div id="src"></div>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>The 700→350 cut (<b>50%</b>) is <b>not financial necessity</b>: the org closed 2025 <b>debt-free with a ~Rf 19,566 (US$1,271) surplus</b>, and the cost driver — field booking — is a <b>pass-through</b> (Rf 63,425 (US$4,119), income≈expense) the fee never funded. Solvency is not the reason the price moved.</li><li>It is a <b>demand-side rationing lever</b>. A flat 700 <b>over-rationed</b> the low-attendance member — a steep entry price for a few sessions a year suppresses casual access. Halving it <b>widens the gate</b> to exactly those members, a deliberate access choice by the AGM.</li><li>The load shifted from the <b>joining price to per-use</b>: as the fee fell, the <b>non-member surcharge rose</b> (15→25 MVR/session) and a member surcharge appeared (0→10). UFA is rationing on <em>use</em>, not on entry — cheaper to belong, more to pay-as-you-play as a non-member.</li><li>The fee is <b>decoupled from cost</b> in direction: per-player field cost <em>rose</em> ~34→~46 MVR/session while the fee was <em>cut</em>. A cost-recovery fee would have risen with the line; UFA moved it the opposite way — confirming it is a signal about <b>who to nudge in</b>, not a price of the resource.</li><li>[ASSUMPTION] 'Over-rationing' is inferred from the flat-fee structure + the attendance distribution (most members play few sessions; see OMS-6), not from a stated demand curve. The reading is that the fee is a <b>governance-set access lever</b>, softening OMS-12's runway framing: with a debt-free surplus, the cut is affordable by design, not forced.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body"><b>Lens.</b> Read the membership fee as a <b>rationing signal</b> (a demand-side
+access price), not a cost-recovery number — following the patronage framing of OMS-6. Inputs:
+the AGM-set 3-era pricing (<code>corrections.PRICING</code>: 2025 membership 700 = 100 reg + 600;
+2026 membership 250 renewing / 350 new; surcharge member 0→10 / non-member
+15→25) and the org-wide AGM 2025 finances (<code>gE_events.FIN25</code>: income
+Rf 165,475 (US$10,745), expense Rf 145,909 (US$9,475), <b>debt-free surplus</b>
+Rf 19,566 (US$1,271), field booking a pass-through Rf 63,425 (US$4,119)). Two charts reuse the OMS-6
+money-chart idiom: the entry-fee bars against a dashed per-player-field-cost line (~34→~46), and
+an income/expense pass-through view. The argument is structural: a solvent org that cuts its
+entry fee while raising per-use surcharge is rationing demand, not recovering cost. <b>Sources</b>:
+INTERNAL-aggregate AGM finance category totals + AGM-set pricing; the pickup-slice DB
+(OMS-6/12) is <em>not</em> the org-wide picture. Money at ~15.4 MVR/US$. No individuals named.
+Descriptive, not causal. Script: <code>analysis/gE_oms13.py</code>; substrate:
+<code>analysis/gE_events.py</code>, <code>analysis/corrections.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>coded 2026-07-03 · fee as rationing signal · aggregate finance + AGM pricing</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"fee2025":700,"fee_new":350,"fee_renew":250,"cut":350,"cut_pct":50,"sur_gap25":15,"sur_gap26":15,"sur_n25":15,"sur_n26":25,"field":63425,"field_usd":4119,"surplus":19566,"surplus_usd":1271,"membership":34800,"sponsorship":26100,"income":165475,"expense":145909,"fees":[{"era":"2025","entry":700,"per_player":34,"sur_m":0,"sur_n":15},{"era":"2026 (new)","entry":350,"per_player":46,"sur_m":10,"sur_n":25},{"era":"2026 (renew)","entry":250,"per_player":46,"sur_m":10,"sur_n":25}]}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  // ── fee bars vs per-player field-cost line ──
+  const el=document.querySelector('#fees');
+  const F=DATA.fees.map(d=>({...d}));
+  const col={'2025':'#B07B23','2026 (new)':'#C0492E','2026 (renew)':'#2E7D5B'};
+  el.append(Plot.plot({style:{background:'transparent',fontFamily:T.mono,fontSize:'12px',overflow:'visible'},
+    marginLeft:52,marginRight:120,marginTop:16,marginBottom:34,height:320,width:820,
+    x:{domain:F.map(d=>d.era),label:null},
+    y:{grid:true,label:'MVR',nice:true,domain:[0,760]},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      Plot.barY(F,{x:'era',y:'entry',fill:d=>col[d.era],fillOpacity:0.9}),
+      Plot.text(F,{x:'era',y:'entry',text:d=>d.entry,dy:-8,fill:T.soft,fontVariant:'tabular-nums'}),
+      Plot.line(F,{x:'era',y:'per_player',stroke:'#0E7C86',strokeWidth:1.9,strokeDasharray:'4,3'}),
+      Plot.dot(F,{x:'era',y:'per_player',r:4,fill:'#0E7C86',stroke:'#fff',strokeWidth:1.3}),
+      Plot.text([F[F.length-1]],{x:'era',y:'per_player',text:['per-player field cost'],dx:8,dy:-2,textAnchor:'start',fill:'#0E7C86',fontWeight:600})
+    ]}));
+  // ── income vs expense pass-through ──
+  const el2=document.querySelector('#src');
+  const rows=[
+    {side:'income',cat:'Field (pass-through)',v:DATA.field},
+    {side:'income',cat:'Membership + sponsorship + other',v:DATA.income-DATA.field},
+    {side:'expense',cat:'Field (pass-through)',v:DATA.field},
+    {side:'expense',cat:'Events / equipment / other',v:DATA.expense-DATA.field},
+  ];
+  const c2={'Field (pass-through)':'#B0B7B5','Membership + sponsorship + other':'#0E7C86','Events / equipment / other':'#C0492E'};
+  el2.append(Plot.plot({style:{background:'transparent',fontFamily:T.mono,fontSize:'12px',overflow:'visible'},
+    marginLeft:64,marginRight:16,marginTop:16,marginBottom:34,height:260,width:820,
+    x:{domain:['income','expense'],label:null},
+    y:{grid:true,label:'MVR',nice:true,tickFormat:s=>s>=1000?(s/1000)+'k':s},
+    color:{domain:Object.keys(c2),range:Object.values(c2)},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      Plot.barY(rows,{x:'side',y:'v',fill:'cat',fillOpacity:0.9,order:c2&&null}),
+      Plot.text([{side:'income',y:DATA.income}],{x:'side',y:'y',text:['income'],dy:-10,fill:T.soft}),
+      Plot.text([{side:'expense',y:DATA.expense}],{x:'side',y:'y',text:['expense'],dy:-10,fill:T.soft})
+    ]}));
+})();
+
+</script>
+</body>
+</html>

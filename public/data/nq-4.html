@@ -1,0 +1,118 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>Does the second (HDC futsal) venue bridge or split the club? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">NQ-4</span><span class="sep">·</span><span>Network &amp; social capital</span></p>
+  <h1 class="q">Does the second (HDC futsal) venue bridge or split the club?</h1>
+  <p class="howto">A Feld foci projection over <b>venues</b> (not the DB's fictional session category): pitches linked by the people who play at both. If the small Hulhumalé futsal venue is mostly the same people as the Villingili core, it bridges; if exclusive, it splits. <b>n=172; HDC has only 4 sessions.</b></p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">31</div><div class="l">people at the Hulhumalé HDC Turf</div></div>
+  <div class="stat"><div class="n tnum">97%</div><div class="l">of them also play the Villingili core</div></div>
+  <div class="stat"><div class="n tnum">1</div><div class="l">play <b>only</b> at HDC futsal</div></div>
+</div>
+
+<div class="caveat"><b>Venue, not "format".</b> The tracker records all sessions
+alike; the DB's session-category field is an artifact of <em>venue</em>, not a
+real product. The 4 HDC futsal sessions are themselves
+split across 2 different category tags — same pitch, arbitrary tags. So the real Feld foci are
+the <b>venues</b>, and the
+question is whether the smaller Hulhumalé futsal pitch pulls in a separate crowd
+or just relocates the core. Co-attendance is over the 172 people
+with per-session check-ins (roster); the 150 played-not-on-roster
+have no per-session rows and cannot enter a co-attendance projection.</div>
+
+<div class="slab">Venues as a co-attendance graph</div>
+<figure class="fig">
+  <div class="cap">Venues, linked by shared attendees</div>
+  <div class="sub">Each node is a venue (a Feld focus); edge width = number of people who play at both. The satellite venues cluster tightly around Villingili — the same people, a different pitch.</div>
+  <div id="fnet"></div>
+</figure>
+
+<div class="slab">Bridge or separate clique?</div>
+<figure class="fig">
+  <div class="cap">Integration of each venue with the Villingili core</div>
+  <div class="sub">"Also core" = share of a venue's attendees who also play at Villingili. "Exclusive" = play only at that venue. A bridging venue shares its people with the core; a splitting one would be mostly exclusive.</div>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>Venue</th><th class="num">Sessions</th><th class="num">Attendees</th><th class="num">Also play Villingili</th><th class="num">Exclusive to it</th></tr></thead>
+    <tbody><tr><td>Villingili</td><td class='num'>218</td><td class='num'>171</td><td class='num'>171 (100%)</td><td class='num'>102 (60%)</td></tr><tr><td>Malé FAM Turf</td><td class='num'>16</td><td class='num'>51</td><td class='num'>51 (100%)</td><td class='num'>0 (0%)</td></tr><tr><td>Hulhumalé HDC Turf</td><td class='num'>4</td><td class='num'>31</td><td class='num'>30 (97%)</td><td class='num'>1 (3%)</td></tr><tr><td>Hulhumalé Running Track</td><td class='num'>2</td><td class='num'>28</td><td class='num'>28 (100%)</td><td class='num'>0 (0%)</td></tr><tr><td>Hulhumalé Rehendhi School</td><td class='num'>3</td><td class='num'>26</td><td class='num'>26 (100%)</td><td class='num'>0 (0%)</td></tr><tr><td>Henveiru Dhandu</td><td class='num'>1</td><td class='num'>6</td><td class='num'>6 (100%)</td><td class='num'>0 (0%)</td></tr></tbody>
+  </table></div>
+  <figcaption>Every satellite venue is ≈100% shared with the core; the HDC futsal
+  pitch is <b>97%</b> shared — it <b>bridges</b>.</figcaption>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>The Hulhumalé HDC futsal venue <b>bridges</b> the community, not splits it: <b>30 of 31</b> HDC players (97%) also play the Villingili core, and only <b>1</b> plays at HDC exclusively. The second venue is <b>the same core on a smaller pitch</b>, not a breakaway group.</li><li>There is no separate “format” to bridge or split — the 4 HDC sessions are the same pickup game at a futsal-sized pitch, split across 2 different category tags in the DB. On Feld's logic a shared new focus bridges only if it mixes otherwise-separate people; here it re-mixes insiders.</li><li>Structurally the club is <b>one co-attending community around Villingili</b> (218 sessions): every satellite venue — FAM Malé, the two other Hulhumalé pitches, Henveiru — draws ≈100% from the same core. There is no venue-defined sub-community.</li><li>[ASSUMPTION] HDC futsal has only 4 recorded sessions, so this is a direction, not a rate — no null test is meaningful at this n. Re-run once the Mon/Thu HDC slot has more sessions to confirm it keeps drawing the core rather than recruiting a separate futsal crowd.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Bipartite people×venue graph from <code>attendance ⋈ sessions</code>,
+projected onto the venue side (edge weight = shared attendees; overlap also by
+Jaccard). Venues are normalised from the messy <code>location</code> strings
+(<code>analysis/corrections.py</code>). <b>Bridging</b> = share of a venue's
+attendees who also play the Villingili core (integration) vs the share exclusive
+to it (separation). We deliberately do <em>not</em> facet by the DB's session
+category — it is a venue artifact (CORRECTIONS.md §1), not a behavioural
+category. n=172 people with per-session rows; the
+HDC futsal venue has only 4 sessions, so this is descriptive
+early signal, not an estimate. Script <code>analysis/gA_nq4.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-03 · n=172 · venue projection · HDC 4 sessions</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"venues":[{"venue":"Villingili","n":171,"sessions":218,"also_core":171,"core_share":1.0,"exclusive":102,"excl_share":0.596},{"venue":"Mal\u00e9 FAM Turf","n":51,"sessions":16,"also_core":51,"core_share":1.0,"exclusive":0,"excl_share":0.0},{"venue":"Hulhumal\u00e9 HDC Turf","n":31,"sessions":4,"also_core":30,"core_share":0.968,"exclusive":1,"excl_share":0.032},{"venue":"Hulhumal\u00e9 Running Track","n":28,"sessions":2,"also_core":28,"core_share":1.0,"exclusive":0,"excl_share":0.0},{"venue":"Hulhumal\u00e9 Rehendhi School","n":26,"sessions":3,"also_core":26,"core_share":1.0,"exclusive":0,"excl_share":0.0},{"venue":"Henveiru Dhandu","n":6,"sessions":1,"also_core":6,"core_share":1.0,"exclusive":0,"excl_share":0.0}],"overlap":[{"f1":"Henveiru Dhandu","f2":"Hulhumal\u00e9 HDC Turf","shared":0,"jaccard":0.0},{"f1":"Henveiru Dhandu","f2":"Hulhumal\u00e9 Rehendhi School","shared":2,"jaccard":0.067},{"f1":"Henveiru Dhandu","f2":"Hulhumal\u00e9 Running Track","shared":2,"jaccard":0.062},{"f1":"Henveiru Dhandu","f2":"Mal\u00e9 FAM Turf","shared":2,"jaccard":0.036},{"f1":"Henveiru Dhandu","f2":"Villingili","shared":6,"jaccard":0.035},{"f1":"Hulhumal\u00e9 HDC Turf","f2":"Hulhumal\u00e9 Rehendhi School","shared":15,"jaccard":0.357},{"f1":"Hulhumal\u00e9 HDC Turf","f2":"Hulhumal\u00e9 Running Track","shared":14,"jaccard":0.311},{"f1":"Hulhumal\u00e9 HDC Turf","f2":"Mal\u00e9 FAM Turf","shared":22,"jaccard":0.367},{"f1":"Hulhumal\u00e9 HDC Turf","f2":"Villingili","shared":30,"jaccard":0.174},{"f1":"Hulhumal\u00e9 Rehendhi School","f2":"Hulhumal\u00e9 Running Track","shared":12,"jaccard":0.286},{"f1":"Hulhumal\u00e9 Rehendhi School","f2":"Mal\u00e9 FAM Turf","shared":24,"jaccard":0.453},{"f1":"Hulhumal\u00e9 Rehendhi School","f2":"Villingili","shared":26,"jaccard":0.152},{"f1":"Hulhumal\u00e9 Running Track","f2":"Mal\u00e9 FAM Turf","shared":20,"jaccard":0.339},{"f1":"Hulhumal\u00e9 Running Track","f2":"Villingili","shared":28,"jaccard":0.164},{"f1":"Mal\u00e9 FAM Turf","f2":"Villingili","shared":51,"jaccard":0.298}],"vnet":{"nodes":[{"id":"Henveiru Dhandu","group":"other","label":"Henveiru Dhandu","size":6},{"id":"Hulhumal\u00e9 HDC Turf","group":"hdc","label":"Hulhumal\u00e9 HDC Turf","size":31},{"id":"Hulhumal\u00e9 Rehendhi School","group":"other","label":"Hulhumal\u00e9 Rehendhi School","size":26},{"id":"Hulhumal\u00e9 Running Track","group":"other","label":"Hulhumal\u00e9 Running Track","size":28},{"id":"Mal\u00e9 FAM Turf","group":"other","label":"Mal\u00e9 FAM Turf","size":51},{"id":"Villingili","group":"core","label":"Villingili","size":171}],"links":[{"source":"Henveiru Dhandu","target":"Hulhumal\u00e9 Rehendhi School","value":2},{"source":"Henveiru Dhandu","target":"Hulhumal\u00e9 Running Track","value":2},{"source":"Henveiru Dhandu","target":"Mal\u00e9 FAM Turf","value":2},{"source":"Henveiru Dhandu","target":"Villingili","value":6},{"source":"Hulhumal\u00e9 HDC Turf","target":"Hulhumal\u00e9 Rehendhi School","value":15},{"source":"Hulhumal\u00e9 HDC Turf","target":"Hulhumal\u00e9 Running Track","value":14},{"source":"Hulhumal\u00e9 HDC Turf","target":"Mal\u00e9 FAM Turf","value":22},{"source":"Hulhumal\u00e9 HDC Turf","target":"Villingili","value":30},{"source":"Hulhumal\u00e9 Rehendhi School","target":"Hulhumal\u00e9 Running Track","value":12},{"source":"Hulhumal\u00e9 Rehendhi School","target":"Mal\u00e9 FAM Turf","value":24},{"source":"Hulhumal\u00e9 Rehendhi School","target":"Villingili","value":26},{"source":"Hulhumal\u00e9 Running Track","target":"Mal\u00e9 FAM Turf","value":20},{"source":"Hulhumal\u00e9 Running Track","target":"Villingili","value":28},{"source":"Mal\u00e9 FAM Turf","target":"Villingili","value":51}]},"hdc":"Hulhumal\u00e9 HDC Turf","hdc_n":31,"hdc_core":30,"hdc_share":0.968,"hdc_only":1,"hdc_sessions":4,"hdc_tag_note":"split across 2 different category tags","core_venue":"Villingili","core_sessions":218,"n_attendees":172,"periphery":150}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+// venue co-attendance graph (few nodes -> label all, size by attendee count)
+const fnet = DATA.vnet;
+const box = document.querySelector('#fnet');
+box.innerHTML=''; box.classList.add('plot');
+const w = Math.min(box.clientWidth||640, 720), h=440;
+const color = {core:'#0E7C86', hdc:'#C0492E', other:'#B07B23'};
+const nodes = fnet.nodes.map(d=>Object.assign({}, d, {r: 8 + Math.sqrt(d.size)*1.3}));
+const links = fnet.links.map(d=>Object.assign({}, d));
+const svg = d3.create('svg').attr('width',w).attr('height',h).attr('viewBox',[0,0,w,h]).attr('style','max-width:100%;height:auto;font-family:ui-monospace,Consolas');
+const maxv = Math.max(...links.map(d=>d.value));
+const sim = d3.forceSimulation(nodes)
+  .force('link', d3.forceLink(links).id(d=>d.id).distance(d=>140 - 90*d.value/maxv).strength(0.4))
+  .force('charge', d3.forceManyBody().strength(-620))
+  .force('center', d3.forceCenter(w/2,h/2))
+  .force('collide', d3.forceCollide().radius(d=>d.r+24));
+const link = svg.append('g').attr('stroke','#B9C6C2').selectAll('line').data(links).join('line')
+  .attr('stroke-width', d=>1+6*d.value/maxv).attr('stroke-opacity',0.6);
+link.append('title').text(d=>d.value+' shared attendees');  // edge count on hover, not as clutter
+const node = svg.append('g').attr('stroke','#fff').attr('stroke-width',1.5).selectAll('circle').data(nodes).join('circle')
+  .attr('r',d=>d.r).attr('fill',d=>color[d.group]);
+node.append('title').text(d=>d.label+' — '+d.size+' attendees');
+const lab = svg.append('g').attr('fill','#10242B').attr('font-size',11).attr('font-weight',600)
+  .attr('paint-order','stroke').attr('stroke','#fff').attr('stroke-width',3).attr('stroke-linejoin','round')
+  .selectAll('text').data(nodes).join('text').attr('text-anchor','middle').attr('dy',d=>-d.r-5).text(d=>d.label);
+sim.on('tick',()=>{
+  link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+  node.attr('cx',d=>d.x).attr('cy',d=>d.y);
+  lab.attr('x',d=>d.x).attr('y',d=>d.y);
+});
+box.append(svg.node());
+
+</script>
+</body>
+</html>

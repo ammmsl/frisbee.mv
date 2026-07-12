@@ -1,0 +1,123 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>How does UFA compare to other emerging sports at the same early size? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">B-TB2</span><span class="sep">·</span><span>Maturity &amp; lifecycle</span></p>
+  <h1 class="q">How does UFA compare to other emerging sports at the same early size?</h1>
+  <p class="howto">A comparator placing UFA against well-known flying-disc and emerging-sport bodies at their equivalent early stage &mdash; members, formalisation age, fee model, governance &mdash; and UFA's spot on the emerging-sport lifecycle curve. Comparator figures are approximate general knowledge.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">2018</div><div class="l">UFA founded (informal)</div></div>
+  <div class="stat"><div class="n tnum">56</div><div class="l">UFA members (2026)</div></div>
+  <div class="stat"><div class="n tnum">7 yr</div><div class="l">informal before formalising</div></div>
+  <div class="stat"><div class="n tnum">3/5</div><div class="l">lifecycle stage (formalising club)</div></div>
+</div>
+
+<div class="caveat"><b>Comparators are general-knowledge approximations, not researched
+figures.</b> Only UFA's row is measured (from the DB). Every comparator figure marked
+<span style="color:#B07B23">[≈]</span> is an approximate public recollection &mdash; treat
+this as a <b>reactable placement</b>, not a precise benchmark. Each body is described at its
+<b>early / small-scale stage</b> for a fair comparison to UFA's current size; several are
+now far larger. No web research was performed.</div>
+
+<div class="slab">Where UFA sits on the emerging-sport curve</div>
+<figure class="fig">
+  <div class="cap">Emerging-sport lifecycle &mdash; UFA's placement</div>
+  <div class="sub">A five-stage informal&rarr;professional curve. UFA is a
+    <b>formalising single-city club</b> (stage 3): past grassroots, not yet a federation.</div>
+  <div id="curve"></div>
+</figure>
+
+<div class="slab">Comparator table</div>
+<div class="tbl-wrap"><table class="data">
+  <thead><tr><th>Body</th><th>Founded</th><th>Early size</th><th>Formalisation</th>
+    <th>Fee model</th><th>Governance</th><th>Lifecycle stage</th></tr></thead>
+  <tbody>
+  <tr style="background:var(--accent-wash)">
+    <td><b>UFA (Maldives) — this club</b></td><td>2018</td><td>~56 members / 172 roster</td>
+    <td>7 yrs informal, formal 2025</td><td>250 MVR membership/yr (new joiners +100 one-time reg = 350) [patronage]</td><td>4-role volunteer committee</td>
+    <td>Formalising club (single-city)</td></tr><tr>
+    <td><b>UPA / USA Ultimate (early)</b></td><td>1979</td><td>hundreds of members (early); now ~60k+</td>
+    <td>founded already as a members' assoc.</td><td>low annual dues (single-digit USD early) <span style="color:#B07B23">[≈]</span></td><td>volunteer board -> professional staff (later)</td>
+    <td>National federation (matured from grassroots)</td></tr><tr>
+    <td><b>UK Ultimate</b></td><td>1980s</td><td>small national base early; low thousands now</td>
+    <td>national body layered over local clubs</td><td>modest membership fee (tens of GBP) <span style="color:#B07B23">[≈]</span></td><td>volunteer-led national association</td>
+    <td>National federation (volunteer-heavy)</td></tr><tr>
+    <td><b>US Quidditch / USQ</b></td><td>2007–2010</td><td>grassroots college teams; a few thousand at peak</td>
+    <td>formalised fast, then contracted / rebranded</td><td>team + player dues (tens of USD) <span style="color:#B07B23">[≈]</span></td><td>nonprofit board; folded 2023 (merged)</td>
+    <td>Rose then declined — cautionary curve</td></tr><tr>
+    <td><b>WFTDA (roller derby)</b></td><td>2004</td><td>member leagues, not individuals; hundreds of leagues</td>
+    <td>grassroots-federated from early on</td><td>league membership dues <span style="color:#B07B23">[≈]</span></td><td>member-league democratic federation</td>
+    <td>Grassroots federation (member-owned)</td></tr>
+  </tbody>
+</table></div>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>UFA is a <b>formalising single-city club</b> (stage 3 of 5) &mdash; well past informal grassroots, but far from the national-federation stage where UPA/USA Ultimate, UK Ultimate and WFTDA sit.</li><li>Its ~56-member scale matches these bodies' <b>earliest years</b>, not their mature size &mdash; the fair comparison is to their founding decade, when they too were volunteer-run with modest dues.</li><li>UFA's <b>7-year informal runway</b> (2018&rarr;2025) before formalising is longer than the fast-formalising modern bodies (USQ formalised within a few years) &mdash; closer to the slow, organic ultimate/roller-derby pattern.</li><li>The <b>USQ cautionary curve</b> (rapid rise then contraction/merger) is the relevant risk: emerging sports that formalise faster than their base can sustain decline. UFA's slower, membership-funded path looks more like the durable volunteer-federation model. <span style="color:#B07B23">[≈] all comparator claims approximate.</span></li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">UFA's row is measured from the DB: founded 2018 (min
+<code>membership_events.date</code>), 56 members_2026, 172 roster, formalised
+2025 (first <code>reg_2025</code>), 250 MVR patronage fee. Comparators (UPA/USA Ultimate, UK
+Ultimate, US Quidditch/USQ, WFTDA roller derby) are described from <b>general knowledge at
+their early/small-scale stage</b> &mdash; <b>no web research</b> was performed, as
+instructed. Every comparator figure is an approximation marked
+<span style="color:#B07B23">[≈]</span> / <b>[ASSUMPTION]</b>; the exercise is a reactable
+lifecycle <b>placement</b>, not a precise benchmark. The 5-stage curve (informal grassroots
+&rarr; local club &rarr; formalising club &rarr; national federation &rarr; professional
+body) is our simplification of the emerging-sport professionalisation literature.
+<b>[ASSUMPTION]</b> UFA = stage 3. No individuals named. Script: <code>analysis/gC_btb2.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-02 · UFA founded 2018 · comparator (general knowledge, approximate)</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"rows":[{"body":"UFA (Maldives) \u2014 this club","founded":"2018","size":"~56 members / 172 roster","formal_age":"7 yrs informal, formal 2025","fee":"250 MVR membership/yr (new joiners +100 one-time reg = 350) [patronage]","gov":"4-role volunteer committee","stage":"Formalising club (single-city)","assume":""},{"body":"UPA / USA Ultimate (early)","founded":"1979","size":"hundreds of members (early); now ~60k+","formal_age":"founded already as a members' assoc.","fee":"low annual dues (single-digit USD early) [ASSUMPTION]","gov":"volunteer board -> professional staff (later)","stage":"National federation (matured from grassroots)","assume":"[ASSUMPTION] early size/dues approximate"},{"body":"UK Ultimate","founded":"1980s","size":"small national base early; low thousands now","formal_age":"national body layered over local clubs","fee":"modest membership fee (tens of GBP) [ASSUMPTION]","gov":"volunteer-led national association","stage":"National federation (volunteer-heavy)","assume":"[ASSUMPTION] figures approximate"},{"body":"US Quidditch / USQ","founded":"2007\u20132010","size":"grassroots college teams; a few thousand at peak","formal_age":"formalised fast, then contracted / rebranded","fee":"team + player dues (tens of USD) [ASSUMPTION]","gov":"nonprofit board; folded 2023 (merged)","stage":"Rose then declined \u2014 cautionary curve","assume":"[ASSUMPTION] figures approximate"},{"body":"WFTDA (roller derby)","founded":"2004","size":"member leagues, not individuals; hundreds of leagues","formal_age":"grassroots-federated from early on","fee":"league membership dues [ASSUMPTION]","gov":"member-league democratic federation","stage":"Grassroots federation (member-owned)","assume":"[ASSUMPTION] structure summarised"}],"curve":[{"stage":"Informal grassroots","x":1,"here":false},{"stage":"Local club","x":2,"here":false},{"stage":"Formalising club","x":3,"here":true},{"stage":"National federation","x":4,"here":false},{"stage":"Professional body","x":5,"here":false}],"ufa_stage_x":3,"founded":"2018","members":56,"formal_age":7}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  const el=document.querySelector('#curve');
+  const c=DATA.curve;
+  el.append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:20,marginRight:20,marginTop:44,marginBottom:44,height:220,width:820,
+    x:{domain:[0.5,5.5],axis:null},
+    y:{domain:[-1,1.6],axis:null},
+    marks:[
+      // the curve line
+      Plot.line(c.map(d=>({x:d.x,y:Math.sin((d.x-1)/4*Math.PI)*0.5})),
+        {x:'x',y:'y',stroke:T.line,strokeWidth:2,curve:'natural'}),
+      Plot.dot(c,{x:'x',y:d=>Math.sin((d.x-1)/4*Math.PI)*0.5,r:d=>d.here?7:4,
+        fill:d=>d.here?'#C0492E':'#0E7C86',stroke:'#fff',strokeWidth:1.5}),
+      Plot.text(c,{x:'x',y:d=>Math.sin((d.x-1)/4*Math.PI)*0.5,text:'stage',
+        dy:d=>d.here?-16:18,fill:d=>d.here?'#C0492E':T.soft,fontWeight:d=>d.here?700:400,
+        textAnchor:'middle',lineWidth:9}),
+      Plot.text(c.filter(d=>d.here),{x:'x',y:d=>Math.sin((d.x-1)/4*Math.PI)*0.5,
+        text:['◀ UFA is here'],dy:-34,fill:'#C0492E',fontWeight:700,textAnchor:'middle'})
+    ]
+  }));
+})();
+
+</script>
+</body>
+</html>

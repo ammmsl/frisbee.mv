@@ -1,0 +1,122 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>Where does UFA sit on the community-size ladder? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">PB-C1</span><span class="sep">·</span><span>Part B — breakpoints benchmarking</span></p>
+  <h1 class="q">Where does UFA sit on the community-size ladder?</h1>
+  <p class="howto">Part A stacks the canonical thresholds — 90-9-1 participation inequality, Dunbar's 5/15/50/150 layers, the ~50 congregation closure floor, the 100–150 club median. This page measures each one behaviourally from 5,298 person-session appearances by 341 players (2024–26), deduped.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">22</div><div class="l">people produce half of all attendance (6% of 341 players)</div></div>
+  <div class="stat"><div class="n tnum">64%</div><div class="l">of attendance comes from the top decile</div></div>
+  <div class="stat"><div class="n tnum">15 / 50 / 204</div><div class="l">weekly / monthly / yearly bands (Dunbar: 15 / 50 / 150)</div></div>
+  <div class="stat"><div class="n tnum">35%</div><div class="l">women among gendered players (Kanter threshold: 30%)</div></div>
+</div>
+
+<div class="caveat"><b>Identity dedup applied.</b> A confirmed alias map collapses duplicate periphery identities (people 367→350, periphery 166→150, chat-only 29→28; roster 172 unchanged). Every confirmed pair had ≤1 half inside the @-mention graph, so the network is <b>136 nodes either way</b> and centrality is unaffected — only periphery counts move.</div>
+
+<div class="slab">Participation inequality — steeper than 90-9-1 in the middle</div>
+<figure class="fig">
+  <div class="cap">Share of all attendance contributed by the top 1% / next 9% / bottom 90% of players (n=341, 2024–26)</div>
+  <div class="sub">Nielsen's 90-9-1 describes online communities: 1% of members produce ~90% of activity. A physical game inverts the extremes — one body per slot caps the heavy core — so UFA's curve is flatter at the top but far steeper in the middle: the next-9% tier carries the club.</div>
+  <div id="ineq"></div>
+</figure>
+
+<div class="slab">The Dunbar ladder, measured behaviourally</div>
+<figure class="fig">
+  <div class="cap">Contact-frequency bands (trailing 12 months, 92 sessions) vs Dunbar's nested layers</div>
+  <div class="sub">Dunbar's 5/15/50/150 layers are defined by contact frequency (weekly/monthly/yearly). Co-presence at sessions gives a rare behavioural version. [ASSUMPTION] presence at the same session = contact; the organising-core row is a role count.</div>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>Band</th><th class="num">UFA</th><th class="num">Dunbar layer</th><th>Definition</th></tr></thead>
+    <tbody><tr><td>organising core (committee+deputies)</td><td class='num'>5</td><td class='num'>5</td><td>role count, not presence-derived</td></tr><tr><td>weekly regulars (≥50% of sessions)</td><td class='num'>15</td><td class='num'>15</td><td>≥46 of 92 sessions</td></tr><tr><td>monthly+ (≥12 sessions/yr)</td><td class='num'>50</td><td class='num'>50</td><td>≥12 sessions in the window</td></tr><tr><td>played at all (12 mo)</td><td class='num'>204</td><td class='num'>150</td><td>any presence in the window</td></tr><tr><td>ever touched the community</td><td class='num'>350</td><td class='num'>500</td><td>played, chatted or listed since 2018 (deduped)</td></tr></tbody>
+  </table></div>
+</figure>
+
+<div class="slab">Size trajectory vs the viability bands</div>
+<figure class="fig">
+  <div class="cap">Distinct players per month vs the congregation/club thresholds</div>
+  <div class="sub">Below ~50 weekly attenders, congregations show roughly double the closure rate; the median European sport club holds 100–150 members; ~150 is the contested ceiling of a face-to-face community. UFA's monthly-active count sits between the 50-floor and the 150-ceiling.</div>
+  <div id="monthly"></div>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li><b>The core is tiny and the middle is broad:</b> 22 people (6%) produce half of all attendance, and the top decile produces 64% — but the top <i>1%</i> produces only 11%, against Nielsen's ~90%. A physical session caps any one person at one slot per night, so pickup communities cannot be 90-9-1 at the top; instead UFA runs <b>~11-54-35</b> (top 1% / next 9% / bottom 90%) — the '9%' tier is the load-bearing layer. The ~10%-active-core heuristic from voluntary-sport research fits almost exactly.</li><li><b>Dunbar's stack appears almost literally:</b> 15 weekly regulars (layer: 15), 50 at monthly-plus (layer: 50), 204 playing at all in 12 months (layer: 150, with membership at 56 and monthly actives ~60–70), and 350 ever-touched (layer: 500). One community, without design, occupying every layer of the canonical structure at close to the canonical sizes.</li><li><b>On the viability ladder UFA sits in the safe middle:</b> monthly actives average ~59 (range 30–77), above the ~50 elevated-closure floor from congregation studies and inside the 100–150 European-club median when counted as the 12-month playing pool (204). The 300–800 'fewest problems per member' sweet spot is a different order of magnitude — UFA is structurally a single-Dunbar-community club, and growth beyond ~150 actives would predict a phase change (program-church transition), not more of the same.</li><li><b>Gender is just above critical mass:</b> 35% of gendered players are women — above Kanter's ≥30% threshold below which a minority reads as tokens. SM-5's caveat stands: participation <i>rates</i> still lag (IRR ≈ 0.77), so the stock clears the threshold while the flow does not.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Presence substrate: Session Input's "Actual Attendees" resolved to persons
+(99.4% of 5,298 appearances; <code>gS_rsvp.presence()</code>) — unlike the
+roster-only <code>attendance</code> table, this sees the periphery's repeat play. Identity dedup
+applied (people 350, roster 172). Inequality shares are session-day
+counts per person over 2024–26; Nielsen's 90-9-1 is quoted as contribution shares by tier.
+Dunbar bands are attendance-frequency cuts on the trailing 12 months (92 sessions):
+weekly ≥50% of sessions, monthly ≥12/year — [ASSUMPTION] analyst-set cuts, direction not
+sacred; the organising-core count is the committee+active-deputy roles, not presence. Monthly
+actives = distinct persons per calendar month. Gender exists for the roster only (SM-5's caveat);
+unresolved raw-name appearances (0.6%) are excluded from gender but counted
+in presence. Script <code>analysis/gP_c1.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-04 · 341 players · bands 15/50/204 vs 15/50/150 · substrate gS_rsvp.presence()</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"ineq":{"n":341,"total":5298,"top1":0.106,"next9":0.539,"bottom90":0.355,"half_by":22,"half_share":0.065},"nielsen":{"top1":0.9,"next9":0.09,"bottom90":0.01},"bands":[{"band":"organising core (committee+deputies)","n":5,"dunbar":5,"note":"role count, not presence-derived"},{"band":"weekly regulars (\u226550% of sessions)","n":15,"dunbar":15,"note":"\u226546 of 92 sessions"},{"band":"monthly+ (\u226512 sessions/yr)","n":50,"dunbar":50,"note":"\u226512 sessions in the window"},{"band":"played at all (12 mo)","n":204,"dunbar":150,"note":"any presence in the window"},{"band":"ever touched the community","n":350,"dunbar":500,"note":"played, chatted or listed since 2018 (deduped)"}],"monthly":[{"month":"2024-01","n":34},{"month":"2024-02","n":30},{"month":"2024-03","n":45},{"month":"2024-04","n":45},{"month":"2024-05","n":45},{"month":"2024-06","n":44},{"month":"2024-07","n":52},{"month":"2024-08","n":70},{"month":"2024-09","n":70},{"month":"2024-10","n":60},{"month":"2024-11","n":53},{"month":"2024-12","n":54},{"month":"2025-01","n":64},{"month":"2025-02","n":70},{"month":"2025-03","n":65},{"month":"2025-04","n":55},{"month":"2025-05","n":69},{"month":"2025-06","n":46},{"month":"2025-07","n":57},{"month":"2025-08","n":53},{"month":"2025-09","n":62},{"month":"2025-10","n":77},{"month":"2025-11","n":64},{"month":"2025-12","n":77},{"month":"2026-01","n":70},{"month":"2026-02","n":72},{"month":"2026-03","n":70},{"month":"2026-04","n":68},{"month":"2026-05","n":59},{"month":"2026-06","n":56}],"window_sessions":92,"gender":{"m":111,"f":59,"share_f":0.347},"res_rate":0.994}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  const rows=[];
+  [['top 1%','top1'],['next 9%','next9'],['bottom 90%','bottom90']].forEach(([lab,k])=>{
+    rows.push({tier:lab, who:'UFA (measured)', v:DATA.ineq[k]});
+    rows.push({tier:lab, who:'Nielsen 90-9-1 (online)', v:DATA.nielsen[k]});
+  });
+  document.querySelector('#ineq').append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:44,marginBottom:34,height:250,width:840,
+    x:{axis:null},
+    y:{grid:true,label:'share of all activity',tickFormat:'.0%',domain:[0,1]},
+    color:{domain:['UFA (measured)','Nielsen 90-9-1 (online)'],range:['#0E7C86','#9A9A9A'],legend:true},
+    fx:{label:null,domain:['top 1%','next 9%','bottom 90%']},
+    marks:[Plot.ruleY([0],{stroke:T.line}),
+           Plot.barY(rows,{x:'who',y:'v',fill:'who',fx:'tier'}),
+           Plot.text(rows,{x:'who',y:'v',fx:'tier',text:d=>(d.v*100).toFixed(0)+'%',dy:-6,fontSize:10,fill:T.muted})]
+  }));
+  const mo = DATA.monthly.map(d=>({...d, t:new Date(d.month+'-15T00:00:00')}));
+  document.querySelector('#monthly').append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:40,marginBottom:34,height:280,width:840,
+    x:{label:null,type:'time'},
+    y:{grid:true,label:'distinct players in month',domain:[0,160]},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      Plot.ruleY([50],{stroke:'#B23A48',strokeDasharray:'4,3'}),
+      Plot.ruleY([150],{stroke:'#B07B23',strokeDasharray:'4,3'}),
+      Plot.text([{y:50,t:'~50: congregation elevated-closure floor'},{y:150,t:'~150: Dunbar ceiling / club median band top'}],
+                {y:'y',text:'t',x:()=>mo[0].t,dy:-7,textAnchor:'start',fontSize:10,fill:T.muted}),
+      Plot.lineY(mo,{x:'t',y:'n',stroke:'#0E7C86',strokeWidth:1.5}),
+      Plot.dot(mo,{x:'t',y:'n',fill:'#0E7C86',r:2.5})
+    ]
+  }));
+})();
+
+</script>
+</body>
+</html>

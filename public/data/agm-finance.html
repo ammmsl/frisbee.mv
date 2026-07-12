@@ -1,0 +1,215 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>Org-wide finances vs the pickup slice — the whole picture — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">AGM-FIN</span><span class="sep">·</span><span>Legitimacy &amp; coherence</span></p>
+  <h1 class="q">Org-wide finances vs the pickup slice — the whole picture</h1>
+  <p class="howto">The companion to OMS-6/OMS-12. Those cover the <b>pickup field-booking slice</b> (~Rf 145,600); this shows the <b>org-wide</b> AGM 2025 accounts — income Rf 165,475 (US$10,745), expense Rf 145,909 (US$9,475), a <b>debt-free Rf 19,566 (US$1,271) surplus</b>. Field booking is a <b>pass-through</b> (income≈expense), so the pickup slice is cost-neutral and the surplus comes from <b>membership + sponsorship</b>. Solvency is not at risk.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">Rf 165,475 (US$10,745)</div><div class="l">org-wide income (AGM 2025)</div></div>
+  <div class="stat"><div class="n tnum">Rf 145,909 (US$9,475)</div><div class="l">org-wide expense</div></div>
+  <div class="stat"><div class="n tnum">Rf 19,566 (US$1,271)</div><div class="l">surplus — <b>debt-free</b></div></div>
+  <div class="stat"><div class="n tnum">Rf 63,425 (US$4,119)</div><div class="l">field booking — a <b>pass-through</b> (both sides)</div></div>
+</div>
+
+<div class="caveat"><b>Org-wide, INTERNAL-aggregate.</b> These are AGM 2025 category totals (MVR), the authoritative org-wide picture from 2025 on — distinct from the pickup field-booking slice in <code>ufa.sqlite</code> that OMS-6/OMS-12 analyse. The association closed 2025 <b>debt-free with a surplus</b>; solvency is not at risk. Field booking is a pass-through (income≈expense).</div>
+
+<div class="caveat"><b>Org-wide vs the pickup slice.</b> OMS-6 and OMS-12 analyse the
+<b>pickup field-booking slice</b> in <code>ufa.sqlite</code> — roughly
+<b>Rf 145,600</b> of pay-per-play money. This report is the <b>whole picture</b>:
+the AGM 2025 org-wide accounts. The bridge between them is the <b>field pass-through</b>
+(Rf 63,425 (US$4,119)), which appears on <em>both</em> income and expense — members pay in for
+turf, UFA pays that same money out to the venue — so the pickup slice is
+<b>~cost-neutral</b>. The org-wide surplus therefore comes from <b>membership dues +
+sponsorship</b>, not from pricing play.</div>
+
+<div class="slab">Where the money comes from</div>
+<figure class="fig">
+  <div class="cap">Income composition — the surplus is membership + sponsorship</div>
+  <div class="sub">Org-wide income Rf 165,475 (US$10,745). The largest line, field booking
+  (Rf 63,425 (US$4,119)), is a <span style="color:#B0B7B5;font-weight:700">pass-through</span> — it is
+  matched Rf-for-Rf on the expense side, so it contributes nothing to surplus. The real surplus
+  carriers are <span style="color:#0E7C86;font-weight:700">membership &amp; registration</span> and
+  <span style="color:#6D5AA6;font-weight:700">sponsorship</span> (corporate event sponsors).</div>
+  <div id="inc"></div>
+</figure>
+
+<div class="slab">Where the money goes</div>
+<figure class="fig">
+  <div class="cap">Expense composition — field pass-through, then events</div>
+  <div class="sub">Org-wide expense Rf 145,909 (US$9,475). Field booking
+  (Rf 63,425 (US$4,119), the <span style="color:#B0B7B5;font-weight:700">pass-through</span>) is the
+  biggest outflow but self-funded by the matching income; the next blocks are
+  <span style="color:#C0492E;font-weight:700">tournaments &amp; events</span> and the
+  <span style="color:#B07B23;font-weight:700">training camp</span> (the international-coach clinic).
+  Income exceeds expense by Rf 19,566 (US$1,271).</div>
+  <div id="exp"></div>
+</figure>
+
+<div class="slab">The two views, side by side</div>
+<figure class="fig">
+  <div class="cap">Income &amp; expense composition (MVR / USD)</div>
+  <div class="sub">Category totals reconciled to the INTERNAL 2025 financial-records workbook —
+  coarse buckets, largest-first, summing <b>exactly</b> to the attested AGM totals.
+  <b>No residual bucket</b>: every line is a real reconciled aggregate. Any line that would name a
+  single sponsor or vendor is merged up a level, so no counterparty is named.</div>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>Income line</th><th class="num">MVR</th><th class="num">USD</th><th class="num">share</th></tr></thead>
+    <tbody><tr><td>Field booking (pass-through)</td><td class='num'>63,425</td><td class='num'>4,119</td><td class='num'>38%</td></tr><tr><td>Membership & registration</td><td class='num'>34,800</td><td class='num'>2,260</td><td class='num'>21%</td></tr><tr><td>Sponsorship</td><td class='num'>26,100</td><td class='num'>1,695</td><td class='num'>16%</td></tr><tr><td>Event fees (training, hat, reg.)</td><td class='num'>15,425</td><td class='num'>1,002</td><td class='num'>9%</td></tr><tr><td>Pickup surcharges & prepay</td><td class='num'>13,195</td><td class='num'>857</td><td class='num'>8%</td></tr><tr><td>Merchandise (discs & jerseys)</td><td class='num'>12,530</td><td class='num'>814</td><td class='num'>8%</td></tr>
+      <tr><td><b>Total income</b></td><td class="num"><b>165,475</b></td><td class="num"><b>10,745</b></td><td class="num"><b>100%</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl-wrap" style="margin-top:14px"><table class="data">
+    <thead><tr><th>Expense line</th><th class="num">MVR</th><th class="num">USD</th><th class="num">share</th></tr></thead>
+    <tbody><tr><td>Field booking (pass-through)</td><td class='num'>63,425</td><td class='num'>4,119</td><td class='num'>43%</td></tr><tr><td>Tournaments & events</td><td class='num'>36,445</td><td class='num'>2,367</td><td class='num'>25%</td></tr><tr><td>Training camp (coach clinic)</td><td class='num'>16,000</td><td class='num'>1,039</td><td class='num'>11%</td></tr><tr><td>Merchandise cost (discs & jerseys)</td><td class='num'>13,681</td><td class='num'>888</td><td class='num'>9%</td></tr><tr><td>Equipment / capex</td><td class='num'>9,780</td><td class='num'>635</td><td class='num'>7%</td></tr><tr><td>Pickup write-offs & pending</td><td class='num'>6,578</td><td class='num'>427</td><td class='num'>5%</td></tr>
+      <tr><td><b>Total expense</b></td><td class="num"><b>145,909</b></td><td class="num"><b>9,475</b></td><td class="num"><b>100%</b></td></tr>
+    </tbody>
+  </table></div>
+  <figcaption>Collected Rf 159,570 (US$10,362) of what was due; Rf 5,567 (US$362) still owed —
+  a small receivable, not a solvency concern. The association closed the year <b>debt-free</b>.</figcaption>
+</figure>
+
+<div class="slab">Prior years — the pickup slice over time (2024 → 2026-H1)</div>
+<div class="caveat"><b>Different slice, different basis.</b> The org-wide figures above are the
+AGM 2025 workbook (2025 only — no attested prior-year statement exists). This panel is the
+<b>de-identified pickup field-booking slice</b> in <code>ufa.sqlite</code> (the OMS-6/12 pay-per-play
+basis), which spans <b>2024 → 2026</b> — so DB field cost is close to but <em>not</em> identical to
+the workbook pass-through. <b>2026 is H1 only</b> (to 30 Jun); the tracked era starts 2024 (the free
+FAM-turf Friday mornings of 2018–2023 are untracked). Aggregate, name-free.</div>
+<figure class="fig">
+  <div class="cap">From subsidy to cost-recovery: what players were charged vs the field cost</div>
+  <div class="sub">Per year: <span style="color:#B0B7B5;font-weight:700">field cost</span> (owed to the
+  venue), what players were <span style="color:#0E7C86;font-weight:700">charged</span>, and what was
+  <span style="color:#2E7D5B;font-weight:700">collected</span>. In <b>2024</b> charged
+  (Rf 35,700 (US$2,318)) fell <b>below</b> field cost (Rf 56,700 (US$3,682)) — UFA
+  <b>subsidised ~Rf 21,000 (US$1,364)</b> of pickup. By <b>2025</b> charging <b>caught up to</b> field
+  cost (the pass-through), and <b>2026-H1</b> charges run above it. Labels show the collection rate.</div>
+  <div id="yr"></div>
+</figure>
+<figure class="fig">
+  <div class="cap">Pickup slice by year (MVR; DB, de-identified)</div>
+  <div class="sub">Charged = per-player session fees billed; collected = fully-settled sessions
+  (ledger <code>status='paid'</code>); outstanding = partial + unpaid, counted conservatively as
+  not-collected. Surcharge is the per-use non-member/late lever (OMS-13), shown separately.</div>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>Year</th><th class="num">Sessions</th><th class="num">Field cost</th>
+      <th class="num">Charged</th><th class="num">Surcharge</th><th class="num">Collected</th>
+      <th class="num">Outstanding</th><th class="num">Collected %</th></tr></thead>
+    <tbody><tr><td>2024</td><td class='num'>101</td><td class='num'>56,700</td><td class='num'>35,700</td><td class='num'>0</td><td class='num'>35,453</td><td class='num'>247</td><td class='num'>99.3%</td></tr><tr><td>2025</td><td class='num'>96</td><td class='num'>61,325</td><td class='num'>69,725</td><td class='num'>7,560</td><td class='num'>67,500</td><td class='num'>2,225</td><td class='num'>96.8%</td></tr><tr><td>2026 <span class='sub' style='font-weight:400'>(H1)</span></td><td class='num'>47</td><td class='num'>32,300</td><td class='num'>45,171</td><td class='num'>13,760</td><td class='num'>34,283</td><td class='num'>10,888</td><td class='num'>75.9%</td></tr></tbody>
+  </table></div>
+  <figcaption>Collection discipline is <b>consistently high</b> in settled years
+  (99.3% in 2024, 96.8% in 2025). The lower 75.9% in
+  2026-H1 is <b>recency</b> — recent sessions still being settled — not slippage. Money at ~15.4
+  MVR/US$.</figcaption>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>The AGM 2025 org-wide picture is <b>solvent and debt-free</b>: income Rf 165,475 (US$10,745) vs expense Rf 145,909 (US$9,475), a <b>Rf 19,566 (US$1,271) surplus</b>, Rf 159,570 (US$10,362) collected and only Rf 5,567 (US$362) owed. This is the authoritative whole-of-org view, distinct from the pickup slice.</li><li><b>Field booking is a pass-through</b>: Rf 63,425 (US$4,119) appears on <em>both</em> income and expense (members pay in for turf; UFA pays it straight out to the venue). So the <b>pickup field-booking slice is ~cost-neutral</b> — the ~Rf 145,600 that OMS-6/12 trace is money passing through, not surplus.</li><li>The surplus is therefore carried by <b>membership dues (Rf 34,800 (US$2,260)) + sponsorship (Rf 26,100 (US$1,695))</b>, not by pricing play. This is why the fee can be a patronage/access lever (OMS-6, OMS-13) rather than a cost-recovery number — play pays for itself; membership and sponsors fund the rest.</li><li>This <b>softens OMS-12's runway alarm</b>: a two-week treasury outage is a <b>bookkeeping and bus-factor</b> exposure on the pickup slice, <em>not</em> a solvency or runway risk. On the org-wide books the association is solvent and debt-free — the 'runway depletion' framing was a slice artifact.</li><li><b>Prior years — subsidy → pass-through → surcharge-led.</b> The DB pickup slice shows the model shifting: in <b>2024</b> players were charged Rf 35,700 (US$2,318) against a Rf 56,700 (US$3,682) field cost, so UFA <b>subsidised ~Rf 21,000 (US$1,364)</b> of pickup (no surcharge). By <b>2025</b> charging caught up to field cost — the <b>cost-neutral pass-through</b> this report describes — and the surcharge appeared (Rf 7,560 (US$491)). In <b>2026-H1</b> the surcharge is already Rf 13,760 (US$894) (~30% of charges). This is the multi-year face of OMS-13's rationing lever: the load moved from a flat entry fee onto per-use.</li><li><b>Collection discipline is consistently high; the 2026 open balance is timing.</b> Fully-settled sessions were <b>99.3%</b> of charges in 2024 and <b>96.8%</b> in 2025 — tight. The lower <b>75.9%</b> in 2026-H1 (Rf 10,888 (US$707) outstanding) is <b>recency</b> — recent sessions still being settled — mirroring the small Rf 5,567 (US$362) receivable on the 2025 org-wide books. It is a <b>lag, not slippage</b>.</li><li>[ASSUMPTION] These are INTERNAL <b>category aggregates</b>, reconciled to the 2025 financial-records workbook and summing exactly to the attested AGM totals — coarse buckets, no named counterparties and no residual/balancing line. The figures are pre-audit: a formal external audit is <b>staged to National-Association status</b> by design (the annual Ministry submission already sets the financial-year reporting cycle); sub-category precision below these buckets is not claimed.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body"><b>What this is.</b> The org-wide finance companion to OMS-6 (fee coherence) and
+OMS-12 (buffer stress test), which analyse only the pickup field-booking slice in
+<code>ufa.sqlite</code> (~Rf 145,600). Here we present the AGM 2025 <b>org-wide</b>
+picture from <code>gE_events.FIN25</code> — income Rf 165,475 (US$10,745), expense Rf 145,909 (US$9,475),
+surplus Rf 19,566 (US$1,271), collected Rf 159,570 (US$10,362), owed Rf 5,567 (US$362), debt-free — with
+income/expense composition from <code>gE_events.FIN25_INCOME</code> /
+<code>FIN25_EXPENSE</code>. The analytic bridge is the <b>field pass-through</b> (Rf 63,425 (US$4,119)),
+identical on both sides, which makes the pickup slice cost-neutral and locates the surplus in
+membership + sponsorship. <b>Sources</b>: the AGM 2025 financial report, cross-checked and
+reconciled to the INTERNAL "Financial Records 2025" workbook — <b>category aggregates only</b>,
+summing exactly to the attested totals, with no residual line. The <b>prior-years panel</b> is the
+de-identified pickup slice from <code>ufa.sqlite</code> (<code>gE_events.pickup_by_year</code>):
+field cost from <code>sessions</code>, charged/collected/outstanding from <code>ledger</code> (status
+<code>paid</code> vs <code>partial/unpaid</code>), surcharge from <code>attendance</code>, by calendar
+year — 2026 is H1 only, 2018–2023 free-turf play is untracked. Money at ~15.4 MVR/US$.
+<b>No counterparties named</b> — no person, sponsor, or vendor; any line resolving to one is merged
+up. Descriptive aggregate, not an audit. Script: <code>analysis/gE_agm_finance.py</code>; substrate:
+<code>analysis/gE_events.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>coded 2026-07-03 · AGM 2025 org-wide finance companion · INTERNAL-aggregate</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"income":165475,"expense":145909,"surplus":19566,"collected":159569.71,"owed":5567.13,"field":63425,"income_usd":10745,"expense_usd":9475,"surplus_usd":1271,"field_usd":4119,"pickup":145600,"inc":[{"cat":"Field booking (pass-through)","v":63425},{"cat":"Membership & registration","v":34800},{"cat":"Sponsorship","v":26100},{"cat":"Event fees (training, hat, reg.)","v":15425},{"cat":"Pickup surcharges & prepay","v":13195},{"cat":"Merchandise (discs & jerseys)","v":12530}],"exp":[{"cat":"Field booking (pass-through)","v":63425},{"cat":"Tournaments & events","v":36445},{"cat":"Training camp (coach clinic)","v":16000},{"cat":"Merchandise cost (discs & jerseys)","v":13681},{"cat":"Equipment / capex","v":9780},{"cat":"Pickup write-offs & pending","v":6578}],"years":[{"yr":"2024","n_sessions":101,"field_cost":56700,"charged":35700,"surcharge":0,"collected":35453,"outstanding":247,"coll_rate":99.3},{"yr":"2025","n_sessions":96,"field_cost":61325,"charged":69725,"surcharge":7560,"collected":67500,"outstanding":2225,"coll_rate":96.8},{"yr":"2026","n_sessions":47,"field_cost":32300,"charged":45171,"surcharge":13760,"collected":34283,"outstanding":10888,"coll_rate":75.9}]}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  function comp(sel, rows, total, colmap){
+    const el=document.querySelector(sel);
+    const R=rows.slice().reverse();
+    el.append(Plot.plot({style:{background:'transparent',fontFamily:T.mono,fontSize:'12px',overflow:'visible'},
+      marginLeft:210,marginRight:70,marginTop:12,marginBottom:34,height:230,width:820,
+      x:{grid:true,label:'MVR →',nice:true,tickFormat:s=>s>=1000?(s/1000)+'k':s},
+      y:{domain:R.map(d=>d.cat),label:null},
+      marks:[
+        Plot.ruleX([0],{stroke:T.line}),
+        Plot.barX(R,{y:'cat',x:'v',fill:d=>colmap[d.cat]||T.accent,fillOpacity:0.9}),
+        Plot.text(R,{y:'cat',x:'v',text:d=>Math.round(d.v/1000)+'k ('+Math.round(d.v/total*100)+'%)',dx:6,textAnchor:'start',fill:T.soft,fontVariant:'tabular-nums'})
+      ]}));
+  }
+  const incCol={
+    'Field booking (pass-through)':'#B0B7B5',
+    'Membership & registration':'#0E7C86',
+    'Sponsorship':'#6D5AA6',
+    'Event fees (training, hat, reg.)':'#3F6C8E',
+    'Pickup surcharges & prepay':'#B07B23',
+    'Merchandise (discs & jerseys)':'#2E7D5B'
+  };
+  const expCol={
+    'Field booking (pass-through)':'#B0B7B5',
+    'Tournaments & events':'#C0492E',
+    'Training camp (coach clinic)':'#B07B23',
+    'Merchandise cost (discs & jerseys)':'#2E7D5B',
+    'Equipment / capex':'#3F6C8E',
+    'Pickup write-offs & pending':'#6D5AA6'
+  };
+  comp('#inc', DATA.inc, DATA.income, incCol);
+  comp('#exp', DATA.exp, DATA.expense, expCol);
+
+  // ── prior years: field cost vs charged vs collected over time (lines) ──
+  const yEl=document.querySelector('#yr');
+  const SER=[['field cost','field_cost','#B0B7B5'],['charged','charged','#0E7C86'],['collected','collected','#2E7D5B']];
+  const scol={}; SER.forEach(([k,,c])=>scol[k]=c);
+  const rows=[];
+  DATA.years.forEach(r=>SER.forEach(([k,f])=>rows.push({yr:r.yr,k,v:r[f],rate:r.coll_rate})));
+  const last=DATA.years[DATA.years.length-1].yr;
+  yEl.append(Plot.plot({style:{background:'transparent',fontFamily:T.mono,fontSize:'12px',overflow:'visible'},
+    marginLeft:56,marginRight:104,marginTop:16,marginBottom:40,height:300,width:820,
+    x:{type:'point',domain:DATA.years.map(d=>d.yr),label:null},
+    y:{grid:true,label:'MVR →',nice:true,tickFormat:s=>s>=1000?(s/1000)+'k':s},
+    color:{domain:SER.map(s=>s[0]),range:SER.map(s=>s[2])},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      Plot.line(rows,{x:'yr',y:'v',z:'k',stroke:'k',strokeWidth:2}),
+      Plot.dot(rows,{x:'yr',y:'v',fill:'k',r:4,stroke:'#fff',strokeWidth:1.2}),
+      // series label at the last point
+      Plot.text(rows.filter(d=>d.yr===last),{x:'yr',y:'v',text:'k',dx:9,dy:-2,textAnchor:'start',fill:d=>scol[d.k],fontWeight:600}),
+      // collection rate under each year
+      Plot.text(DATA.years,{x:'yr',y:0,text:d=>d.coll_rate+'% coll.',dy:22,fill:T.soft,fontSize:11})
+    ]}));
+})();
+
+</script>
+</body>
+</html>

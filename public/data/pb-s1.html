@@ -1,0 +1,128 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>How big is a pickup session, and when does the game fire? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">PB-S1</span><span class="sep">·</span><span>Part B — breakpoints benchmarking</span></p>
+  <h1 class="q">How big is a pickup session, and when does the game fire?</h1>
+  <p class="howto">Part A found no enumerated session-size distributions and no measured game-on thresholds for pickup sport (literature gaps #1–2). This page benchmarks UFA's 215 tracked Villingili sessions against the 10–14 sign-up heuristic and the declared 12-player quorum, and extends the size series back through the untracked 2021–2023 era via chat sign-up lists.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">22</div><div class="l">median players per Villingili session (range 11–41)</div></div>
+  <div class="stat"><div class="n tnum">12</div><div class="l">declared quorum to book the pitch</div></div>
+  <div class="stat"><div class="n tnum">1</div><div class="l">of 215 sessions fired below quorum</div></div>
+  <div class="stat"><div class="n tnum">4</div><div class="l">confirmed cancellations in 2.5 years (2 quorum failures, 2 venue losses)</div></div>
+</div>
+
+<div class="caveat"><b>Tracked era only.</b> The tracker starts Jan&nbsp;2024. The club was founded 28&nbsp;Sep&nbsp;2018, but 2018–~2023 was Friday-morning pickup on the free FAM Malé pitch — <b>untracked</b>. A 2018–2021 chat gap (Android→iPhone data loss) and no per-session attendance before 2024 mean every "since 2018" figure here describes the <b>2024+ tracked era</b>, not the club's full history.</div>
+
+<div class="slab">The size distribution (literature gap #2)</div>
+<figure class="fig">
+  <div class="cap">Players per session, Villingili 2024–2026 (n=215)</div>
+  <div class="sub">The pickup-ethnography literature never enumerates this distribution. The dashed line is the declared quorum (12); the literature's Ultimate "game-on" heuristic is 10–14 sign-ups.</div>
+  <div id="hist"></div>
+</figure>
+
+<div class="slab">Session size across eras and venues</div>
+<figure class="fig">
+  <div class="cap">Monthly session size: chat-derived sign-up medians (2021–23) vs tracked headcounts (2024–26)</div>
+  <div class="sub">The 2021–23 points are reconstructed from sign-up lists in the chat (a proxy: sign-ups ≈ headcount ± the ~9–15% no-show/walk-on flows measured in PB-S2). The 2019–20 chat is lost; the gap is real.</div>
+  <div id="series"></div>
+</figure>
+<figure class="fig">
+  <div class="cap">Size follows the pitch, not the format</div>
+  <div class="sub">Futsal-sized venues cap at ~16–17; the full-size Villingili turf runs ~23. This is correction #1's venue logic showing up in headcounts (there is no separate "format").</div>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>Venue</th><th class="num">Sessions</th><th class="num">Mean players</th></tr></thead>
+    <tbody><tr><td>Villingili</td><td class='num'>215</td><td class='num'>22.8</td></tr><tr><td>Malé FAM Turf</td><td class='num'>16</td><td class='num'>14.8</td></tr><tr><td>Hulhumalé HDC Turf</td><td class='num'>4</td><td class='num'>16.0</td></tr><tr><td>Hulhumalé Rehendhi School</td><td class='num'>3</td><td class='num'>17.3</td></tr><tr><td>Hulhumalé Running Track</td><td class='num'>2</td><td class='num'>16.5</td></tr><tr><td>Henveiru Dhandu</td><td class='num'>1</td><td class='num'>33.0</td></tr></tbody>
+  </table></div>
+</figure>
+
+<div class="slab">What never fired — the censored side of the threshold, resolved</div>
+<figure class="fig">
+  <div class="cap">35 announced dates had a sign-up list but no tracker row — here is what each actually was</div>
+  <div class="sub"><b>24 were header-date slips</b> — announcement lists are copy-pasted forward and a date error propagates until someone fixes it (owner); the DB session date is authoritative, so these merge onto their real session. <b>4 were genuine cancellations</b> (founders'-chat + owner confirmed): two <b>quorum failures</b> (31 Jan 2025 — sign-ups short of the ~20 that night's half-court booking needed, "let's postpone… we are not booking"; and 26 May 2026 — 8 signed vs the 12 quorum, "we don't have enough people tonight") and two <b>venue losses</b> (23 May 2025 — the field was taken, rebooked Tuesday "in case it gets booked again"; and 29 May 2026 — the field pre-empted for Eid prayer preparations). Plus 1 training day, 3 Dodge-bee dates (a separate recurring casual activity), 1 off-tracker HDC date, and 2 unresolved (the Ramadan/Eid March-2026 pair, likely non-fires).</div>
+</figure>
+<figure class="fig">
+  <div class="cap">Why "TBC" appears on announcements at all</div>
+  <div class="sub">The play listing is organic and goes out before the pitch is secured: in the lean-cashflow era the club booked days ahead (hence TBC/unconfirmed tags on otherwise-normal sessions), while since bulk-prepaying it books half a month to a month ahead. Booking confirmations and cancellations never appear in the players' group — they live in the founders' admin channel — so the public signup corpus alone <i>cannot</i> distinguish a cancelled night from a header slip; the admin record can, and did.</div>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li><b>The enumerated distribution the literature lacks:</b> a Villingili pickup session runs at a median <b>22 players</b> (mean 22.8, range 11–41, n=215) — roughly <b>double</b> the 10–14 "game-on" heuristic and comfortably above the 14 needed for 7v7. Part A's session minima describe survival; this community operates at saturation of a full-size pitch.</li><li><b>The declared quorum is real, and so — rarely — is failure:</b> only 1 of 215 tracked sessions fired below the 12-player minimum (an 11), and the censored side is now measured: across ~2.5 years, <b>4 announced sessions were genuinely cancelled</b> — two <b>demand failures</b> (Granovetter threshold failures observed in the wild: 13 sign-ups vs a ~20 requirement in Jan 2025; 8 vs the 12 quorum in May 2026, called in so many words — "we don't have enough people tonight") and two <b>venue losses</b> (bumped by another booking; pre-empted for Eid prayer prep — B4's tertiary-customer exposure in both its commercial and community forms). A ~1.6% attempt-failure rate, split evenly between demand and venue: at a ~22-player median the threshold rarely binds, and when it does it is at the margins — holiday weeks and non-standard booking configurations.</li><li><b>The blackout era ran below today's quorum:</b> chat-derived sign-up medians were ~9–10 in 2021 and ~8 in 2022 — at or under the modern 12-player minimum — rising to ~11–12 across 2023 and ~22 in the tracked era. The community crossed its own critical-mass threshold in 2023–24, coincident with the move to paid evening turf (association, not causation; the free-era sessions had no quorum to clear).</li><li><b>Size follows the pitch:</b> futsal venues run ~16–17 players, the FAM-morning era ~15, Villingili ~23 — consistent with small-sided-games logic and correction #1 (venue, not format, is the variable).</li><li><b>A second sport surfaced in the corpus:</b> the dodge-disc (Dodgebee) dates (Central Park, from late 2025) are not a pickup variant but a <b>new sport entirely</b> — introduced at the association's first anniversary under its WFDF-facing mandate as the Maldives Flying Disc Federation (all disc sports, by design). Out of scope for pickup benchmarks; it is the federation mandate's first test case (a school-introduction programme with 50 donated discs is pending).</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Session sizes from <code>sessions.real_pax</code> (the 3 free member-event
+rows with real_pax≤1 are excluded per the owner's classification). Venues normalised via
+<code>corrections.venue()</code>. The 2021–2023 series is reconstructed from numbered sign-up
+lists in the chat (<code>analysis/gS_rsvp.py</code>): a message is a sign-up list if it has
+≥4 numbered name-like entries; its session date is parsed from the header
+(day+month, year inferred to within [−2, +21] days of posting); per day the largest active list
+is taken, monthly medians shown. Sign-up size is a <b>proxy</b> for headcount (PB-S2 measures the
+no-show/walk-on flows that separate them). Untracked announced dates: header dates parse from
+copy-pasted lists in which errors propagate (owner), so the DB session date is authoritative —
+any announced date with no session row merges onto the nearest session within ±3 days unless the
+founders' admin chat / owner (INTERNAL; cited as classification only) marks it a real
+cancellation or a separate event. Of 35: 24 slips merged, 4 cancellations (2 quorum, 2 venue),
+1 training day, 3 Dodge-bee, 1 off-tracker HDC, 2 unresolved. All figures
+aggregate; no names leave the gitignored inputs.
+Script <code>analysis/gP_s1.py</code>; substrate <code>analysis/gS_rsvp.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-04 · 215 Villingili sessions · median 22 · substrate gS_rsvp.py</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"hist":[{"pax":11,"n":1},{"pax":12,"n":5},{"pax":13,"n":4},{"pax":14,"n":6},{"pax":15,"n":10},{"pax":16,"n":12},{"pax":17,"n":7},{"pax":18,"n":13},{"pax":19,"n":16},{"pax":20,"n":15},{"pax":21,"n":15},{"pax":22,"n":9},{"pax":23,"n":11},{"pax":24,"n":12},{"pax":25,"n":13},{"pax":26,"n":13},{"pax":27,"n":3},{"pax":28,"n":9},{"pax":29,"n":8},{"pax":30,"n":5},{"pax":31,"n":5},{"pax":32,"n":4},{"pax":33,"n":3},{"pax":34,"n":2},{"pax":35,"n":3},{"pax":36,"n":4},{"pax":37,"n":2},{"pax":38,"n":1},{"pax":39,"n":1},{"pax":40,"n":1},{"pax":41,"n":2}],"quorum":12,"sizes":{"n":215,"mean":22.8,"median":22.0,"min":11,"max":41,"sub_quorum":1},"series":[{"month":"2021-07","v":12.5,"src":"sign-up size (chat-derived)"},{"month":"2021-08","v":9.5,"src":"sign-up size (chat-derived)"},{"month":"2021-09","v":5.0,"src":"sign-up size (chat-derived)"},{"month":"2021-12","v":9.5,"src":"sign-up size (chat-derived)"},{"month":"2022-01","v":7.0,"src":"sign-up size (chat-derived)"},{"month":"2022-02","v":6.5,"src":"sign-up size (chat-derived)"},{"month":"2022-03","v":4.5,"src":"sign-up size (chat-derived)"},{"month":"2022-05","v":12.0,"src":"sign-up size (chat-derived)"},{"month":"2022-06","v":12.0,"src":"sign-up size (chat-derived)"},{"month":"2022-07","v":7.0,"src":"sign-up size (chat-derived)"},{"month":"2022-09","v":7.0,"src":"sign-up size (chat-derived)"},{"month":"2022-10","v":8.0,"src":"sign-up size (chat-derived)"},{"month":"2022-11","v":8.0,"src":"sign-up size (chat-derived)"},{"month":"2022-12","v":8.0,"src":"sign-up size (chat-derived)"},{"month":"2023-01","v":8.5,"src":"sign-up size (chat-derived)"},{"month":"2023-02","v":10.0,"src":"sign-up size (chat-derived)"},{"month":"2023-03","v":8.0,"src":"sign-up size (chat-derived)"},{"month":"2023-04","v":6.0,"src":"sign-up size (chat-derived)"},{"month":"2023-05","v":9.0,"src":"sign-up size (chat-derived)"},{"month":"2023-06","v":12.0,"src":"sign-up size (chat-derived)"},{"month":"2023-07","v":13.0,"src":"sign-up size (chat-derived)"},{"month":"2023-08","v":15.5,"src":"sign-up size (chat-derived)"},{"month":"2023-09","v":13.0,"src":"sign-up size (chat-derived)"},{"month":"2023-10","v":14.0,"src":"sign-up size (chat-derived)"},{"month":"2023-11","v":15.0,"src":"sign-up size (chat-derived)"},{"month":"2023-12","v":11.0,"src":"sign-up size (chat-derived)"},{"month":"2024-02","v":16.7,"src":"actual headcount (tracker)"},{"month":"2024-03","v":22.6,"src":"actual headcount (tracker)"},{"month":"2024-04","v":17.8,"src":"actual headcount (tracker)"},{"month":"2024-05","v":18.8,"src":"actual headcount (tracker)"},{"month":"2024-06","v":19.0,"src":"actual headcount (tracker)"},{"month":"2024-07","v":24.6,"src":"actual headcount (tracker)"},{"month":"2024-08","v":25.8,"src":"actual headcount (tracker)"},{"month":"2024-09","v":27.1,"src":"actual headcount (tracker)"},{"month":"2024-10","v":20.6,"src":"actual headcount (tracker)"},{"month":"2024-11","v":19.6,"src":"actual headcount (tracker)"},{"month":"2024-12","v":20.4,"src":"actual headcount (tracker)"},{"month":"2025-01","v":26.5,"src":"actual headcount (tracker)"},{"month":"2025-02","v":22.6,"src":"actual headcount (tracker)"},{"month":"2025-03","v":25.9,"src":"actual headcount (tracker)"},{"month":"2025-04","v":21.3,"src":"actual headcount (tracker)"},{"month":"2025-05","v":21.8,"src":"actual headcount (tracker)"},{"month":"2025-06","v":18.9,"src":"actual headcount (tracker)"},{"month":"2025-07","v":18.0,"src":"actual headcount (tracker)"},{"month":"2025-08","v":20.6,"src":"actual headcount (tracker)"},{"month":"2025-09","v":25.6,"src":"actual headcount (tracker)"},{"month":"2025-10","v":23.4,"src":"actual headcount (tracker)"},{"month":"2025-11","v":22.1,"src":"actual headcount (tracker)"},{"month":"2025-12","v":23.9,"src":"actual headcount (tracker)"},{"month":"2026-01","v":25.7,"src":"actual headcount (tracker)"},{"month":"2026-02","v":28.2,"src":"actual headcount (tracker)"},{"month":"2026-03","v":27.0,"src":"actual headcount (tracker)"},{"month":"2026-04","v":28.1,"src":"actual headcount (tracker)"},{"month":"2026-05","v":23.2,"src":"actual headcount (tracker)"},{"month":"2026-06","v":23.3,"src":"actual headcount (tracker)"}],"venues":[{"venue":"Villingili","count":215,"mean":22.8},{"venue":"Mal\u00e9 FAM Turf","count":16,"mean":14.8},{"venue":"Hulhumal\u00e9 HDC Turf","count":4,"mean":16.0},{"venue":"Hulhumal\u00e9 Rehendhi School","count":3,"mean":17.3},{"venue":"Hulhumal\u00e9 Running Track","count":2,"mean":16.5},{"venue":"Henveiru Dhandu","count":1,"mean":33.0}],"blackout_years":[{"yr":"2021","days":17,"med":9.5},{"yr":"2022","days":40,"med":7.5},{"yr":"2023","days":111,"med":11.5}],"fa":{"slip":24,"cancelled-quorum":2,"cancelled-bumped":1,"other-event":1,"dodgebee":3,"unresolved":2,"hdc":1,"cancelled-venue":1},"fa_total":35}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  document.querySelector('#hist').append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:40,marginBottom:36,height:260,width:840,
+    x:{label:'players at the session',domain:[9,42]},
+    y:{grid:true,label:'sessions'},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      Plot.rectY(DATA.hist,{x1:d=>d.pax-0.45,x2:d=>d.pax+0.45,y:'n',fill:'#0E7C86'}),
+      Plot.ruleX([DATA.quorum-0.5],{stroke:'#B23A48',strokeDasharray:'4,3'}),
+      Plot.text([{x:DATA.quorum-0.5,y:16.5}],{x:'x',y:'y',text:()=>'declared quorum '+DATA.quorum,fill:'#B23A48',dx:6,textAnchor:'start',fontSize:10})
+    ]
+  }));
+  const ser = DATA.series.map(d=>({...d, t:new Date(d.month+'-15T00:00:00')}));
+  document.querySelector('#series').append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:40,marginBottom:34,height:280,width:840,
+    x:{label:null,type:'time'},
+    y:{grid:true,label:'players (median sign-ups / mean headcount)',domain:[0,32]},
+    color:{domain:['sign-up size (chat-derived)','actual headcount (tracker)'],range:['#B07B23','#0E7C86'],legend:true},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      Plot.ruleY([DATA.quorum],{stroke:'#B23A48',strokeDasharray:'4,3'}),
+      Plot.dot(ser,{x:'t',y:'v',fill:'src',r:2.5}),
+      Plot.lineY(ser,{x:'t',y:'v',stroke:'src',strokeWidth:1.2})
+    ]
+  }));
+})();
+
+</script>
+</body>
+</html>

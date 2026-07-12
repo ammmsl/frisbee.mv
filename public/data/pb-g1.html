@@ -1,0 +1,93 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>What do lapsed players become? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">PB-G1</span><span class="sep">·</span><span>Part B — breakpoints benchmarking</span></p>
+  <h1 class="q">What do lapsed players become?</h1>
+  <p class="howto">Part A flags the lapsed-player → fan/volunteer transition as an untheorised foundational assumption (gap #5). UFA's record can follow every player who stopped — 235 lapsed of 317 resolvable players — through chat, admin actions, membership and returns.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">83%</div><div class="l">of lapsed players leave no further trace</div></div>
+  <div class="stat"><div class="n tnum">17%</div><div class="l">convert to any engager role (chat / volunteer / patron)</div></div>
+  <div class="stat"><div class="n tnum">13%</div><div class="l">of all players return after a 6-month-plus gap</div></div>
+  <div class="stat"><div class="n tnum">8.5:1</div><div class="l">players per admin volunteer — a thin coordination layer</div></div>
+</div>
+
+<div class="slab">The outcome taxonomy (literature gap #5)</div>
+<figure class="fig">
+  <div class="cap">Where 235 lapsed players went (no play for 90+ days; outcomes measured ≥14 days after last session)</div>
+  <div class="sub">Part A: what lapsed players become is "essentially untheorised", yet industry assumes they seed the fan/volunteer base. Measured behaviourally, the pipeline is thin.</div>
+  <div id="cats"></div>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>Outcome</th><th class="num">People</th><th class="num">Share</th></tr></thead>
+    <tbody><tr><td>silent exit — no further trace</td><td class='num'>194</td><td class='num'>82.6%</td></tr><tr><td>chat engager — keeps talking after stopping</td><td class='num'>26</td><td class='num'>11.1%</td></tr><tr><td>volunteer — admin actions after stopping</td><td class='num'>9</td><td class='num'>3.8%</td></tr><tr><td>patron — paid 2026 membership without playing</td><td class='num'>6</td><td class='num'>2.6%</td></tr></tbody>
+  </table></div>
+</figure>
+
+<div class="slab">The residue and the returners</div>
+<figure class="fig">
+  <div class="cap">Two real second channels</div>
+  <div class="sub">Chat engagement after stopping decays with a median of ~118 days; but 41 players (13%) have already come back after 6+ months away — re-engagement, not fandom, is the live channel. This matches Part A's trickle-down evidence, where apparent participation effects are mostly <i>re-engagement of lapsed participants</i>.</div>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li><b>Gap #5 measured: the lapsed-player → engager pipeline barely exists here.</b> Of 235 players inactive 90+ days, <b>83% vanish entirely</b>; 26 (11%) keep chatting (median residue ~118 days, then silence), 9 volunteer, 6 become paying patrons. The industry assumption that ex-players convert into a fan/volunteer layer is not what this community's record shows — consistent with Part A's finding that fandom is recruited relationally, not from playing history.</li><li><b>The live second channel is return, not spectating:</b> 41 of 317 players (13%) have already lapsed 6+ months and come back. A 'lapsed' list is therefore partly a <i>future-player</i> list — re-engagement campaigns have a measured base rate to beat, and Part A's review says re-engagement is exactly where participation effects actually appear.</li><li><b>A pure-supporter class exists but is small:</b> 6 of 56 paid 2026 members (11%) haven't played at all in 2026 (10 at ≤2 sessions). The patronage model is doing what it was designed to do (OMS-6) — but at ~11% of membership, UFA is still a players' club, nowhere near the emerging-sport inversion (pickleball ~10 players per fan) flipping.</li><li><b>The volunteer economy is thin:</b> 204 players in the last 12 months per 24 people with any admin trace — <b>8.5:1</b> at the most generous count, ~41:1 against the ~5-person real core — a thin coordination layer for a club this size. This is the bus-factor story (TB-5/OMS-4) expressed in Part A's units, and the single strongest structural strain anywhere in Part B. (We cite no national benchmark ratio: England-wide volunteering figures mix definitions of "participant" and "volunteer" and aren't measured at club level.)</li><li>[ASSUMPTION] Outcome categories are behavioural proxies on the tracked record: 'volunteer' = WhatsApp admin actions only (portfolio work like event organising is invisible here), 'silent' means no trace <i>in this community's channels</i>. The member survey (Part B instrument N1) is the designed triangulation.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Universe = the 317 resolvable players in the presence substrate
+(<code>gS_rsvp.presence()</code>, deduped; raw-name-only appearances excluded). Lapsed = last
+presence ≥90 days before 2026-06-30. Outcomes require a signal ≥14 days after the
+last session: chat-engager = any later message; volunteer = any later
+<code>membership_events</code> action; patron = paid 2026 membership with last play before 2026;
+categories are exclusive in priority order volunteer &gt; patron &gt; chat-engager &gt; silent.
+Returner = any two consecutive presences ≥180 days apart (computed over all players — a
+returner may since have lapsed again). Volunteer ratio: distinct admin actors in the trailing 12
+months vs distinct players in the same window; the 'core' variant uses the ~5 committee+deputy
+roles. Right-censoring: recent lapsers have had less time to show an outcome — shares are
+conservative for the engager categories. All aggregates; no names.
+Script <code>analysis/gP_g1.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-04 · 235 lapsed · 83% silent · 13% returners</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"n_players":317,"n_lapsed":235,"cats":[{"cat":"silent","n":194,"share":0.826},{"cat":"chat-engager","n":26,"share":0.111},{"cat":"volunteer","n":9,"share":0.038},{"cat":"patron","n":6,"share":0.026}],"returners":41,"ret_share":0.129,"residue_med":118.5,"residue_p75":218.5,"patrons_2026":{"zero":6,"low":10,"members":56},"vol_ratio":{"admins12":24,"pool12":204,"broad":8.5,"core":40.8}}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  document.querySelector('#cats').append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:230,marginRight:24,marginBottom:34,height:200,width:840,
+    x:{grid:true,label:'share of lapsed players',tickFormat:'.0%',domain:[0,1]},
+    y:{label:null},
+    marks:[
+      Plot.ruleX([0],{stroke:T.line}),
+      Plot.barX(DATA.cats,{y:'cat',x:'share',fill:d=>d.cat==='silent'?'#9A9A9A':'#0E7C86',sort:{y:'-x'}}),
+      Plot.text(DATA.cats,{y:'cat',x:'share',text:d=>d.n+' ('+(d.share*100).toFixed(1)+'%)',dx:6,textAnchor:'start',fontSize:10,fill:T.muted})
+    ]
+  }));
+})();
+
+</script>
+</body>
+</html>

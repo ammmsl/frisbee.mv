@@ -1,0 +1,101 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>How exposed is UFA to losing its single venue? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">B4</span><span class="sep">·</span><span>Resource dependence &amp; risk</span></p>
+  <h1 class="q">How exposed is UFA to losing its single venue?</h1>
+  <p class="howto">UFA's critical resource is a pitch it doesn't own. This measures how concentrated its play is on one venue (a Herfindahl index over session share), shows the consolidation over time, and profiles each venue's booking security. <b>244 sessions across 6 venues; tracked era only.</b></p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">89%</div><div class="l">of sessions on one venue (Villingili)</div></div>
+  <div class="stat"><div class="n tnum">92%</div><div class="l">of all attendance there</div></div>
+  <div class="stat"><div class="n tnum">0.803</div><div class="l">venue concentration (HHI, 1.0 = single venue)</div></div>
+  <div class="stat"><div class="n tnum">0</div><div class="l">venues UFA holds a contract on</div></div>
+</div>
+
+<div class="caveat"><b>Tracked era only.</b> The tracker starts Jan&nbsp;2024. The club was founded 28&nbsp;Sep&nbsp;2018, but 2018–~2023 was Friday-morning pickup on the free FAM Malé pitch — <b>untracked</b>. A 2018–2021 chat gap (Android→iPhone data loss) and no per-session attendance before 2024 mean every "since 2018" figure here describes the <b>2024+ tracked era</b>, not the club's full history.</div>
+
+<div class="slab">One venue carries the club</div>
+<figure class="fig">
+  <div class="cap">Sessions per quarter: Villingili vs every other venue</div>
+  <div class="sub">After an early-2024 venue hunt across free/paid pitches, play consolidated almost entirely onto the paid Villingili turf. This is the tracked era only — the 2018–~2023 free-FAM-Malé era is not in the data.</div>
+  <div id="timeline"></div>
+</figure>
+
+<div class="slab">The dependence, by venue</div>
+<figure class="fig">
+  <div class="cap">Each venue's load, control, and booking security</div>
+  <div class="sub">"Security" = how much booking control UFA actually holds. The load-bearing venue is precisely the one where control is weakest.</div>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>Venue</th><th class="num">Sessions</th><th class="num">Attendance</th><th>Booking security</th><th>Control / access story</th></tr></thead>
+    <tbody><tr><td>Villingili</td><td class='num'>218 (89%)</td><td class='num'>4,505</td><td>none</td><td>No contract, no booking rights; tertiary customer, bump-able for football/events; 5-min ferry suppresses turnout. Bulk-prepaid half-monthly.</td></tr><tr><td>Malé FAM Turf</td><td class='num'>16 (7%)</td><td class='num'>228</td><td>nominal</td><td>Free FAM pitch, no booking — show up and hope. The 2018–~2023 home; now rare.</td></tr><tr><td>Hulhumalé HDC Turf</td><td class='num'>4 (2%)</td><td class='num'>57</td><td>weak</td><td>Paid, futsal-sized (fewer players); short 11pm–12am Mon/Thu slot on a May–Jul agreement. The only active alternative.</td></tr><tr><td>Hulhumalé Rehendhi School</td><td class='num'>3 (1%)</td><td class='num'>50</td><td>none</td><td>School stopped leasing — no longer available.</td></tr><tr><td>Hulhumalé Running Track</td><td class='num'>2 (1%)</td><td class='num'>33</td><td>none</td><td>2 sessions; not detailed — treat as incidental.</td></tr><tr><td>Henveiru Dhandu</td><td class='num'>1 (0%)</td><td class='num'>6</td><td>none</td><td>Free for events only; one hat tournament, poor lighting — not reused.</td></tr></tbody>
+  </table></div>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>UFA runs on <b>one pitch it does not control</b>: <b>89%</b> of sessions and <b>92%</b> of all attendance are at Villingili (venue concentration HHI <b>0.803</b>, where 1.0 is a single venue). That is a textbook resource-dependence exposure — the critical resource is external and substitutable only at a cost.</li><li>Control at that venue is <b>near-zero</b>: no contract, no booking rights, tertiary customer status (bump-able for football or events), and a 5-minute ferry that itself suppresses turnout. UFA is likely the only paying non-futsal user, on a public asset FAM does not formally back for other sports.</li><li>The only active fallback — the Hulhumalé HDC futsal pitch — is <b>thin</b>: paid, futsal-sized (fewer players), and confined to a late 11pm–12am Mon/Thu slot on a short-term agreement. Two former options (Rehendhi School, Henveiru) are already gone or unusable. Substitutability is low.</li><li>The consolidation is recent and visible only in the tracked era: after an early-2024 scramble across 6 venues, play collapsed onto Villingili from 2024-Q2. [ASSUMPTION] The mitigations are governance ones — a booking agreement, a second contracted venue, or a demand-side buffer — not analysable from this DB; logged for the owner.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Session and attendance counts per venue from <code>sessions</code>
+and <code>attendance ⋈ sessions</code>; venues normalised from the messy
+<code>location</code> strings (<code>analysis/corrections.py</code>).
+<b>Concentration</b> = Herfindahl–Hirschman Index over each venue's session
+share (Σ shareᵢ²; 1.0 = a single venue). The consolidation timeline counts
+sessions per quarter, Villingili vs all others. The control/security column is
+the owner's venue ground truth (CORRECTIONS.md §2), not a DB field — treated as
+qualitative context. <b>Tracked era only</b>: the DB starts 2024-01;
+the 2018–~2023 free-FAM-Malé Friday-morning era is not captured, so this
+describes the current single-venue regime, not the club's full venue history.
+Script <code>analysis/gC_b4.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-03 · 89% single-venue / HHI 0.803 · Pfeffer–Salancik RDT</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"n_sessions":244,"hhi":0.803,"core_venue":"Villingili","core_sessions":218,"core_share":0.893,"core_att_share":0.923,"n_venues":6,"timeline":[{"qtr":"2024-Q1","core":8,"other":14},{"qtr":"2024-Q2","core":22,"other":4},{"qtr":"2024-Q3","core":26,"other":0},{"qtr":"2024-Q4","core":25,"other":2},{"qtr":"2025-Q1","core":22,"other":3},{"qtr":"2025-Q2","core":23,"other":1},{"qtr":"2025-Q3","core":23,"other":0},{"qtr":"2025-Q4","core":24,"other":0},{"qtr":"2026-Q1","core":24,"other":0},{"qtr":"2026-Q2","core":21,"other":2}],"venues":[{"venue":"Villingili","sessions":218,"share":0.893,"att":4505,"avg_cost":684.0,"security":"none","role":"critical","note":"No contract, no booking rights; tertiary customer, bump-able for football/events; 5-min ferry suppresses turnout. Bulk-prepaid half-monthly."},{"venue":"Mal\u00e9 FAM Turf","sessions":16,"share":0.066,"att":228,"avg_cost":0.0,"security":"nominal","role":"historic","note":"Free FAM pitch, no booking \u2014 show up and hope. The 2018\u2013~2023 home; now rare."},{"venue":"Hulhumal\u00e9 HDC Turf","sessions":4,"share":0.016,"att":57,"avg_cost":275.0,"security":"weak","role":"fallback","note":"Paid, futsal-sized (fewer players); short 11pm\u201312am Mon/Thu slot on a May\u2013Jul agreement. The only active alternative."},{"venue":"Hulhumal\u00e9 Rehendhi School","sessions":3,"share":0.012,"att":50,"avg_cost":0.0,"security":"none","role":"lost","note":"School stopped leasing \u2014 no longer available."},{"venue":"Hulhumal\u00e9 Running Track","sessions":2,"share":0.008,"att":33,"avg_cost":0.0,"security":"none","role":"incidental","note":"2 sessions; not detailed \u2014 treat as incidental."},{"venue":"Henveiru Dhandu","sessions":1,"share":0.004,"att":6,"avg_cost":90.0,"security":"none","role":"one-off","note":"Free for events only; one hat tournament, poor lighting \u2014 not reused."}],"tracked_from":"2024-01"}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  const el=document.querySelector('#timeline');
+  const rows=[];
+  DATA.timeline.forEach(d=>{
+    rows.push({qtr:d.qtr, grp:'Villingili', n:d.core});
+    rows.push({qtr:d.qtr, grp:'Other venues', n:d.other});
+  });
+  el.append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:34,marginRight:20,marginTop:16,marginBottom:44,height:300,width:840,
+    x:{label:null,tickRotate:-40},
+    y:{grid:true,label:'sessions',nice:true},
+    color:{domain:['Villingili','Other venues'],range:['#0E7C86','#B07B23'],legend:true},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      Plot.barY(rows,{x:'qtr',y:'n',fill:'grp',order:['Other venues','Villingili']}),
+      Plot.text(DATA.timeline,{x:'qtr',y:d=>d.core+d.other,text:d=>d.core+d.other,dy:-6,fill:T.muted,fontSize:10})
+    ]
+  }));
+})();
+
+</script>
+</body>
+</html>

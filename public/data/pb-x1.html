@@ -1,0 +1,72 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>Every breakpoint of play, benchmarked against one real community — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">PB-X1</span><span class="sep">·</span><span>Part B — breakpoints benchmarking</span></p>
+  <h1 class="q">Every breakpoint of play, benchmarked against one real community</h1>
+  <p class="howto">Part A assembled the numerical thresholds that govern informal sport — from 6-to-start through 90-9-1 to Dunbar's 150. Part B measured them on UFA's full behavioural record. This is the summary table; each row links to the page that computes and caveats it.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">24</div><div class="l">breakpoints benchmarked against Part A</div></div>
+  <div class="stat"><div class="n tnum">2 + 2</div><div class="l">literature gaps filled + measured for the first time</div></div>
+  <div class="stat"><div class="n tnum">5/15/50</div><div class="l">Dunbar's layers, reproduced behaviourally</div></div>
+  <div class="stat"><div class="n tnum">8.5:1</div><div class="l">the club's one clear structural strain: a thin volunteer layer</div></div>
+</div>
+
+<div class="slab">The benchmark table</div>
+<figure class="fig">
+  <div class="cap">Every Part A threshold with a measurable analogue, against its UFA value</div>
+  <div class="sub">Evidence tags follow Part A: [S] strong, [M] moderate, [P] practitioner heuristic. Verdicts are directional reads, not statistical tests — n is one community.</div>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>Level</th><th>Breakpoint</th><th>Literature</th><th>UFA measured</th><th>Verdict</th><th>Page</th></tr></thead>
+    <tbody><tr><td>Session</td><td>Game-on threshold</td><td>10–14 sign-ups [P]</td><td>quorum 12; 1/215 below; 2 observed quorum-failure cancellations</td><td><b>match</b></td><td><a href='pb-s1.html'>PB-S1</a></td></tr><tr><td>Session</td><td>Session size</td><td>no published distribution [gap #2]</td><td>median 22 (11–41), venue-capped</td><td><b>GAP FILLED</b></td><td><a href='pb-s1.html'>PB-S1</a></td></tr><tr><td>Session</td><td>No-show, paid RSVP</td><td>15–30% [P]</td><td>16.2% any-point / 9.2% final-list</td><td><b>at band floor · GAP FILLED (#1)</b></td><td><a href='pb-s2.html'>PB-S2</a></td></tr><tr><td>Session</td><td>No-show, free RSVP</td><td>40–50% [P]</td><td>(2021–22 free era unmeasurable)</td><td><b>n/a</b></td><td><a href='pb-s2.html'>PB-S2</a></td></tr><tr><td>Session</td><td>Overbooking multiplier</td><td>book 1.5–2× [P]</td><td>median 1.00× — list ≈ headcount</td><td><b>DEVIATES (better)</b></td><td><a href='pb-s2.html'>PB-S2</a></td></tr><tr><td>Community</td><td>90-9-1 participation</td><td>1% do 90% [S, online]</td><td>top 1% do 11%; next 9% do 54%</td><td><b>DEVIATES (physical cap)</b></td><td><a href='pb-c1.html'>PB-C1</a></td></tr><tr><td>Community</td><td>Active core</td><td>~10% do the work [S]</td><td>6.5% produce half of attendance</td><td><b>match</b></td><td><a href='pb-c1.html'>PB-C1</a></td></tr><tr><td>Community</td><td>Dunbar layers 5/15/50/150</td><td>[S/contested]</td><td>5 / 15 / 50 / 204 measured</td><td><b>match (eerily)</b></td><td><a href='pb-c1.html'>PB-C1</a></td></tr><tr><td>Community</td><td>Viability floor ~50 weekly</td><td>congregations <50 close 2× [M]</td><td>monthly actives 30–77, mean ~59</td><td><b>above floor</b></td><td><a href='pb-c1.html'>PB-C1</a></td></tr><tr><td>Community</td><td>Event turnout</td><td>10–30% of pool [P]</td><td>median 24.4%, twice weekly</td><td><b>top of band</b></td><td><a href='pb-c2.html'>PB-C2</a></td></tr><tr><td>Community</td><td>Cadence</td><td>weekly = natural rhythm [S]</td><td>2×/week, nominally Tue/Fri (movable)</td><td><b>above</b></td><td><a href='pb-s1.html'>PB-S1</a></td></tr><tr><td>Community</td><td>Habit dose</td><td>4×/wk × 6 wk (gym) [S]</td><td>≥4 in 6 wk → 64% vs 24% 6-mo survival</td><td><b>replicates directionally</b></td><td><a href='pb-c2.html'>PB-C2</a></td></tr><tr><td>Community</td><td>Once-only newcomers</td><td>parkrun 22% [S]</td><td>50.5% of all newcomers; ~87% of the never-joined periphery (two denominators, both correct)</td><td><b>worse front door</b></td><td><a href='pb-c2.html'>PB-C2</a></td></tr><tr><td>Community</td><td>12-month survival</td><td>gyms ~19% [S]</td><td>29.8% — curves cross by month 12</td><td><b>stickier tail</b></td><td><a href='pb-c2.html'>PB-C2</a></td></tr><tr><td>Community</td><td>Annual member retention</td><td>gyms ~66% [S]</td><td>renewal 73% (37/51)</td><td><b>above</b></td><td><a href='pb-c2.html'>PB-C2</a></td></tr><tr><td>Community</td><td>Kanter gender threshold</td><td>≥30% [S]</td><td>34.7% of gendered players</td><td><b>above (rates still lag)</b></td><td><a href='pb-c1.html'>PB-C1</a></td></tr><tr><td>Ecosystem</td><td>Minimum viable league</td><td>6–8 teams [P]; no study [gap #4]</td><td>5 teams → 4, 60% completion</td><td><b>single case below floor</b></td><td><a href='pb-e1.html'>PB-E1</a></td></tr><tr><td>Ecosystem</td><td>Travel radius 50–100 km</td><td>[M, road]</td><td>island cluster = one market; atolls = tournament contact</td><td><b>re-derived</b></td><td><a href='pb-e1.html'>PB-E1</a></td></tr><tr><td>Ecosystem</td><td>Density dependence</td><td>never fit to clubs [gap #3]</td><td>n=1 — cannot fill</td><td><b>OPEN (honest)</b></td><td><a href='pb-e1.html'>PB-E1</a></td></tr><tr><td>Engagement</td><td>Lapsed → engager pipeline</td><td>untheorised [gap #5]</td><td>82.6% silent; 13% return instead</td><td><b>GAP MEASURED</b></td><td><a href='pb-g1.html'>PB-G1</a></td></tr><tr><td>Engagement</td><td>Volunteer ratio</td><td>no like-for-like club-level figure</td><td>8.5:1 broad / ~41:1 core</td><td><b>thin layer — the structural risk</b></td><td><a href='pb-g1.html'>PB-G1</a></td></tr><tr><td>Engagement</td><td>Player:fan inversion</td><td>emerging sports ~10:1 players:fans [M]</td><td>patrons = 11% of membership</td><td><b>players' club still</b></td><td><a href='pb-g1.html'>PB-G1</a></td></tr><tr><td>Org</td><td>Liability of newness</td><td>10–20% die in 3–5 yrs [S]</td><td>alive at 7.8 yrs, formalised at 6</td><td><b>survived</b></td><td><a href='oms-16.html'>OMS-16</a></td></tr><tr><td>Org</td><td>Professionalization threshold</td><td>no universal N [gap #6]</td><td>Kitchen-Table→Boardroom at ~60 actives, volunteer-run</td><td><b>calibration point</b></td><td><a href='tb-1.html'>TB-1</a></td></tr></tbody>
+  </table></div>
+</figure>
+
+<div class="slab">The seven literature gaps — scorecard</div>
+<figure class="fig">
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>Part A gap</th><th>Status</th><th>Where</th></tr></thead>
+    <tbody><tr><td>#1 pickup no-show/RSVP rates</td><td><b>FILLED</b></td><td>pb-s2 — 16.2% / 9.2% over 171 paid sessions, 4,000+ commitments</td></tr><tr><td>#2 session-attendance distributions</td><td><b>FILLED</b></td><td>pb-s1 — 215-session distribution + 2021–23 reconstruction</td></tr><tr><td>#3 density dependence in sport clubs</td><td><b>OPEN</b></td><td>n=1 ecosystem; not fillable here</td></tr><tr><td>#4 minimum-viable-league lower bound</td><td><b>ONE CASE</b></td><td>pb-e1 — 5→4 teams, 60% completion</td></tr><tr><td>#5 lapsed-player outcomes</td><td><b>MEASURED</b></td><td>pb-g1 — behavioural taxonomy, 235 lapsed</td></tr><tr><td>#6 professionalization tipping point</td><td><b>CALIBRATION POINT</b></td><td>tb-1/oms-16 trajectory + load series</td></tr><tr><td>#7 failure distributions</td><td><b>PARTIAL ANALOGUE</b></td><td>pb-s1 — 4 confirmed cancellations (2 quorum, 2 venue); 2 venues lost; 1 team withdrawn</td></tr></tbody>
+  </table></div>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li><b>The canonical structure shows up uninvited:</b> a community that never read Dunbar reproduces 5/15/50/(150–204) almost exactly, sits at the top of the 10–30% turnout band, fires sessions at precisely its declared quorum, and matches the ~10% active-core rule. The breakpoints literature, borrowed from congregations and phone logs, describes a Malé frisbee pitch startlingly well.</li><li><b>Where UFA deviates, it deviates instructively:</b> no-shows at the paid band's floor and a 1.00× overbooking multiplier (the socially-curated list beats the RSVP-decay assumption); a steeper newcomer cliff than gyms but a stickier tail (the parkrun trade, at club scale); 90-9-1 flattened at the top because a body can only fill one slot per night.</li><li><b>The one clear structural strain:</b> the volunteer economy is thin — 8.5:1 players per admin volunteer, ~41:1 against the ~5-person real core. Every other deviation is neutral or favourable; this one is the club's structural risk (the same finding as TB-5/OMS-4). We cite no national "benchmark" ratio here: England-wide volunteering figures mix definitions of participant and volunteer and aren't measured at club level, so any single headline ratio would mislead more than clarify.</li><li><b>Two literature gaps are filled outright</b> (no-show rates, attendance distributions), one is behaviourally measured for the first time (lapsed-player outcomes), one gets its first real-world case (a league below the 6–8 floor). Gap #3 stays open and is labelled so. This page is the anchor for the website-published resource (Part B plan §5).</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">A synthesis page in the X-1 pattern: no new computation; every UFA value is
+computed and caveated on its linked sibling page (PB-S1/S2, PB-C1/C2, PB-G1, PB-E1, plus TB-1/
+OMS-16 for the organisational rows). Literature values and evidence tags quote Part A
+("Breakpoints of play", repo root), which carries the full citations. Verdicts are directional:
+one community, no significance claims. Script <code>analysis/gP_x1.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-04 · 24 breakpoints · 2 gaps filled, 2 measured, 1 open</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+</script>
+</body>
+</html>

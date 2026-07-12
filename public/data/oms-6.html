@@ -1,0 +1,132 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>Is UFA's membership fee coherent as patronage? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">OMS-6</span><span class="sep">·</span><span>Legitimacy &amp; coherence</span></p>
+  <h1 class="q">Is UFA's membership fee coherent as patronage?</h1>
+  <p class="howto">The fee is a deliberate AGM-set patronage price — 2025 700, 2026 membership 250 (renewing) or 350 new (with the one-time 100 registration) — not cost-recovery. We judge coherence on those terms, using the 15 MVR/session surcharge saving only as a tangible-benefit floor. <b>n=51/56 members.</b></p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">47</div><div class="l">sessions/yr to recoup 700 MVR (2025)</div></div>
+  <div class="stat"><div class="n tnum">17</div><div class="l">to recoup the 250 MVR renewal (2026)</div></div>
+  <div class="stat"><div class="n tnum">23</div><div class="l">to recoup 350 MVR (2026 new: 100 reg + 250)</div></div>
+  <div class="stat"><div class="n tnum">48%</div><div class="l">of 2026 members clear the 250 floor (H1)</div></div>
+</div>
+
+<div class="caveat"><b>Patronage, not cost-recovery — and new ≠ renewing.</b> The
+fee is a deliberate AGM-set patronage price: a one-time <b>100 MVR registration</b>
+(new members only) plus annual membership. 2025 = <b>700</b> (100 reg + 600; all
+members joined that year). 2026 membership = <b>250</b> for a renewing member; a
+<b>new</b> 2026 member pays <b>350</b> (100 reg + 250). Members also pay a
+surcharge (member 10 / non-member 25). Per-player field cost has <em>risen</em>
+(~18 → 34 → 46 MVR), so the fee isn't chasing cost down. We use break-even (fee ÷
+the 15 MVR/session surcharge saving) only as a <b>tangible-benefit floor</b>,
+and read a below-floor member as a <b>patron</b>. The DB can't isolate fee receipts
+from session payments; fees are AGM-set (org-wide), attendance is the pickup slice.
+<b>2026 is Jan–Jun only</b> (an ×2 annualised read is shown too). Small-n:
+51 2025 / 56 2026 members. Descriptive, not causal.</div>
+
+<div class="slab">The tangible-benefit floor</div>
+<figure class="fig">
+  <div class="cap">How much play recoups the fee in surcharge savings</div>
+  <div class="sub">The rising line is cumulative surcharge saving (15 MVR/session). It crosses each fee at that fee's break-even: <b>700</b> (2025) at 47 sessions, the <b>350</b> new-member price at 23, the <b>250</b> renewal at 17. Below a crossing, a member pays in as a patron beyond what they recoup — which the model intends.</div>
+  <div id="cross"></div>
+</figure>
+
+<div class="slab">Do members actually attend enough?</div>
+<figure class="fig">
+  <div class="cap">2025 members' attendance vs the 700 MVR break-even</div>
+  <div class="sub"><span style="color:#2E7D5B">Green</span> bins are at/above the 47-session break-even, <span style="color:#C0492E">red</span> below. Only <b>10 of 51</b> (20%) attended enough. n=51.</div>
+  <div id="h25"></div>
+</figure>
+<figure class="fig">
+  <div class="cap">2026 members' attendance (Jan&ndash;Jun) vs the 250 renewal / 350 new floors</div>
+  <div class="sub">Bars at/above the <b>250</b> renewal floor (17 sessions) are <span style="color:#2E7D5B">green</span>; the dashed line marks the <b>350</b> new-member floor (23). <b>27 of 56</b> (48%) clear renewal and <b>21</b> (38%) clear the new-member floor in half a year (~68% annualised at renewal). Below-floor bins are patrons, not losses. n=56.</div>
+  <div id="h26"></div>
+</figure>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>The fee is <b>patronage, not cost-recovery</b>: per-player field cost <em>rose</em> (~18 → 34 → 46 MVR) while membership fell 700 → 250 — a price members pay to sustain the club. Judged as patronage the model is coherent by design.</li><li>New and renewing 2026 members face different prices: a <b>renewing</b> member pays <b>250</b> (recouped after 17 sessions of surcharge saving — <b>48%</b> already cleared it in H1), while a <b>new</b> member pays <b>350</b> (100 one-time registration + 250; recouped after 23, <b>38%</b> cleared). The one-time registration is a joining cost, not a recurring one.</li><li>The 2025 <b>700</b> floor needed <b>47</b> sessions and only <b>20%</b> cleared it — so most 2025 members were patrons on pure play-economics. Median member attendance is 26 (2025) and 16 (2026 H1); the 250 renewal price sits near the median member's floor.</li><li>So the right test isn't “does it pay for itself” but “is the patronage price legible and accepted” — and it is. A member who never plays isn't an anomaly under patronage: the league reconciliation surfaces exactly one <b>paid, zero-attendance patron</b> (correction #7). [ASSUMPTION] membership also buys belonging/voting/priority the DB can't price.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Fee framed as <b>AGM-set patronage</b> (<code>corrections.PRICING</code>):
+a one-time <b>100 MVR registration</b> (new members) + annual membership — 2024
+cost-split, 2025 <b>700</b> (100 reg + 600; members surcharge-exempt), 2026
+membership <b>250</b> (renewing) / <b>350</b> new (100 reg + 250); surcharge member
+10 / non-member 25; per-player field cost ~18 → 34 → 46. Benefit floor only:
+member benefit = the <b>surcharge differential</b> (15 MVR/session;
+attendance.surcharge confirms these rates, older rows 15). <b>Break-even</b> = fee ÷
+15: 700→46.7, 350→23.3, 250→16.7.
+Member attendance = check-ins that calendar year for people with
+<code>member_YYYY=1</code> (51 in 2025, 56 in 2026). <b>[ASSUMPTION]</b> 2026
+is Jan–Jun only; raw H1 share and ×2 annualised both shown. <b>The DB cannot
+separate membership-fee payments from session payments</b>; fees are AGM-set
+(org-wide), attendance is the pickup slice. Descriptive, not causal. Money: 1 USD ≈
+15.4 MVR. No individuals named. Script: <code>analysis/gC_oms6.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-03 · n=51/56 members · surcharge-differential model</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"reg":100,"fee2025":700,"fee_renew":250,"fee_new":350,"be2025":46.7,"be_renew":16.7,"be_new":23.3,"n25":51,"n26":56,"reach25":10,"reach25_pct":20,"reach_renew":27,"reach_renew_pct":48,"reach_new":21,"reach_new_pct":38,"reach_renew_ann":38,"reach_renew_ann_pct":68,"median25":26.0,"median26":16.0,"hist2025":[{"lo":0,"hi":5,"n":11},{"lo":5,"hi":10,"n":4},{"lo":10,"hi":17,"n":4},{"lo":17,"hi":25,"n":5},{"lo":25,"hi":35,"n":8},{"lo":35,"hi":50,"n":11},{"lo":50,"hi":80,"n":8}],"hist2026":[{"lo":0,"hi":5,"n":13},{"lo":5,"hi":10,"n":7},{"lo":10,"hi":17,"n":9},{"lo":17,"hi":25,"n":11},{"lo":25,"hi":35,"n":12},{"lo":35,"hi":50,"n":4},{"lo":50,"hi":80,"n":0}],"cross":[{"sessions":0,"saving":0},{"sessions":1,"saving":15},{"sessions":2,"saving":30},{"sessions":3,"saving":45},{"sessions":4,"saving":60},{"sessions":5,"saving":75},{"sessions":6,"saving":90},{"sessions":7,"saving":105},{"sessions":8,"saving":120},{"sessions":9,"saving":135},{"sessions":10,"saving":150},{"sessions":11,"saving":165},{"sessions":12,"saving":180},{"sessions":13,"saving":195},{"sessions":14,"saving":210},{"sessions":15,"saving":225},{"sessions":16,"saving":240},{"sessions":17,"saving":255},{"sessions":18,"saving":270},{"sessions":19,"saving":285},{"sessions":20,"saving":300},{"sessions":21,"saving":315},{"sessions":22,"saving":330},{"sessions":23,"saving":345},{"sessions":24,"saving":360},{"sessions":25,"saving":375},{"sessions":26,"saving":390},{"sessions":27,"saving":405},{"sessions":28,"saving":420},{"sessions":29,"saving":435},{"sessions":30,"saving":450},{"sessions":31,"saving":465},{"sessions":32,"saving":480},{"sessions":33,"saving":495},{"sessions":34,"saving":510},{"sessions":35,"saving":525},{"sessions":36,"saving":540},{"sessions":37,"saving":555},{"sessions":38,"saving":570},{"sessions":39,"saving":585},{"sessions":40,"saving":600},{"sessions":41,"saving":615},{"sessions":42,"saving":630},{"sessions":43,"saving":645},{"sessions":44,"saving":660},{"sessions":45,"saving":675},{"sessions":46,"saving":690},{"sessions":47,"saving":705},{"sessions":48,"saving":720},{"sessions":49,"saving":735},{"sessions":50,"saving":750},{"sessions":51,"saving":765},{"sessions":52,"saving":780},{"sessions":53,"saving":795},{"sessions":54,"saving":810},{"sessions":55,"saving":825},{"sessions":56,"saving":840},{"sessions":57,"saving":855},{"sessions":58,"saving":870},{"sessions":59,"saving":885},{"sessions":60,"saving":900}],"saving":15}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  const el=document.querySelector('#cross');
+  const fees=[{y:DATA.fee2025,c:'#B07B23',t:'700 (2025)',be:DATA.be2025},
+              {y:DATA.fee_new,c:'#C0492E',t:'350 (2026 new)',be:DATA.be_new},
+              {y:DATA.fee_renew,c:'#2E7D5B',t:'250 (2026 renewal)',be:DATA.be_renew}];
+  el.append(Plot.plot({style:{background:'transparent',fontFamily:T.mono,fontSize:'12px'},
+    marginLeft:56,marginBottom:40,marginRight:150,marginTop:12,height:340,width:820,
+    x:{label:'sessions attended / year →',nice:true,domain:[0,60]},
+    y:{grid:true,label:null,nice:true,domain:[0,760]},
+    marks:[
+      Plot.ruleY([0],{stroke:T.line}),
+      ...fees.map(f=>Plot.ruleY([f.y],{stroke:f.c,strokeDasharray:'3,3'})),
+      Plot.text(fees,{x:()=>60.5,y:'y',text:d=>d.t+' MVR',dx:6,textAnchor:'start',fill:d=>d.c,fontWeight:600}),
+      Plot.lineY(DATA.cross,{x:'sessions',y:'saving',stroke:'#0E7C86',strokeWidth:1.9}),
+      Plot.text([{x:44,y:44*DATA.saving}],{x:'x',y:'y',text:['surcharge saving'],dy:-8,textAnchor:'middle',fill:'#0E7C86'}),
+      Plot.dot(fees,{x:'be',y:'y',r:4.5,fill:d=>d.c,stroke:'#fff',strokeWidth:1.5})
+    ]}));
+})();
+function histFig(sel,rows,be,n,markBe){
+  const T=UFA.tokens();
+  const el=document.querySelector(sel);
+  const data=rows.map(d=>({bin:d.lo+'-'+d.hi, n:d.n, lo:d.lo}));
+  const marks=[
+    Plot.ruleY([0],{stroke:T.line}),
+    Plot.barY(data,{x:'bin',y:'n',fill:d=>d.lo>=be?'#2E7D5B':'#C0492E'}),
+    Plot.text(data,{x:'bin',y:'n',text:d=>d.n||'',dy:-7,fill:T.soft,fontVariant:'tabular-nums'})
+  ];
+  el.append(Plot.plot({style:{background:'transparent',fontFamily:T.mono,fontSize:'11px'},
+    marginLeft:48,marginBottom:44,marginTop:12,height:290,width:760,
+    x:{label:'sessions attended / year →',domain:data.map(d=>d.bin),tickRotate:-30},
+    y:{grid:true,label:'members',nice:true},
+    marks:marks}));
+}
+histFig('#h25',DATA.hist2025,DATA.be2025,DATA.n25);
+histFig('#h26',DATA.hist2026,DATA.be_renew,DATA.n26);
+
+</script>
+</body>
+</html>

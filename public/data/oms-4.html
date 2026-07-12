@@ -1,0 +1,82 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>How succession-ready is each function? — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">OMS-4</span><span class="sep">·</span><span>Key-person risk &amp; volunteer load</span></p>
+  <h1 class="q">How succession-ready is each function?</h1>
+  <p class="howto">For each office, score whether the role is <b>documented</b> (AoA duty defined), whether its knowledge is <b>codified</b> or tacit, and whether it has a <b>deputy</b> — summed to a 0–3 succession-readiness score. High documentation, low transferability: a seat can be refilled, the working knowledge cannot.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">1.1/3</div><div class="l">mean succession-readiness across 9 offices</div></div>
+  <div class="stat"><div class="n tnum">9/9</div><div class="l">offices with a <b>documented</b> AoA duty</div></div>
+  <div class="stat"><div class="n tnum">1/9</div><div class="l">offices with an actual <b>deputy / backup</b></div></div>
+</div>
+
+<div class="caveat"><b>Sources &amp; tier.</b> Coded from the organised admin archive at <b>PUBLIC + INTERNAL-aggregate</b> tier only — the Articles of Association (Dhivehi, translated), AGM 2024/2025 records, the WFDF NF application, Ministry/Council correspondence and funding proposals. No RESTRICTED data (member register, bank statements, IDs) is read; office-holders appear as <b>roles, not names</b>. AGM financials appear only as category totals. This is a document-coded institutional reading, not a statistical claim.</div>
+
+<div class="slab">Readiness = documented + codified + deputy (0–3), per office</div>
+<figure class="fig">
+  <div class="cap">Roles are written down, but not transferable</div>
+  <div class="sub">Three transferability conditions per office —
+  <b>Documented</b> (is the duty defined in the AoA?),
+  <b>Codified</b> (is the working knowledge written, not tacit?),
+  <b>Deputy</b> (is there a backup who can step in?). Columns in the score cell read
+  Documented · Codified · Deputy. <span style="color:#2E7D5B">✓</span> = met,
+  <span style="color:#C0492E">✗</span> = not. Every office is documented; almost none is
+  codified or backed — so knowledge, not paper, is the gap.</div>
+</figure>
+
+<div class="tbl-wrap"><table class="data"><thead><tr><th>Office</th><th>Doc · Cod · Dep &nbsp; Score</th><th>Evidence</th></tr></thead><tbody><tr><td>President</td><td class='num'><span style="color:#2E7D5B;font-weight:600">✓</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span>&nbsp;<span style="color:#2E7D5B;font-weight:600">✓</span> &nbsp;<b>2/3</b></td><td>Duty defined; a Vice-President is the designed deputy — the one office with a real backup.</td></tr><tr><td>Vice-President</td><td class='num'><span style="color:#2E7D5B;font-weight:600">✓</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span> &nbsp;<b>1/3</b></td><td>Duty defined (deputise the President) but no deputy of its own; knowledge tacit.</td></tr><tr><td>Secretary-General</td><td class='num'><span style="color:#2E7D5B;font-weight:600">✓</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span> &nbsp;<b>1/3</b></td><td>Records/minutes duty defined; the artifacts partly self-document, but no named backup.</td></tr><tr><td>Treasurer</td><td class='num'><span style="color:#2E7D5B;font-weight:600">✓</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span> &nbsp;<b>1/3</b></td><td>Duty defined; knowledge tacit (private ledger) and no deputy yet — a co-signer/audit are staged to NA status by design (GD.FINANCE_STAGED); the residual is operational (GD.FINANCE_RESIDUAL).</td></tr><tr><td>Chair — Outreach Committee</td><td class='num'><span style="color:#2E7D5B;font-weight:600">✓</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span> &nbsp;<b>1/3</b></td><td>Portfolio defined in the AoA; run by one volunteer, no written playbook, no deputy.</td></tr><tr><td>Chair — Ethics Committee</td><td class='num'><span style="color:#2E7D5B;font-weight:600">✓</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span> &nbsp;<b>1/3</b></td><td>Discipline duty + appeal ladder defined; process is codified, the chair role is not backed.</td></tr><tr><td>Chair — Development Committee</td><td class='num'><span style="color:#2E7D5B;font-weight:600">✓</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span> &nbsp;<b>1/3</b></td><td>Portfolio defined; coaching/pathway knowledge is tacit (relationship with the coach).</td></tr><tr><td>Chair — Event Committee</td><td class='num'><span style="color:#2E7D5B;font-weight:600">✓</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span> &nbsp;<b>1/3</b></td><td>Portfolio defined; event-running know-how tacit (the 17 May debrief: 'players organising everything').</td></tr><tr><td>Chair — Frisbee-at-Entities Committee</td><td class='num'><span style="color:#2E7D5B;font-weight:600">✓</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span>&nbsp;<span style="color:#C0492E;font-weight:600">✗</span> &nbsp;<b>1/3</b></td><td>Portfolio defined; corporate-outreach contacts tacit, held by the incumbent.</td></tr></tbody></table></div>
+
+<div class="caveat"><b>The vacancy mechanism vs the knowledge gap.</b> The AoA <em>does</em> provide a
+way to <b>refill a seat</b> — vacancies go to the next AGM, and an Elections Board (with an emergency
+route) exists. That is legitimate <b>succession of the office</b>. What it does not provide is
+<b>succession of the knowledge</b>: no handover file, no shared ledger, no deputy Treasurer. A new
+person can be elected into the chair, but inherits an empty desk.</div>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>Mean succession-readiness is <b>1.1 of 3</b> — roles are <b>documented but not transferable</b>. All <b>9 of 9</b> offices have an AoA-defined duty, but only <b>1</b> has an actual deputy and <b>0</b> have their working knowledge codified.</li><li>The one office with a designed backup is the <b>President</b> (the Vice-President deputises). Every portfolio chair and the money role run on a single volunteer with tacit know-how — the 17 May debrief's 'players organising everything' is exactly this un-codified state.</li><li>Readiness is <b>lowest on the money functions</b>: the <b>Treasurer scores 1/3</b> — documented duty, but no codified handover (a private ledger) and no deputy <em>yet</em>. This is an <b>operational</b> succession gap; the formal co-signer + audit are staged to National-Association status by design (GD.FINANCE_STAGED), and the annual Ministry submission already sets the financial-year cycle. The most critical role is the least knowledge-transferable today.</li><li>UFA has genuine <b>office succession</b> (next-AGM vacancy filling + an Elections Board) but almost no <b>knowledge succession</b>. A seat can be refilled; the incumbent's ledger, contacts and routines cannot — the successor inherits the title, not the working memory.</li><li>[ASSUMPTION] Codified/deputy are the run's document-coded reading of the AoA + the staged finance design + the debrief; a real handover file for any portfolio would flip that office's Codified bit. The scores express <b>direction</b> (documented-high, transferable-low), not a validated instrument.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body"><b>Framework.</b> Succession-readiness / knowledge-transferability audit:
+for each office score three binary conditions — <b>Documented</b> (duty defined in the
+charter), <b>Codified</b> (working knowledge written rather than tacit), <b>Deputy</b>
+(a named backup/co-signer who can step in) — summed to a 0–3 readiness score.
+<b>Sources</b> (gD_evidence, PUBLIC + INTERNAL-aggregate): the Articles of Association
+office duties (GD.OFFICES), its vacancy-filling + Elections Board provisions, the finance
+design (GD.FINANCE_STAGED: a co-signatory + formal audit staged to NA status by design;
+GD.FINANCE_RESIDUAL: the residual is operational, mitigated by the single-purpose account +
+annual Ministry submission), and the 17 May 2025 event debrief for the tacit-knowledge
+reading. Rendered via <code>GD.score_table</code>.
+Office-holders as roles only; no RESTRICTED data; document-coded, not statistical.
+Script: <code>analysis/gD_oms4.py</code>; substrate: <code>analysis/gD_evidence.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>coded 2026-07-03 · succession-readiness (documented/codified/deputy) · document-coded</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"rows":[{"office":"President","documented":1,"codified":0,"deputy":1,"score":2,"note":"Duty defined; a Vice-President is the designed deputy \u2014 the one office with a real backup."},{"office":"Vice-President","documented":1,"codified":0,"deputy":0,"score":1,"note":"Duty defined (deputise the President) but no deputy of its own; knowledge tacit."},{"office":"Secretary-General","documented":1,"codified":0,"deputy":0,"score":1,"note":"Records/minutes duty defined; the artifacts partly self-document, but no named backup."},{"office":"Treasurer","documented":1,"codified":0,"deputy":0,"score":1,"note":"Duty defined; knowledge tacit (private ledger) and no deputy yet \u2014 a co-signer/audit are staged to NA status by design (GD.FINANCE_STAGED); the residual is operational (GD.FINANCE_RESIDUAL)."},{"office":"Chair \u2014 Outreach Committee","documented":1,"codified":0,"deputy":0,"score":1,"note":"Portfolio defined in the AoA; run by one volunteer, no written playbook, no deputy."},{"office":"Chair \u2014 Ethics Committee","documented":1,"codified":0,"deputy":0,"score":1,"note":"Discipline duty + appeal ladder defined; process is codified, the chair role is not backed."},{"office":"Chair \u2014 Development Committee","documented":1,"codified":0,"deputy":0,"score":1,"note":"Portfolio defined; coaching/pathway knowledge is tacit (relationship with the coach)."},{"office":"Chair \u2014 Event Committee","documented":1,"codified":0,"deputy":0,"score":1,"note":"Portfolio defined; event-running know-how tacit (the 17 May debrief: 'players organising everything')."},{"office":"Chair \u2014 Frisbee-at-Entities Committee","documented":1,"codified":0,"deputy":0,"score":1,"note":"Portfolio defined; corporate-outreach contacts tacit, held by the incumbent."}],"mean":1.11,"max":3,"n_documented":9,"n_codified":0,"n_deputy":1,"n_offices":9,"treas_score":1}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+</script>
+</body>
+</html>

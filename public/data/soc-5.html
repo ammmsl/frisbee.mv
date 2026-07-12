@@ -1,0 +1,105 @@
+<!doctype html>
+<!-- UFA report page skeleton. Task scripts fill the {{...}} slots via analysis/lib/report.py
+     (or copy this file directly). Paths assume the page lives in analysis/reports/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230E7C86'/></svg>">
+<title>Is Villingili a genuine 'third place'? An Oldenburg audit vs the mainland venues — UFA analysis</title>
+<link rel="stylesheet" href="lib/report.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow"><span class="id">SOC-5</span><span class="sep">·</span><span>Member experience</span></p>
+  <h1 class="q">Is Villingili a genuine 'third place'? An Oldenburg audit vs the mainland venues</h1>
+  <p class="howto">Oldenburg's eight third-place characteristics, each scored with a behavioural proxy from the data, as an 8&times;2 dashboard comparing the Villingili home ground against the pooled Malé/Hulhumalé pop-up venues.</p>
+
+  
+<div class="stats">
+  <div class="stat"><div class="n tnum">0.79</div><div class="l">Villingili third-place index</div></div>
+  <div class="stat"><div class="n tnum">0.50</div><div class="l">Mainland third-place index</div></div>
+  <div class="stat"><div class="n tnum">218</div><div class="l">Villingili sessions</div></div>
+  <div class="stat"><div class="n tnum">26</div><div class="l">Mainland sessions</div></div>
+</div>
+
+<div class="caveat"><b>Proxies, not measurements.</b> Oldenburg's characteristics are
+qualitative; we score each with the nearest <b>behavioural proxy</b> the DB offers
+(shown in every cell). "Mainland" pools 5 occasional Malé/Hulhumalé venues (FAM/HDC turf,
+Rehendhi, Running Track, Henveiru; 26 sessions) against Villingili's home
+ground (218). Scores are normalised 0&ndash;1 against a fixed ceiling for
+comparability &mdash; read them as <b>rank/shape</b>, not absolute levels. Chat data isn't
+venue-tagged, so "conversation" uses repeat-visit contact as a stand-in.</div>
+
+<div class="slab">The 8&times;2 dashboard</div>
+<figure class="fig">
+  <div class="cap">Oldenburg's eight characteristics &mdash; Villingili vs Mainland</div>
+  <div class="sub">Each cell = a 0&ndash;1 proxy score (darker = stronger). Villingili reads
+    as a genuine third place; the Mainland pop-ups do not.</div>
+  <div id="heat"></div>
+</figure>
+
+<div class="slab">The evidence behind each cell</div>
+<div class="tbl-wrap"><table class="data">
+  <thead><tr><th>Characteristic</th><th class="num">Villingili</th><th class="num">Mainland</th><th>Proxy basis (Villingili)</th></tr></thead>
+  <tbody>
+  <tr><td>Neutral ground</td><td class="num">0.65</td><td class="num">1.00</td><td>52% of check-ins are non-members &mdash; open to outsiders, not a members-only turf</td></tr><tr><td>Leveller</td><td class="num">0.26</td><td class="num">1.00</td><td>13% of check-ins pay 0 (guests, kids, first-timers waved in)</td></tr><tr><td>Conversation is the activity</td><td class="num">1.00</td><td class="num">0.27</td><td>avg 26.3 visits/person &mdash; repeated face-to-face contact (proxy: no per-venue chat data)</td></tr><tr><td>Accessibility &amp; accommodation</td><td class="num">1.00</td><td class="num">0.15</td><td>7.5 sessions/month across 6 weekdays &mdash; reliably there when you turn up</td></tr><tr><td>The regulars</td><td class="num">0.97</td><td class="num">0.72</td><td>73% of attenders came &ge;3&times; &mdash; a returning core, not one-offs</td></tr><tr><td>A low profile (plain, unpretentious)</td><td class="num">0.54</td><td class="num">0.00</td><td>cadence CV 0.46 (median gap 4d) &mdash; steady, unshowy rhythm vs sporadic pop-ups</td></tr><tr><td>The mood is playful</td><td class="num">1.00</td><td class="num">0.13</td><td>218 play sessions logged &mdash; sustained recurring play, the reason to show up</td></tr><tr><td>A home away from home</td><td class="num">0.91</td><td class="num">0.70</td><td>top-10% of attenders = 45% of all check-ins &mdash; a devoted 'regulars own it' core</td></tr>
+  </tbody>
+</table></div>
+
+
+  <div class="slab">Findings</div>
+  <ul class="findings"><li>Villingili scores <b>0.79/1.0</b> on the eight-characteristic index vs Mainland's <b>0.50</b> &mdash; Villingili behaves like a real third place; the Malé/Hulhumalé venues behave like <b>occasional pop-ups</b>.</li><li>The gap is widest on <b>accessibility &amp; the regulars</b>: Villingili runs <b>7.5 sessions/month</b> with 73% returning &ge;3&times;, vs Mainland's 0.9/month and 54%.</li><li>Both venues score high on <b>neutral ground / leveller</b> &mdash; UFA waves in guests, kids and first-timers free everywhere (87% free on Mainland, 13% on Villingili). Inclusiveness is a club-wide norm, not a venue effect.</li><li>'Home away from home' is Villingili-specific: its top-10% of attenders account for <b>45%</b> of all check-ins &mdash; a devoted core that <em>owns</em> the ground.</li></ul>
+
+  <details class="method">
+    <summary>Method, data &amp; caveats</summary>
+    <div class="body">Oldenburg's 8 third-place characteristics scored with behavioural proxies
+from <code>sessions</code> and <code>attendance</code>, split by venue-group
+(<code>case when location='Villingili' then 'Villingili' else 'Mainland' end</code>). Proxies: <b>neutral ground</b> = non-member check-in share;
+<b>leveller</b> = free (cost=0) check-in share; <b>conversation</b> = avg visits/person
+(repeat contact); <b>accessibility</b> = sessions/month &times; weekday spread;
+<b>regulars</b> = share of attenders with &ge;3 visits; <b>low profile</b> = 1&minus;coefficient
+of variation of the session-gap (steady rhythm); <b>playful mood</b> = session count;
+<b>home-away</b> = share of check-ins from the top-10% most-frequent attenders. Each
+normalised 0&ndash;1 against a fixed ceiling, then the venue index = the mean of the 8.
+<b>[ASSUMPTION]</b> "Mainland" pools all non-Villingili venues (they're individually tiny,
+3&ndash;16 sessions each). <b>[ASSUMPTION]</b> proxy ceilings are chosen for cross-venue
+comparability, not calibrated externally &mdash; read rank, not level. <b>[ASSUMPTION]</b>
+chat isn't venue-tagged, so "conversation" uses repeat-visit contact. Small-n: Mainland is
+26 sessions / 70 people &mdash; noisy; shape only. No individuals
+named. Script: <code>analysis/gC_soc5.py</code>.</div>
+  </details>
+
+  <footer class="foot">
+    <span>computed 2026-07-02 · Villingili 218 / Mainland 26 sessions · Oldenburg proxies</span>
+    <a href="/data">&#8592; all reports</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"grid":[{"char":"Neutral ground","venue":"Villingili","score":0.647,"basis":"52% of check-ins are non-members &mdash; open to outsiders, not a members-only turf"},{"char":"Neutral ground","venue":"Mainland","score":1.0,"basis":"84% of check-ins are non-members &mdash; open to outsiders, not a members-only turf"},{"char":"Leveller","venue":"Villingili","score":0.258,"basis":"13% of check-ins pay 0 (guests, kids, first-timers waved in)"},{"char":"Leveller","venue":"Mainland","score":1.0,"basis":"87% of check-ins pay 0 (guests, kids, first-timers waved in)"},{"char":"Conversation is the activity","venue":"Villingili","score":1.0,"basis":"avg 26.3 visits/person &mdash; repeated face-to-face contact (proxy: no per-venue chat data)"},{"char":"Conversation is the activity","venue":"Mainland","score":0.267,"basis":"avg 5.3 visits/person &mdash; repeated face-to-face contact (proxy: no per-venue chat data)"},{"char":"Accessibility &amp; accommodation","venue":"Villingili","score":1.0,"basis":"7.5 sessions/month across 6 weekdays &mdash; reliably there when you turn up"},{"char":"Accessibility &amp; accommodation","venue":"Mainland","score":0.149,"basis":"0.9 sessions/month across 5 weekdays &mdash; reliably there when you turn up"},{"char":"The regulars","venue":"Villingili","score":0.975,"basis":"73% of attenders came &ge;3&times; &mdash; a returning core, not one-offs"},{"char":"The regulars","venue":"Mainland","score":0.724,"basis":"54% of attenders came &ge;3&times; &mdash; a returning core, not one-offs"},{"char":"A low profile (plain, unpretentious)","venue":"Villingili","score":0.542,"basis":"cadence CV 0.46 (median gap 4d) &mdash; steady, unshowy rhythm vs sporadic pop-ups"},{"char":"A low profile (plain, unpretentious)","venue":"Mainland","score":0.0,"basis":"cadence CV 2.25 (median gap 13d) &mdash; steady, unshowy rhythm vs sporadic pop-ups"},{"char":"The mood is playful","venue":"Villingili","score":1.0,"basis":"218 play sessions logged &mdash; sustained recurring play, the reason to show up"},{"char":"The mood is playful","venue":"Mainland","score":0.13,"basis":"26 play sessions logged &mdash; sustained recurring play, the reason to show up"},{"char":"A home away from home","venue":"Villingili","score":0.908,"basis":"top-10% of attenders = 45% of all check-ins &mdash; a devoted 'regulars own it' core"},{"char":"A home away from home","venue":"Mainland","score":0.701,"basis":"top-10% of attenders = 35% of all check-ins &mdash; a devoted 'regulars own it' core"}],"order":["Neutral ground","Leveller","Conversation is the activity","Accessibility &amp; accommodation","The regulars","A low profile (plain, unpretentious)","The mood is playful","A home away from home"],"vi_idx":0.79,"ma_idx":0.5,"vi_sessions":218,"ma_sessions":26}</script>
+<script src="lib/vendor/d3.v7.min.js"></script>
+<script src="lib/vendor/plot.umd.min.js"></script>
+<script src="lib/charts.js"></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent || "{}");
+
+(function(){
+  const T=UFA.tokens();
+  const el=document.querySelector('#heat');
+  el.append(Plot.plot({
+    style:{background:'transparent',fontFamily:T.mono,fontSize:'12px'},
+    marginLeft:210, marginBottom:34, marginTop:12, height:360, width:640,
+    x:{label:null, domain:['Villingili','Mainland']},
+    y:{label:null, domain:DATA.order},
+    color:{scheme:'blues', domain:[0,1], legend:true, label:'proxy score'},
+    marks:[
+      Plot.cell(DATA.grid,{x:'venue',y:'char',fill:'score',inset:1.5}),
+      Plot.text(DATA.grid,{x:'venue',y:'char',text:d=>d.score.toFixed(2),
+        fill:d=>d.score>0.55?'#fff':T.ink, fontVariant:'tabular-nums'})
+    ]
+  }));
+})();
+
+</script>
+</body>
+</html>
