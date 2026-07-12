@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "updated": "2026-07-13",
+  "theme": "federation",
+  "paper": "tinted-pacific",
+  "accent": "pacific-blue",
+  "typography": "inter-single-font (Fraunces display serif reverted by owner call 2026-07-12 — do not reintroduce)",
+  "chrome": {
+    "masthead": "N6-newspaper-masthead",
+    "footer": "Ft5-statement"
+  },
+  "pages": {
+    "app/(site)/page.tsx": "marquee-hero",
+    "app/(site)/about/page.tsx": "long-document",
+    "app/(site)/governance/page.tsx": "stat-led",
+    "app/(site)/play/page.tsx": "workbench",
+    "app/(site)/contact/page.tsx": "letter",
+    "app/(site)/sponsors/page.tsx": "quote-led",
+    "app/pickup/page.tsx": "typographic-list",
+    "app/(site)/data/page.tsx": "curated-index"
+  },
+  "exempt": {
+    "app/league/**": "distinct sub-product, green-on-dark (ADR 0001)"
+  },
+  "unassigned": [
+    "app/(site)/news/page.tsx",
+    "app/(site)/events/page.tsx",
+    "app/(site)/calendar/page.tsx"
+  ],
+  "rules": [
+    "no two federation sub-pages share a macrostructure (ADR 0002)",
+    "anti-patterns: centred-everything, 3-col feature grid, eyebrow-on-every-section, card-in-card",
+    "stamp comment at top of every assigned page"
+  ]
+}

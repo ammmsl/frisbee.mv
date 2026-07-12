@@ -93,15 +93,22 @@ app/
 
 ## Design System
 
+Canonical values live in **`docs/frisbee-mv-design-system.md`** (tokens in `app/globals.css` +
+`lib/tokens.ts`); the design vocabulary and per-page macrostructure table live in
+**`CONTEXT.md`** (machine copy: `.hallmark/log.json`; rationale: `docs/adr/0001` + `0002`).
+
+Quick facts:
+
 | Decision | Value |
 |---|---|
-| Theme | Light for `(site)/` and `pickup/` routes |
-| Accent colour | `#FF6B35` (disc-orange) |
-| Display font | Inter or DM Sans (variable, via `next/font`) |
-| Body font | System stack |
+| Accent | Pacific-blue `#469BAF` (federation); league sub-site is green-on-dark, scoped to `.league-root` |
+| Paper | Tinted pacific — `oklch(98.5% 0.005 230)` page / `oklch(96.5% 0.008 230)` surface; never pure white |
+| Typography | **Single-font Inter** — a Fraunces display serif was trialled and reverted by owner call (2026-07-12); do not reintroduce a display serif |
+| Chrome | N6 newspaper masthead (static, scrolls off) + Ft5 statement footer |
+| Macrostructures | One per page, no repeats (ADR 0002) — see the table in `CONTEXT.md` |
 | Min touch target | 44×44px (40px exception for calendar day cells) |
-| Contrast | WCAG AA minimum (4.5:1 body text) |
-| Breakpoints | Mobile-first · `sm:` 640px · `lg:` 1024px |
+| Contrast | WCAG AA minimum; `--text-muted` is `#626d7b` — do not lighten |
+| Breakpoints | Mobile-first · `sm:` 640px · `lg:` 1024px (no `md:`) |
 
 ---
 
