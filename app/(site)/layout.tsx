@@ -10,7 +10,8 @@ export default function SiteLayout({
     /* Light theme scope — enforced here so /league/* can use data-theme="dark" */
     <div className="flex flex-col min-h-screen bg-[var(--bg-page)] text-[var(--text-primary)]">
       <SiteNav />
-      <main id="main-content" className="flex-1 pt-16">
+      {/* Masthead is static (scrolls off) — no fixed-nav offset needed */}
+      <main id="main-content" className="flex-1">
         {children}
       </main>
       <SiteFooter />

@@ -36,13 +36,13 @@ export const status = {
 // ── Surface / text / border ──────────────────────────────────────────────────
 
 export const surface = {
-  page:    '#ffffff',  // --bg-page
-  surface: '#f9fafb',  // --bg-surface (gray-50)
+  page:    '#f9fbfc',  // --bg-page    ≈ oklch(98.5% 0.005 230) — tinted paper
+  surface: '#eef3f5',  // --bg-surface ≈ oklch(96.5% 0.008 230)
 } as const;
 
 export const text = {
   primary: '#111827',  // --text-primary (gray-900)
-  muted:   '#6b7280',  // --text-muted   (gray-500)
+  muted:   '#626d7b',  // --text-muted — AA-safe (≥4.5:1) on tinted surface
 } as const;
 
 export const border = '#e5e7eb';  // --border (gray-200)

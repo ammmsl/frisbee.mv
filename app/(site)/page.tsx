@@ -166,11 +166,9 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── 1. Hero ──────────────────────────────────────────────────────── */}
-      <section
-        className="relative flex items-center justify-center min-h-screen -mt-16 overflow-hidden"
-        aria-label="Hero"
-      >
+      {/* ── 1. Hero — content-height, left-biased (transitional; full Marquee
+             Hero lands in Phase 3a) ─────────────────────────────────────── */}
+      <section className="relative overflow-hidden" aria-label="Hero">
         {/* Pacific-blue fallback when carousel images are absent or loading */}
         <div
           className="absolute inset-0"
@@ -192,55 +190,46 @@ export default async function HomePage() {
         {/* Dark tint overlay — ensures white text passes WCAG AA */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/55" />
 
-        {/* Hero content */}
-        <div className="relative z-10 text-center max-w-2xl px-4 pt-16">
-          <h1
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 tracking-tight"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.85), 0 4px 16px rgba(0,0,0,0.65), 0 12px 40px rgba(0,0,0,0.35)' }}
-          >
-            Ultimate Frisbee Association
-          </h1>
-          <p
-            className="text-lg sm:text-xl text-white/85 mb-10 font-medium"
-            style={{ textShadow: '0 1px 2px rgba(0,0,0,0.80), 0 3px 10px rgba(0,0,0,0.55)' }}
-          >
-            Ultimate Frisbee — Malé, Fuvahmulah &amp; Addu City
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* Primary CTA */}
-            <Link
-              href="/play"
-              className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[var(--accent-dark)] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        {/* Hero content — left-biased, content-height */}
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+          <div className="max-w-2xl">
+            <h1
+              className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 tracking-tight"
+              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.85), 0 4px 16px rgba(0,0,0,0.65), 0 12px 40px rgba(0,0,0,0.35)' }}
             >
-              Join a Session
-            </Link>
-
-            {/* Ghost CTA */}
-            <Link
-              href="/pickup"
-              className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-transparent border-2 border-white/75 text-white hover:bg-white/12 hover:border-white active:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              Ultimate Frisbee Association
+            </h1>
+            <p
+              className="text-lg sm:text-xl text-white/85 mb-10 font-medium"
+              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.80), 0 3px 10px rgba(0,0,0,0.55)' }}
             >
-              Pickup &amp; League
-            </Link>
+              Ultimate Frisbee — Malé, Fuvahmulah &amp; Addu City
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* Primary CTA */}
+              <Link
+                href="/play"
+                className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[var(--accent-dark)] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Join a Session
+              </Link>
+
+              {/* Ghost CTA */}
+              <Link
+                href="/pickup"
+                className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-transparent border-2 border-white/75 text-white hover:bg-white/12 hover:border-white active:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Pickup &amp; League
+              </Link>
+            </div>
+
+            {/* WFDF Provisional Member badge */}
+            <div className="mt-10">
+              <Badge variant="wfdf">WFDF Provisional Member</Badge>
+            </div>
           </div>
         </div>
-
-        {/* WFDF Provisional Member badge — bottom-left */}
-        <div className="absolute bottom-6 left-4 sm:left-8 z-10">
-          <Badge variant="wfdf">WFDF Provisional Member</Badge>
-        </div>
-
-        {/*
-         * Sentinel element — SiteNav watches this with a scroll handler.
-         * When the sentinel's bottom edge crosses the top of the viewport,
-         * SiteNav transitions from transparent to its solid background.
-         */}
-        <div
-          id="hero-sentinel"
-          aria-hidden="true"
-          className="absolute bottom-0 left-0 right-0 h-px"
-        />
       </section>
 
       {/* ── 2. Live Stats Bar ────────────────────────────────────────────── */}
@@ -309,7 +298,7 @@ export default async function HomePage() {
         aria-label="About UFA"
       >
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6">
             About the Federation
           </h2>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-8">
@@ -332,7 +321,7 @@ export default async function HomePage() {
       <section className="py-16 px-4" aria-label="Latest news">
         <div className="mx-auto max-w-7xl">
           <div className="flex items-baseline justify-between mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
               Latest News
             </h2>
             {latestPosts.length > 0 && (

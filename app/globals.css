@@ -4,6 +4,11 @@
    DESIGN TOKENS — frisbee.mv
    Single source of truth for all design decisions.
 
+   FONT DISCIPLINE — Fraunces (var(--font-fraunces), Tailwind `font-display`)
+   is used ONLY on the hero <h1> and major section <h2>s of federation pages.
+   <h3> and below, body copy, UI chrome, and the entire /league sub-site stay
+   Inter. Do not widen this.
+
    Structure:
      @theme  → Tailwind utility classes (bg-accent, text-accent-dark, etc.)
      :root   → CSS custom properties for use in component styles + JS contexts
@@ -18,12 +23,14 @@
   --color-accent-light: #92C2CF;  /* Tint — borders, passive indicators        */
 
   /* ── Color: Surface palette (light theme) ───────────────────────────────── */
-  --color-bg-page:    #ffffff;    /* Main page background                      */
-  --color-bg-surface: #f9fafb;    /* Cards, secondary surfaces (gray-50)       */
+  /* Tinted paper — pacific-blue-cool, not pure white (Hallmark P2 2b)          */
+  --color-bg-page:    oklch(98.5% 0.005 230);  /* ≈ #f9fbfc — main page bg     */
+  --color-bg-surface: oklch(96.5% 0.008 230);  /* ≈ #eef3f5 — cards, panels    */
 
   /* ── Color: Text ────────────────────────────────────────────────────────── */
   --color-text-primary: #111827;  /* Body text (gray-900)                      */
-  --color-text-muted:   #6b7280;  /* Secondary labels (gray-500)               */
+  --color-text-muted:   #626d7b;  /* Secondary labels — darkened from gray-500
+                                     so AA (≥4.5:1) holds on the tinted surface */
 
   /* ── Color: Border ──────────────────────────────────────────────────────── */
   --color-border: #e5e7eb;        /* Default borders (gray-200)                */
@@ -38,6 +45,9 @@
   /* ── Typography: Font family ────────────────────────────────────────────── */
   /* Inter variable font loaded in app/layout.tsx via next/font/google          */
   /* Applied as: font-[family-name:var(--font-inter)] on <body>                 */
+  /* Fraunces variable serif (display) — Tailwind `font-display` utility.       */
+  /* Usage discipline: hero h1 + major section h2 only (see file header).       */
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
 
   /* ── Typography: Font sizes ─────────────────────────────────────────────── */
   --font-size-xs:   0.75rem;    /* 12px — captions, timestamps, badge labels  */
@@ -108,13 +118,13 @@
   --swap-selected: #1e1b4b;  /* indigo-950 — draft-tool swap selection */
   --note-special:  #9333ea;  /* purple-600 — special session override note */
 
-  /* Surfaces */
-  --bg-page:    #ffffff;
-  --bg-surface: #f9fafb;
+  /* Surfaces — tinted paper (pacific-blue-cool), mirrors @theme */
+  --bg-page:    oklch(98.5% 0.005 230);  /* ≈ #f9fbfc */
+  --bg-surface: oklch(96.5% 0.008 230);  /* ≈ #eef3f5 */
 
   /* Text */
   --text-primary: #111827;
-  --text-muted:   #6b7280;
+  --text-muted:   #626d7b;  /* AA-safe on tinted surface (4.7:1) */
 
   /* Border */
   --border: #e5e7eb;

@@ -12,7 +12,7 @@ import {
   CalendarDays,
   LayoutGrid,
   List,
-} from 'lucide-react'
+} from '../_components/icons'
 import type { EnrichedFixture, HolidayRow } from './page'
 import { TeamAvatar } from '../_components/Avatar'
 
