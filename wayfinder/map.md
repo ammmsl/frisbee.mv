@@ -37,6 +37,16 @@ A locked, sequenced implementation route for all post-publish work — the Hallm
 - **Package E (Hallmark P1)** — ✅ done; #8 superseded by live labelled stats; **#22 deviation**: -9999px offscreen kept for `#draft-export-container` because html2canvas captures it live and opacity/clip-path hiding produces a blank export — added aria-hidden + pointer-events:none instead; a compliant fix needs an on-demand clone render (small follow-up)
 - **Package F (§6 amendments + T03 calls)** — ✅ done; all 18 applied; dev showcases (`app/dev-preview`, `app/_dev`) deliberately left with sample data
 
+## Wave 2 + 3 status (2026-07-12, branch `wave-2-3-structure-and-chrome`, unpushed)
+
+- **Wave 2 (plan 002, league query centralization)** — ✅ done; 30 loaders in `lib/league-queries.ts`, all key strings preserved, `getActiveSeason` merged under new `league-active-season-v2` key; drift check matched the expected Wave-1 baseline exactly; dead `getConsecutiveWeeks()` deleted. All plan gates pass.
+- **Wave 3 (Hallmark Phase 2 chrome)** — ✅ done; 2a–2f all applied. Deviations/calls (details in `docs/wave-2-3-report.md`):
+  - **Play dropdown flattened** — the N6 masthead carries a flat link row (About · Play · Rules · League · Pickup · News · Contact); the dropdown pattern doesn't exist in a masthead. Rules promoted to top level.
+  - **lucide-react drift**: plan 2e only knew about PublicNav's Menu/X, but `FixturesCalendar.tsx` used 9 more icons. All 11 hand-rolled in `app/league/_components/icons.tsx` (same size/className API — FixturesCalendar only changed its import line); dependency dropped.
+  - **--text-muted darkened** #6b7280 → #626d7b: gray-500 fell to 4.32:1 on the tinted surface; new value is 4.7:1 (AA).
+  - **WFDF nav pill removed** — the masthead has no right-zone chrome; WFDF membership now lives in the hero badge + footer statement.
+  - **League link opens same-tab** (was new-tab) per the plan's bridge decision, in both masthead and Drawer, with the green crossover dot.
+
 ## Not yet specified
 
 - **Drafting the remaining 5 posts** — voice set by the two spec drafts (#1, #6); can't ticket until the section shape and sequence are locked.

@@ -30,12 +30,14 @@ The canonical reference for all design decisions. When changing a design value, 
 
 ### Surface & Text
 
+The paper is tinted pacific-blue-cool (Hallmark Phase 2) — never pure white.
+
 | Token | Value | CSS var | Use |
 |-------|-------|---------|-----|
-| Page background | `#ffffff` | `var(--bg-page)` | Body, modal backdrop |
-| Surface | `#f9fafb` | `var(--bg-surface)` | Cards, inputs, secondary panels |
-| Primary text | `#111827` | `var(--text-primary)` | Body copy, headings |
-| Muted text | `#6b7280` | `var(--text-muted)` | Labels, captions, secondary info |
+| Page background | `oklch(98.5% 0.005 230)` ≈ `#f9fbfc` | `var(--bg-page)` | Body, modal backdrop |
+| Surface | `oklch(96.5% 0.008 230)` ≈ `#eef3f5` | `var(--bg-surface)` | Cards, inputs, secondary panels |
+| Primary text | `#111827` | `var(--text-primary)` | Body copy, headings (15.9–17.1:1 on tinted paper) |
+| Muted text | `#626d7b` | `var(--text-muted)` | Labels, captions, secondary info (4.7:1 on surface — do not lighten) |
 | Border | `#e5e7eb` | `var(--border)` | All dividers, card outlines, input borders |
 
 ### Semantic Status Colors
@@ -65,7 +67,9 @@ Applied via `[data-theme="dark"]` on a page wrapper. Reserved for `/league/*` ro
 
 ## Typography
 
-**Font:** Inter (variable), loaded via `next/font/google` in `app/layout.tsx`. Applied as `font-[family-name:var(--font-inter)]` on `<body>`. No external secondary font — system stack as fallback.
+**Body font:** Inter (variable), loaded via `next/font/google` in `app/layout.tsx`. Applied as `font-[family-name:var(--font-inter)]` on `<body>`. System stack as fallback.
+
+**Display font:** Fraunces (variable serif, wght 400..900 + opsz), loaded via `next/font/google`, exposed as `--font-fraunces` → `@theme --font-display` → Tailwind `font-display` utility. **Usage discipline: hero `<h1>` and major section `<h2>` only, federation pages only.** `<h3>` and below, UI chrome, and the entire `/league` sub-site stay Inter.
 
 ### Size Scale
 
@@ -114,7 +118,7 @@ Applied via `[data-theme="dark"]` on a page wrapper. Reserved for `/league/*` ro
 ### Container
 - Max width: `max-w-7xl` (80rem)
 - Horizontal padding: `px-4` (mobile) → `sm:px-6` (640px+) → `lg:px-8` (1024px+)
-- Nav height: 64px (`h-16`); main content uses `pt-16` to clear the fixed nav
+- Nav: N6 newspaper masthead — static, scrolls off. No fixed positioning, no `pt-16` offset anywhere.
 
 ### Breakpoints (mobile-first)
 
