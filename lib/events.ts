@@ -18,6 +18,8 @@ export interface Event {
   created_at: string
 }
 
+export type NewsCategory = 'news' | 'research'
+
 export interface NewsPost {
   post_id: string
   slug: string
@@ -27,6 +29,7 @@ export interface NewsPost {
   author: string
   published_at: string | null   // ISO string
   cover_image_url: string | null
+  category: NewsCategory
   created_at: string
 }
 
@@ -121,7 +124,27 @@ export async function getRelatedEvents(
 
 // ─── News ─────────────────────────────────────────────────────────────────────
 
-export async function getPublishedPosts(limit?: number): Promise<NewsPost[]> {
+// The category column arrives via migrations/001-news-category.sql, which is run
+// manually. Until then it doesn't exist, so reads use
+// COALESCE(to_jsonb(news_posts) ->> 'category', 'news') — valid SQL with or
+// without the column — and writes check the column first (see helper below).
+
+let hasCategoryColumn = false
+export async function newsCategoryColumnExists(): Promise<boolean> {
+  if (!hasCategoryColumn) {
+    const rows = await sql`
+      SELECT 1 FROM information_schema.columns
+      WHERE table_name = 'news_posts' AND column_name = 'category'
+    `
+    hasCategoryColumn = rows.length > 0
+  }
+  return hasCategoryColumn
+}
+
+export async function getPublishedPosts(
+  limit?: number,
+  category?: NewsCategory
+): Promise<NewsPost[]> {
   const rows = await sql`
     SELECT
       post_id::text,
@@ -132,10 +155,12 @@ export async function getPublishedPosts(limit?: number): Promise<NewsPost[]> {
       author,
       published_at::text,
       cover_image_url,
+      COALESCE(to_jsonb(news_posts) ->> 'category', 'news') AS category,
       created_at::text
     FROM news_posts
     WHERE published_at IS NOT NULL
       AND published_at <= now()
+      ${ category !== undefined ? sql`AND COALESCE(to_jsonb(news_posts) ->> 'category', 'news') = ${category}` : sql`` }
     ORDER BY published_at DESC
     ${ limit !== undefined ? sql`LIMIT ${limit}` : sql`` }
   `
@@ -153,6 +178,7 @@ export async function getPostBySlug(slug: string): Promise<NewsPost | null> {
       author,
       published_at::text,
       cover_image_url,
+      COALESCE(to_jsonb(news_posts) ->> 'category', 'news') AS category,
       created_at::text
     FROM news_posts
     WHERE slug = ${slug}
@@ -176,6 +202,7 @@ export async function getRecentPosts(
       author,
       published_at::text,
       cover_image_url,
+      COALESCE(to_jsonb(news_posts) ->> 'category', 'news') AS category,
       created_at::text
     FROM news_posts
     WHERE published_at IS NOT NULL

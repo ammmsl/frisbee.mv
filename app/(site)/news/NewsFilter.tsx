@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import NewsCard from '@/app/_components/NewsCard'
+import type { NewsCategory } from '@/lib/events'
 
 export interface NewsPostSummary {
   slug: string
@@ -10,28 +11,22 @@ export interface NewsPostSummary {
   author: string
   publishedAt: string
   coverImageUrl: string | null
+  category: NewsCategory
 }
 
-type Category = 'All' | 'Announcements' | 'Tournament Results' | 'Federation Updates'
+const TABS = [
+  { key: 'all', label: 'All' },
+  { key: 'news', label: 'News' },
+  { key: 'research', label: 'Research' },
+] as const
 
-const CATEGORIES: Category[] = ['All', 'Announcements', 'Tournament Results', 'Federation Updates']
-
-function inferCategory(title: string): Exclude<Category, 'All'> {
-  const t = title.toLowerCase()
-  if (/member|announcement|official|federation|registered|wfdf/.test(t)) {
-    return 'Announcements'
-  }
-  if (/result|tournament|match|champion|winner|season/.test(t)) {
-    return 'Tournament Results'
-  }
-  return 'Federation Updates'
-}
+type TabKey = (typeof TABS)[number]['key']
 
 export default function NewsFilter({ posts }: { posts: NewsPostSummary[] }) {
-  const [activeTab, setActiveTab] = useState<Category>('All')
+  const [activeTab, setActiveTab] = useState<TabKey>('all')
 
   const filtered =
-    activeTab === 'All' ? posts : posts.filter(p => inferCategory(p.title) === activeTab)
+    activeTab === 'all' ? posts : posts.filter(p => p.category === activeTab)
 
   return (
     <div>
@@ -41,20 +36,20 @@ export default function NewsFilter({ posts }: { posts: NewsPostSummary[] }) {
         role="tablist"
         aria-label="Filter news by category"
       >
-        {CATEGORIES.map(cat => (
+        {TABS.map(tab => (
           <button
-            key={cat}
+            key={tab.key}
             type="button"
             role="tab"
-            aria-selected={activeTab === cat}
-            onClick={() => setActiveTab(cat)}
+            aria-selected={activeTab === tab.key}
+            onClick={() => setActiveTab(tab.key)}
             className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
-              activeTab === cat
+              activeTab === tab.key
                 ? 'bg-[var(--accent)] text-white'
                 : 'bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
-            {cat}
+            {tab.label}
           </button>
         ))}
       </div>
@@ -62,7 +57,7 @@ export default function NewsFilter({ posts }: { posts: NewsPostSummary[] }) {
       {/* Posts grid */}
       {filtered.length === 0 ? (
         <p className="text-center text-[var(--text-muted)] py-12">
-          No {activeTab === 'All' ? '' : activeTab + ' '}posts yet.
+          No {activeTab === 'all' ? '' : TABS.find(t => t.key === activeTab)!.label + ' '}posts yet.
         </p>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/db'
 import { getAdminSession } from '@/lib/auth'
+import { newsCategoryColumnExists } from '@/lib/events'
 
 type Params = { params: Promise<{ postId: string }> }
 
@@ -13,7 +14,9 @@ export async function GET(_req: NextRequest, { params }: Params) {
   const rows = await sql`
     SELECT
       post_id::text, slug, title, summary, body, author,
-      published_at::text, cover_image_url, created_at::text
+      published_at::text, cover_image_url,
+      COALESCE(to_jsonb(news_posts) ->> 'category', 'news') AS category,
+      created_at::text
     FROM news_posts
     WHERE post_id = ${postId}::uuid
     LIMIT 1
@@ -36,8 +39,19 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  const allowed = ['slug', 'title', 'summary', 'body', 'author', 'cover_image_url', 'published_at']
-  const fields = Object.keys(body).filter((k) => allowed.includes(k))
+  const allowed = ['slug', 'title', 'summary', 'body', 'author', 'cover_image_url', 'published_at', 'category']
+  let fields = Object.keys(body).filter((k) => allowed.includes(k))
+
+  if (fields.includes('category')) {
+    if (body.category !== 'news' && body.category !== 'research') {
+      return NextResponse.json({ error: "category must be 'news' or 'research'" }, { status: 400 })
+    }
+    // Default-safe: pre-migration the column doesn't exist — drop it from the update.
+    if (!(await newsCategoryColumnExists())) {
+      fields = fields.filter((f) => f !== 'category')
+    }
+  }
+
   if (fields.length === 0) {
     return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 })
   }
@@ -54,7 +68,9 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       WHERE post_id = ${postId}::uuid
       RETURNING
         post_id::text, slug, title, summary, body, author,
-        published_at::text, cover_image_url, created_at::text
+        published_at::text, cover_image_url,
+        COALESCE(to_jsonb(news_posts) ->> 'category', 'news') AS category,
+        created_at::text
     `
     if (!rows[0]) return NextResponse.json({ error: 'Not found' }, { status: 404 })
     return NextResponse.json(rows[0])

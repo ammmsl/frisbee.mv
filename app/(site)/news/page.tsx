@@ -26,6 +26,7 @@ export default async function NewsPage() {
     author: p.author,
     publishedAt: p.published_at ?? p.created_at,
     coverImageUrl: p.cover_image_url,
+    category: p.category,
   }))
 
   return (

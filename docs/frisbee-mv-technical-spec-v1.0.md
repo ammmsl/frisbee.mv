@@ -622,6 +622,8 @@ CREATE TABLE news_posts (
   author       text NOT NULL DEFAULT 'UFA',
   published_at timestamptz,                      -- NULL = draft
   cover_image_url text,
+  category     text NOT NULL DEFAULT 'news'
+               CHECK (category IN ('news', 'research')),  -- T04: Research posts (added 2026-07-12, migrations/001-news-category.sql)
   created_at   timestamptz DEFAULT now()
 );
 ```

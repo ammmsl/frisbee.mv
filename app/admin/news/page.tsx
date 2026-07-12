@@ -11,7 +11,9 @@ async function getAllPosts(): Promise<NewsPost[]> {
   const rows = await sql`
     SELECT
       post_id::text, slug, title, summary, body, author,
-      published_at::text, cover_image_url, created_at::text
+      published_at::text, cover_image_url,
+      COALESCE(to_jsonb(news_posts) ->> 'category', 'news') AS category,
+      created_at::text
     FROM news_posts
     ORDER BY created_at DESC
   `

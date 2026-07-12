@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { marked } from 'marked'
 import { getPostBySlug, getRecentPosts } from '@/lib/events'
 import NewsCard from '@/app/_components/NewsCard'
+import Badge from '@/app/_components/Badge'
 import CopyLinkButton from './CopyLinkButton'
 
 export const revalidate = 0
@@ -118,6 +119,11 @@ export default async function NewsPostPage({
 
       {/* Post header */}
       <header className="mb-8">
+        {post.category === 'research' && (
+          <div className="mb-3">
+            <Badge variant="research">Research</Badge>
+          </div>
+        )}
         <h1 className="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-3 leading-tight">
           {post.title}
         </h1>

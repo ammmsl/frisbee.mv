@@ -28,6 +28,7 @@ export default function NewsForm({ initial }: NewsFormProps) {
   const [title, setTitle] = useState(initial?.title ?? '')
   const [summary, setSummary] = useState(initial?.summary ?? '')
   const [author, setAuthor] = useState(initial?.author ?? 'UFA')
+  const [category, setCategory] = useState<'news' | 'research'>(initial?.category ?? 'news')
   const [coverImageUrl, setCoverImageUrl] = useState(initial?.cover_image_url ?? '')
   const [body, setBody] = useState(initial?.body ?? '')
   const [previewHtml, setPreviewHtml] = useState('')
@@ -58,6 +59,7 @@ export default function NewsForm({ initial }: NewsFormProps) {
       summary: summary.trim(),
       body: body.trim(),
       author: author.trim() || 'UFA',
+      category,
       cover_image_url: coverImageUrl.trim() || null,
       published_at: publish ? new Date().toISOString() : null,
     }
@@ -154,6 +156,17 @@ export default function NewsForm({ initial }: NewsFormProps) {
             className={inputClass}
             placeholder="UFA"
           />
+        </div>
+        <div>
+          <label className={labelClass}>Category</label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value as 'news' | 'research')}
+            className={inputClass}
+          >
+            <option value="news">News</option>
+            <option value="research">Research</option>
+          </select>
         </div>
         <div>
           <label className={labelClass}>Cover Image URL (optional)</label>

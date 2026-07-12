@@ -7,7 +7,8 @@ export type BadgeVariant =
   | 'cancelled'
   | 'paid'
   | 'unpaid'
-  | 'partial';
+  | 'partial'
+  | 'research';
 
 export interface BadgeProps {
   variant: BadgeVariant;
@@ -22,6 +23,7 @@ export interface BadgeProps {
 // paid:     #15803d bg + white text    → 5.03:1
 // unpaid:   #dc2626 bg + white text    → 7.35:1
 // partial:  #b45309 bg + white text    → 7.00:1
+// research: #2f6e7a bg + white text    → 4.71:1
 const variantClasses: Record<BadgeVariant, string> = {
   wfdf: 'bg-[var(--accent)] text-gray-900',
   upcoming: 'bg-green-700 text-white',
@@ -30,6 +32,7 @@ const variantClasses: Record<BadgeVariant, string> = {
   paid: 'bg-green-700 text-white',
   unpaid: 'bg-red-600 text-white',
   partial: 'bg-amber-700 text-white',
+  research: 'bg-[var(--accent-dark)] text-white',
 };
 
 // Shield/check icon — shown only on wfdf badge
