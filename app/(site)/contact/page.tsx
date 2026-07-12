@@ -1,3 +1,5 @@
+/* Hallmark · macrostructure: Letter · theme: federation · paper: tinted-pacific · accent: pacific-blue */
+
 import type { Metadata } from 'next';
 import ContactForm from './ContactForm';
 
@@ -15,84 +17,51 @@ function ExternalLink({ href, children }: { href: string; children: React.ReactN
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[var(--accent)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)] rounded"
+      className="text-[var(--accent-dark)] underline underline-offset-2 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--accent)] rounded"
     >
       {children}
     </a>
   );
 }
 
+/* ─── Page — one letter, narrow measure, form embedded inline ───────────────── */
+
 export default function ContactPage() {
   return (
-    <>
-      {/* Page hero */}
-      <div className="bg-[var(--accent)] text-white py-14 px-4">
-        <div className="mx-auto max-w-7xl">
-          <h1 className="text-4xl font-bold mb-2">Contact Us</h1>
-          <p className="text-white/85 text-lg">
-            Get in touch with the Ultimate Frisbee Association.
-          </p>
-        </div>
-      </div>
+    <div className="mx-auto max-w-prose px-4 sm:px-6 py-14 sm:py-20">
+      <h1 className="text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-10">
+        Contact Us
+      </h1>
 
-      {/* Content */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Form — left, ~60% */}
-          <div className="flex-[3]">
-            <h2 className="text-xl font-bold text-[var(--text-primary)] mb-6">
-              Send us a message
-            </h2>
-            <ContactForm />
-          </div>
+      {/* The letter */}
+      <p className="text-lg text-[var(--text-primary)] leading-relaxed mb-4">
+        Hello —
+      </p>
+      <p className="text-lg text-[var(--text-primary)] leading-relaxed mb-4">
+        Whether you want to try a session, sponsor the sport, register as a member, cover us in
+        the media, or bring Ultimate to your school or workplace, this is the right door. We read
+        everything and reply as fast as a volunteer-run association can — usually within a few
+        days.
+      </p>
+      <p className="text-lg text-[var(--text-primary)] leading-relaxed mb-10">
+        If you prefer, write to us directly at{' '}
+        <ExternalLink href="mailto:frisbee.mv@gmail.com">frisbee.mv@gmail.com</ExternalLink>, or
+        send a DM on Instagram or TikTok at{' '}
+        <ExternalLink href="https://instagram.com/frisbee.mv">@frisbee.mv</ExternalLink> — that
+        is also the fastest way to get added to the session group.
+      </p>
 
-          {/* Contact info — right, ~40% */}
-          <div className="flex-[2]">
-            <h2 className="text-xl font-bold text-[var(--text-primary)] mb-6">
-              Contact information
-            </h2>
+      {/* The form, embedded in the letter */}
+      <ContactForm />
 
-            <ul className="space-y-4">
-              <li>
-                <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-0.5">
-                  Email
-                </p>
-                <ExternalLink href="mailto:frisbee.mv@gmail.com">
-                  frisbee.mv@gmail.com
-                </ExternalLink>
-              </li>
-
-              <li>
-                <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-0.5">
-                  Instagram
-                </p>
-                <ExternalLink href="https://instagram.com/frisbee.mv">
-                  @frisbee.mv
-                </ExternalLink>
-              </li>
-
-              <li>
-                <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-0.5">
-                  TikTok
-                </p>
-                <ExternalLink href="https://tiktok.com/@frisbee.mv">
-                  @frisbee.mv
-                </ExternalLink>
-              </li>
-
-              <li>
-                <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-0.5">
-                  Address
-                </p>
-                <address className="not-italic text-sm text-[var(--text-primary)] leading-relaxed">
-                  Ma. Snow White 5<br />
-                  Malé, Republic of Maldives
-                </address>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </>
+      {/* Sign-off — address right-aligned beneath */}
+      <address className="not-italic text-right text-sm text-[var(--text-muted)] leading-relaxed mt-12">
+        Ultimate Frisbee Association
+        <br />
+        Ma. Snow White 5
+        <br />
+        Malé, Republic of Maldives
+      </address>
+    </div>
   );
 }
