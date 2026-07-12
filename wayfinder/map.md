@@ -47,6 +47,18 @@ A locked, sequenced implementation route for all post-publish work — the Hallm
   - **WFDF nav pill removed** — the masthead has no right-zone chrome; WFDF membership now lives in the hero badge + footer statement.
   - **League link opens same-tab** (was new-tab) per the plan's bridge decision, in both masthead and Drawer, with the green crossover dot.
 
+## Wave 4 status (2026-07-12/13, branch `wave-4-5-data-and-macros`, unpushed)
+
+- **Package A (T04 implementation)** — ✅ done; `category` column spec'd in `migrations/001-news-category.sql` (**owner must run it manually in Supabase**); all six touchpoints + NewsFilter rebuilt on the real field; code is default-safe pre-migration (column absent → everything reads as 'news').
+- **Package B (T05 prototype)** — ✅ built. **Defaults locked, PENDING OWNER REACTION:**
+  - Archive index at **`/data`** (`app/(site)/data/page.tsx`, inside the site chrome).
+  - Report HTML served as **static files from `public/data/<slug>.html`** (spec §4 confirmed).
+  - Research posts surface **through the news list** via the new category filter — no separate landing.
+  - Post → report linking = a plain **"Read the full report →" anchor** in the post markdown (no component).
+  - Index groups reports by the spec §3 themes; typographic list, no cards, no new deps.
+  - **Deliberately NOT added:** a masthead or footer link to `/data` — chrome is frozen this wave; owner to decide where (if anywhere) it enters the nav.
+- **Package C (T06 transfer)** — see Wave 4 report for the shipped list, redaction log, and page count. **Count note:** the run instruction said "the 34 publish-as-is pages (≤ 34)" but also ordered the agm-finance/nq-5 redactions and the b-tb2/a-tb1 T03 calls — those four are the *needs-redaction* rows, so the cleared set is **38** (34 as-is + 2 redacted + 2 shipped per T03). Shipped 38; easy to prune in the morning if the intent was stricter.
+
 ## Not yet specified
 
 - **Drafting the remaining 5 posts** — voice set by the two spec drafts (#1, #6); can't ticket until the section shape and sequence are locked.
