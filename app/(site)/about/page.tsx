@@ -1,3 +1,5 @@
+/* Hallmark · macrostructure: Long Document · theme: federation · paper: tinted-pacific · accent: pacific-blue */
+
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Timeline from './Timeline';
@@ -30,75 +32,57 @@ const CITIES = [
   },
 ] as const;
 
-/* ─── Page ─────────────────────────────────────────────────────────────────── */
+/* ─── Page — story-led single column, chapter rhythm ────────────────────────── */
 
 export default function AboutPage() {
   return (
-    <>
-      {/* ── Page hero band ────────────────────────────────────────────────── */}
+    <article className="mx-auto max-w-4xl px-4 sm:px-6 py-14 sm:py-20">
+      {/* Document opening — headline top-left, no accent band */}
+      <header className="mb-10">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)] mb-3">
+          About UFA
+        </h1>
+        <p className="text-lg text-[var(--text-muted)]">
+          The national governing body for Ultimate Frisbee in the Maldives
+        </p>
+      </header>
+
+      {/* Mission — the opening paragraph, wide left margin at desktop */}
+      <div className="lg:ml-36 max-w-2xl mb-16">
+        <p className="text-lg text-[var(--text-primary)] leading-relaxed">
+          Our mission is to make Ultimate Frisbee a mainstream sport across the Republic of
+          Maldives, and to provide every player — from first-timer to seasoned competitor — with
+          meaningful opportunities to develop their game and their community. We believe in open,
+          mixed, self-refereed sport built on the Spirit of the Game.
+        </p>
+      </div>
+
+      {/* ── Chapter: Our story — the timeline is the spine, full-bleed ────── */}
       <section
-        className="bg-[var(--accent)] py-16 px-4"
-        aria-label="Page header"
+        aria-labelledby="story-heading"
+        className="border-t border-[var(--border)] pt-10 mb-16"
       >
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-3">
-            About UFA
-          </h1>
-          <p className="text-lg text-white/85 font-medium">
-            The national governing body for Ultimate Frisbee in the Maldives
-          </p>
-        </div>
+        <h2
+          id="story-heading"
+          className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-10"
+        >
+          Our Story
+        </h2>
+        <Timeline />
       </section>
 
-      {/* ── Our Mission ───────────────────────────────────────────────────── */}
+      {/* ── Chapter: About the Sport ──────────────────────────────────────── */}
       <section
-        className="py-16 px-4"
-        aria-labelledby="mission-heading"
-      >
-        <div className="mx-auto max-w-3xl">
-          <h2
-            id="mission-heading"
-            className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6"
-          >
-            Our Mission
-          </h2>
-          <p className="text-lg text-[var(--text-muted)] leading-relaxed">
-            Our mission is to make Ultimate Frisbee a mainstream sport across the Republic of
-            Maldives, and to provide every player — from first-timer to seasoned competitor — with
-            meaningful opportunities to develop their game and their community. We believe in open,
-            mixed, self-refereed sport built on the Spirit of the Game.
-          </p>
-        </div>
-      </section>
-
-      {/* ── Timeline ──────────────────────────────────────────────────────── */}
-      <section
-        className="py-16 px-4 bg-[var(--bg-surface)] border-y border-[var(--border)]"
-        aria-labelledby="timeline-heading"
-      >
-        <div className="mx-auto max-w-5xl">
-          <h2
-            id="timeline-heading"
-            className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-10 text-center"
-          >
-            Our Story
-          </h2>
-          <Timeline />
-        </div>
-      </section>
-
-      {/* ── About the Sport ───────────────────────────────────────────────── */}
-      <section
-        className="py-16 px-4"
         aria-labelledby="sport-heading"
+        className="border-t border-[var(--border)] pt-10 mb-16"
       >
-        <div className="mx-auto max-w-3xl">
-          <h2
-            id="sport-heading"
-            className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6"
-          >
-            About the Sport
-          </h2>
+        <h2
+          id="sport-heading"
+          className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6"
+        >
+          About the Sport
+        </h2>
+        <div className="lg:ml-36 max-w-2xl">
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-4">
             Ultimate Frisbee is a non-contact team sport played with a flying disc. Two teams compete
             to score by catching the disc in the opposing end zone. There are no referees — players
@@ -117,35 +101,26 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Where We Play ─────────────────────────────────────────────────── */}
+      {/* ── Chapter: Where We Play — inline definition list, not cards ────── */}
       <section
-        className="py-16 px-4 bg-[var(--bg-surface)] border-t border-[var(--border)]"
         aria-labelledby="where-heading"
+        className="border-t border-[var(--border)] pt-10"
       >
-        <div className="mx-auto max-w-5xl">
-          <h2
-            id="where-heading"
-            className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-8 text-center"
-          >
-            Where We Play
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {CITIES.map((city) => (
-              <div
-                key={city.name}
-                className="rounded-xl border border-[var(--border)] bg-[var(--bg-page)] p-6"
-              >
-                <h3 className="font-bold text-[var(--text-primary)] text-lg mb-2">
-                  {city.name}
-                </h3>
-                <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                  {city.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <h2
+          id="where-heading"
+          className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6"
+        >
+          Where We Play
+        </h2>
+        <dl className="lg:ml-36 max-w-2xl space-y-6">
+          {CITIES.map((city) => (
+            <div key={city.name}>
+              <dt className="text-lg font-bold text-[var(--text-primary)]">{city.name}</dt>
+              <dd className="text-[var(--text-muted)] leading-relaxed">{city.description}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
-    </>
+    </article>
   );
 }
