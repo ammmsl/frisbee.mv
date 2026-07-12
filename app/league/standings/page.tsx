@@ -1,85 +1,15 @@
 import Link from 'next/link'
-import { unstable_cache } from 'next/cache'
-import sql from '@/lib/league-db'
-import { getStandings, getHistoricalStandings } from '@/lib/league-standings'
+import {
+  getActiveSeason,
+  getCachedStandings,
+  getCachedHistoricalStandings,
+  getFormGuide,
+} from '@/lib/league-queries'
 import PublicNav from '../_components/PublicNav'
 import StandingsChart from './StandingsChart'
 import { TeamAvatar } from '../_components/Avatar'
 
 export const dynamic = 'force-dynamic'
-
-const getActiveSeason = unstable_cache(
-  async () => {
-    const rows = await sql`
-      SELECT season_id::text, season_name
-      FROM seasons
-      WHERE status = 'active'
-      LIMIT 1
-    `
-    return rows[0] ?? null
-  },
-  ['league-active-season'],
-  { tags: ['league'], revalidate: 300 }
-)
-
-const getCachedStandings = unstable_cache(
-  getStandings,
-  ['league-standings'],
-  { tags: ['league'], revalidate: 300 }
-)
-
-const getCachedHistoricalStandings = unstable_cache(
-  getHistoricalStandings,
-  ['league-historical-standings'],
-  { tags: ['league'], revalidate: 300 }
-)
-
-// Returns Record (not Map) so unstable_cache can serialize it with JSON.stringify
-const getFormGuide = unstable_cache(
-  async (seasonId: string): Promise<Record<string, ('W' | 'D' | 'L')[]>> => {
-    const rows = await sql`
-      SELECT
-        team_id::text,
-        result,
-        kickoff_time
-      FROM (
-        SELECT
-          f.home_team_id AS team_id,
-          CASE WHEN mr.score_home > mr.score_away THEN 'W'
-               WHEN mr.score_home = mr.score_away THEN 'D'
-               ELSE 'L' END AS result,
-          f.kickoff_time
-        FROM fixtures f
-        JOIN match_results mr ON mr.match_id = f.match_id
-        WHERE f.season_id = ${seasonId}
-        UNION ALL
-        SELECT
-          f.away_team_id AS team_id,
-          CASE WHEN mr.score_away > mr.score_home THEN 'W'
-               WHEN mr.score_away = mr.score_home THEN 'D'
-               ELSE 'L' END AS result,
-          f.kickoff_time
-        FROM fixtures f
-        JOIN match_results mr ON mr.match_id = f.match_id
-        WHERE f.season_id = ${seasonId}
-      ) sub
-      ORDER BY team_id, kickoff_time DESC
-    `
-
-    const result: Record<string, ('W' | 'D' | 'L')[]> = {}
-    for (const row of rows) {
-      const tid = row.team_id as string
-      if (!result[tid]) result[tid] = []
-      if (result[tid].length < 5) result[tid].push(row.result as 'W' | 'D' | 'L')
-    }
-    for (const tid of Object.keys(result)) {
-      result[tid] = result[tid].reverse()
-    }
-    return result
-  },
-  ['league-form-guide'],
-  { tags: ['league'], revalidate: 300 }
-)
 
 function FormGuide({ form }: { form: ('W' | 'D' | 'L')[] }) {
   const colours = { W: 'bg-green-500', D: 'bg-gray-500', L: 'bg-red-500' }

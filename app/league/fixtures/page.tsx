@@ -1,5 +1,9 @@
-import { unstable_cache } from 'next/cache'
-import sql from '@/lib/league-db'
+import {
+  getActiveSeason,
+  getAllFixtures,
+  getTeamNames,
+  getHolidays,
+} from '@/lib/league-queries'
 import PublicNav from '../_components/PublicNav'
 import FixturesCalendar from './FixturesCalendar'
 
@@ -46,73 +50,6 @@ function toMVTWeekday(iso: string): string {
     weekday: 'long',
   })
 }
-
-// ─── DB queries ───────────────────────────────────────────────────────────────
-
-const getActiveSeason = unstable_cache(
-  async () => {
-    const rows = await sql`
-      SELECT season_id::text, season_name
-      FROM seasons
-      WHERE status = 'active'
-      LIMIT 1
-    `
-    return rows[0] ?? null
-  },
-  ['league-active-season'],
-  { tags: ['league'], revalidate: 300 }
-)
-
-const getAllFixtures = unstable_cache(
-  async (seasonId: string) => sql`
-    SELECT
-      f.match_id::text,
-      f.matchweek,
-      f.kickoff_time,
-      f.status,
-      ht.team_id::text AS home_team_id,
-      ht.team_name AS home_team_name,
-      at.team_id::text AS away_team_id,
-      at.team_name AS away_team_name,
-      mr.score_home,
-      mr.score_away
-    FROM fixtures f
-    JOIN teams ht ON ht.team_id = f.home_team_id
-    JOIN teams at ON at.team_id = f.away_team_id
-    LEFT JOIN match_results mr ON mr.match_id = f.match_id
-    WHERE f.season_id = ${seasonId}
-    ORDER BY f.kickoff_time ASC
-  `,
-  ['league-all-fixtures'],
-  { tags: ['league'], revalidate: 300 }
-)
-
-const getTeamNames = unstable_cache(
-  async (seasonId: string): Promise<string[]> => {
-    const rows = await sql`
-      SELECT team_name FROM teams
-      WHERE season_id = ${seasonId}
-      ORDER BY team_name ASC
-    `
-    return rows.map((r) => r.team_name as string)
-  },
-  ['league-team-names'],
-  { tags: ['league'], revalidate: 300 }
-)
-
-const getHolidays = unstable_cache(
-  async (seasonId: string) => sql`
-    SELECT
-      start_date::text,
-      end_date::text,
-      name
-    FROM season_holidays
-    WHERE season_id = ${seasonId}
-    ORDER BY start_date ASC
-  `,
-  ['league-holidays'],
-  { tags: ['league'], revalidate: 300 }
-)
 
 // ─── Types exported for the client component ──────────────────────────────────
 
