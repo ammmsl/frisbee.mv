@@ -6,6 +6,8 @@ export interface PersonCardProps {
   term: string;
   bio: string;
   photo?: string | null;
+  /** Extra classes on the card root (e.g. grid column spans) */
+  className?: string;
 }
 
 export default function PersonCard({
@@ -14,9 +16,10 @@ export default function PersonCard({
   term,
   bio,
   photo = null,
+  className = '',
 }: PersonCardProps) {
   return (
-    <div className="flex flex-col rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-5 gap-4">
+    <div className={`flex flex-col rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-5 gap-4 ${className}`}>
       {/* Avatar row */}
       <div className="flex items-center gap-3">
         <Avatar src={photo ?? null} name={name} size="lg" />

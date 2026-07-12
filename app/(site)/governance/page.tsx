@@ -1,3 +1,5 @@
+/* Hallmark · macrostructure: Stat-Led · theme: federation · paper: tinted-pacific · accent: pacific-blue */
+
 import type { Metadata } from 'next';
 import PersonCard from '@/app/_components/PersonCard';
 import QuoteBlock from '@/app/_components/QuoteBlock';
@@ -51,92 +53,127 @@ export function generateMetadata(): Metadata {
   };
 }
 
+/* ─── The five anchor stats ─────────────────────────────────────────────────── */
+
+const ANCHORS = [
+  { value: String(board.length), label: 'Board members', href: '#board' },
+  { value: String(committees.length), label: 'Committees', href: '#committees' },
+  { value: String(documents.length), label: 'AGM documents', href: '#documents' },
+  { value: '2018', label: 'Founded', href: '#governed' },
+  { value: '2025', label: 'WFDF provisional member since', href: '#wfdf' },
+] as const;
+
 /* ─── Page ─────────────────────────────────────────────────────────────────── */
 
 export default function GovernancePage() {
   return (
-    <>
-      {/* ── Page hero band ────────────────────────────────────────────────── */}
-      <section
-        className="bg-[var(--accent)] py-16 px-4"
-        aria-label="Page header"
-      >
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-3">
-            Governance
-          </h1>
-          <p className="text-lg text-white/85 font-medium">
-            Transparency, accountability, and community leadership.
-          </p>
-        </div>
-      </section>
+    <div className="mx-auto max-w-5xl px-4 sm:px-6 py-14 sm:py-20">
+      {/* ── Opening — headline + five anchored numerals ───────────────────── */}
+      <header className="mb-14">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)] mb-3">
+          Governance
+        </h1>
+        <p className="text-lg text-[var(--text-muted)] mb-10">
+          Transparency, accountability, and community leadership.
+        </p>
 
-      {/* ── Board of Directors ────────────────────────────────────────────── */}
-      <section
-        className="py-16 px-4"
-        aria-labelledby="board-heading"
-      >
-        <div className="mx-auto max-w-5xl">
-          <h2
-            id="board-heading"
-            className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-8"
-          >
-            Board of Directors
-          </h2>
-          {/*
-           * CSS Grid with align-items: stretch so every card is the same height.
-           * PersonCard uses flex-col internally; the bio grows to fill height.
-           */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
-            {board.map((member) => (
-              <PersonCard
-                key={member.id}
-                name={member.name}
-                title={member.title}
-                term={member.term}
-                bio={member.bio}
-                photo={member.photo}
-              />
+        <nav aria-label="Governance at a glance">
+          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-y-8 list-none m-0 p-0 border-t border-[var(--border)] pt-8">
+            {ANCHORS.map((stat) => (
+              <li key={stat.href} className="pr-6">
+                <a
+                  href={stat.href}
+                  className="group inline-flex flex-col gap-1 min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] rounded"
+                >
+                  <span className="text-4xl font-bold tracking-tight text-[var(--text-primary)] group-hover:text-[var(--accent-dark)] transition-colors">
+                    {stat.value}
+                  </span>
+                  <span className="text-sm font-medium text-[var(--text-muted)]">
+                    {stat.label} ↓
+                  </span>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
+        </nav>
+      </header>
+
+      {/* ── Board of Directors — vary-sized spans, President leads ───────── */}
+      <section id="board" className="py-12 border-t border-[var(--border)]" aria-labelledby="board-heading">
+        <h2
+          id="board-heading"
+          className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-8"
+        >
+          Board of Directors
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
+          {board.map((member) => (
+            <PersonCard
+              key={member.id}
+              name={member.name}
+              title={member.title}
+              term={member.term}
+              bio={member.bio}
+              photo={member.photo}
+              className={member.id === 'president' ? 'sm:col-span-2' : ''}
+            />
+          ))}
         </div>
       </section>
 
+      {/* ── Committees ────────────────────────────────────────────────────── */}
+      {/* Names only — the config mandates are placeholder text (spec §6 C8,
+          owner-owed); render them once real content lands. */}
+      <section id="committees" className="py-12 border-t border-[var(--border)]" aria-labelledby="committees-heading">
+        <h2
+          id="committees-heading"
+          className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6"
+        >
+          Committees
+        </h2>
+        <ul className="max-w-2xl list-none m-0 p-0 divide-y divide-[var(--border)]">
+          {committees.map((committee) => (
+            <li key={committee.id} className="flex items-baseline justify-between gap-4 py-3.5">
+              <span className="font-semibold text-[var(--text-primary)]">{committee.name}</span>
+              {committee.status === 'accepting-applications' && (
+                <span className="text-sm text-[var(--text-muted)] shrink-0">
+                  Accepting applications
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
 
       {/* ── How We're Governed ────────────────────────────────────────────── */}
-      <section
-        className="py-16 px-4"
-        aria-labelledby="governed-heading"
-      >
-        <div className="mx-auto max-w-3xl">
-          <h2
-            id="governed-heading"
-            className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6"
-          >
-            How We&rsquo;re Governed
-          </h2>
+      <section id="governed" className="py-12 border-t border-[var(--border)]" aria-labelledby="governed-heading">
+        <h2
+          id="governed-heading"
+          className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6"
+        >
+          How We&rsquo;re Governed
+        </h2>
+        <div className="max-w-3xl">
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-4">
-            The UFA is governed by an elected executive committee. Registered members vote by secret
-            ballot at the Annual General Meeting (AGM). Committee members serve five-year terms.
+            Founded in 2018, the UFA is governed by an elected executive committee. Registered
+            members vote by secret ballot at the Annual General Meeting (AGM). Committee members
+            serve five-year terms.
           </p>
           <p className="text-lg text-[var(--text-muted)] leading-relaxed">
-            The federation operates under a formal constitution. 
+            The federation operates under a formal constitution.
           </p>
         </div>
       </section>
 
       {/* ── WFDF Membership ───────────────────────────────────────────────── */}
-      <section
-        className="py-16 px-4 bg-[var(--bg-surface)] border-y border-[var(--border)]"
-        aria-labelledby="wfdf-heading"
-      >
-        <div className="mx-auto max-w-3xl">
-          <h2
-            id="wfdf-heading"
-            className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6"
-          >
-            WFDF Membership
-          </h2>
+      <section id="wfdf" className="py-12 border-t border-[var(--border)]" aria-labelledby="wfdf-heading">
+        <h2
+          id="wfdf-heading"
+          className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6"
+        >
+          WFDF Membership
+        </h2>
+        <div className="max-w-3xl">
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-6">
             The Ultimate Frisbee Association applied for WFDF Provisional National Federation
             Membership in late 2024, and provisional membership was granted in February 2025.
@@ -170,81 +207,76 @@ export default function GovernancePage() {
       </section>
 
       {/* ── AGM Documents ─────────────────────────────────────────────────── */}
-      <section
-        className="py-16 px-4"
-        aria-labelledby="documents-heading"
-      >
-        <div className="mx-auto max-w-3xl">
-          <h2
-            id="documents-heading"
-            className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-3"
-          >
-            AGM Documents
-          </h2>
-          <p className="text-sm text-[var(--text-muted)] mb-6">
-            Documents are provided as PDF files.
-          </p>
+      <section id="documents" className="py-12 border-t border-[var(--border)]" aria-labelledby="documents-heading">
+        <h2
+          id="documents-heading"
+          className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-3"
+        >
+          AGM Documents
+        </h2>
+        <p className="text-sm text-[var(--text-muted)] mb-6">
+          Documents are provided as PDF files.
+        </p>
 
-          <div className="w-full overflow-x-auto rounded-lg border border-[var(--border)]">
-            <table className="w-full min-w-max text-sm text-left">
-              <thead className="bg-[var(--bg-surface)] border-b border-[var(--border)]">
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-4 py-3 font-semibold text-[var(--text-primary)] whitespace-nowrap"
-                  >
-                    Document
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-3 font-semibold text-[var(--text-primary)] whitespace-nowrap"
-                  >
-                    Date
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-3 font-semibold text-[var(--text-primary)] whitespace-nowrap"
-                  >
-                    Download
-                  </th>
+        <div className="max-w-3xl w-full overflow-x-auto rounded-lg border border-[var(--border)]">
+          <table className="w-full min-w-max text-sm text-left">
+            <thead className="bg-[var(--bg-surface)] border-b border-[var(--border)]">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-4 py-3 font-semibold text-[var(--text-primary)] whitespace-nowrap"
+                >
+                  Document
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-3 font-semibold text-[var(--text-primary)] whitespace-nowrap"
+                >
+                  Date
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-3 font-semibold text-[var(--text-primary)] whitespace-nowrap"
+                >
+                  Download
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {documents.map((doc, idx) => (
+                <tr
+                  key={doc.id}
+                  className={
+                    idx % 2 === 1
+                      ? 'bg-[var(--bg-surface)]'
+                      : 'bg-[var(--bg-page)]'
+                  }
+                >
+                  <td className="px-4 py-3 text-[var(--text-primary)] border-t border-[var(--border)]">
+                    {doc.name}
+                  </td>
+                  <td className="px-4 py-3 text-[var(--text-muted)] border-t border-[var(--border)] whitespace-nowrap">
+                    {new Date(doc.date + 'T00:00:00Z').toLocaleDateString('en-GB', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                      timeZone: 'UTC',
+                    })}
+                  </td>
+                  <td className="px-4 py-3 border-t border-[var(--border)]">
+                    <FileDownloadLink
+                      href={`/documents/${doc.filename}`}
+                      label={doc.name}
+                      ariaLabel={`Download ${doc.name} (PDF)`}
+                      sizeLabel={doc.sizeLabel}
+                    />
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {documents.map((doc, idx) => (
-                  <tr
-                    key={doc.id}
-                    className={
-                      idx % 2 === 1
-                        ? 'bg-[var(--bg-surface)]'
-                        : 'bg-[var(--bg-page)]'
-                    }
-                  >
-                    <td className="px-4 py-3 text-[var(--text-primary)] border-t border-[var(--border)]">
-                      {doc.name}
-                    </td>
-                    <td className="px-4 py-3 text-[var(--text-muted)] border-t border-[var(--border)] whitespace-nowrap">
-                      {new Date(doc.date + 'T00:00:00Z').toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                        timeZone: 'UTC',
-                      })}
-                    </td>
-                    <td className="px-4 py-3 border-t border-[var(--border)]">
-                      <FileDownloadLink
-                        href={`/documents/${doc.filename}`}
-                        label={doc.name}
-                        ariaLabel={`Download ${doc.name} (PDF)`}
-                        sizeLabel={doc.sizeLabel}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
-    </>
+    </div>
   );
 }
