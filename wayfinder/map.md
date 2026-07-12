@@ -27,6 +27,8 @@ A locked, sequenced implementation route for all post-publish work — the Hallm
 - [Lock the implementation sequence](tickets/T02-lock-implementation-sequence.md) — six waves: correctness+security (001/003/004 + Hallmark P1 + 18 amendments) → 002 → chrome → data section → per-page macros → 005–007; stats become live server-side fetch with labelled denominators
 - [Owner calls: publication blockers](tickets/T03-owner-calls-publication-blockers.md) — b-tb2 ships with caveat; GSP stays named; C1 folds into registration, C2 softens to "late 2024", C3–C7/C9 confirmed; only agm-finance + nq-5 need redaction
 - [News engine Research category](tickets/T04-news-schema-research-category.md) — no category field exists (NewsFilter fakes it via title regex); minimal spec = one CHECK-constrained `category` column + six touchpoints, asset `assets/T04-news-schema.md`; implement in Wave 4
+- [Data-section routes and index](tickets/T05-data-section-routes-and-index.md) — prototype built: `/data` index, static reports in `public/data/`, Research via news filter, plain read-the-full-report anchor; **defaults await owner reaction**; no nav entry yet (owner call)
+- [Transfer and redact archive pages](tickets/T06-transfer-and-redact-archive-pages.md) — 36 shipped (agm-finance + nq-5 redacted; b-tb2/a-tb1 per T03); **oms-15 + b-tb1 withheld** on privacy-sweep role-tied-load findings (owner call)
 
 ## Wave 1 status (2026-07-12, branch `wave-1-correctness`, unpushed)
 
@@ -47,7 +49,7 @@ A locked, sequenced implementation route for all post-publish work — the Hallm
   - **WFDF nav pill removed** — the masthead has no right-zone chrome; WFDF membership now lives in the hero badge + footer statement.
   - **League link opens same-tab** (was new-tab) per the plan's bridge decision, in both masthead and Drawer, with the green crossover dot.
 
-## Wave 4 status (2026-07-12/13, branch `wave-4-5-data-and-macros`, unpushed)
+## Wave 4 status (2026-07-12/13, branch `wave-4-5-data-and-macros`, **pushed to origin at owner's mid-run request** for a Vercel preview test)
 
 - **Package A (T04 implementation)** — ✅ done; `category` column spec'd in `migrations/001-news-category.sql` (**owner must run it manually in Supabase**); all six touchpoints + NewsFilter rebuilt on the real field; code is default-safe pre-migration (column absent → everything reads as 'news').
 - **Package B (T05 prototype)** — ✅ built. **Defaults locked, PENDING OWNER REACTION:**
@@ -60,8 +62,18 @@ A locked, sequenced implementation route for all post-publish work — the Hallm
 - **Package C (T06 transfer)** — ✅ done, **36 pages shipped** to `public/data/` (+ `lib/` assets). Redactions applied: agm-finance (R2 collection-mechanics + ghost finding, Findings AND Method), nq-5 (k-core null tiles/figure/finding/method/JSON). b-tb2 + a-tb1 ship as-is per T03. **Count note:** the run instruction said "the 34 publish-as-is (≤ 34)" but also ordered the needs-redaction work — the cleared set is 38 (34 + 2 redacted + 2 per T03); see below for why 36 shipped.
 - **⚠ OWNER CALL NEEDED — two T11 publish-as-is pages WITHHELD on privacy-sweep findings:** **oms-15** and **b-tb1** carry **per-office centrality tables** (President 70 inbound @-mentions · rank #5 of 136 · top 97%; Treasurer 52 · #11; Vice-President 34 · #15; Secretary 21 · #28 — in tables, stat tiles AND the JSON blobs). That is role-tied load, which the privacy line marks non-negotiable — the same material that made oms-3 internal-only. T11 called these pages "aggregate rank facts"; the sweep disagrees. Withheld rather than shipped (the branch is now being pushed for Vercel preview, so under-shipping is the reversible direction). To restore: copy the two files from the analysis repo and re-add their two index entries in `app/(site)/data/page.tsx`. Two borderline items shipped WITH flags (details in the wave report): soc-4's opaque-id introducer counts (page labels them chat-derived proxy, not owner-coded) and oms-6's "exactly one paid, zero-attendance patron" sentence.
 
+## Wave 5 status (2026-07-13, same branch)
+
+- **Hallmark Phase 3 per-page macros — ✅ all seven shipped, one commit per page** (revert any single page independently): 3a home Marquee Hero (next session into the hero right column; stats bar now a typographic row via `StatTile bare`; live labelled fetch untouched) · 3b about Long Document (Timeline flattened to a single-column spine; Where We Play as `<dl>`) · 3c governance Stat-Led (five anchored numerals; President spans 2 columns; committees restored as a names-only list — placeholder mandates withheld from render) · 3d play Workbench (next-session utility block top; typographic rules close; **also fixed stale orange hovers** `#e55a27`/`#cc4f22` → accent tokens) · 3e contact Letter · 3f sponsors Quote-Led (post-publish "Ways to Help" 3-col icon grid flattened to a stacked list — nearest compliant shape, content preserved) · 3g pickup hub Typographic List.
+- No Fraunces anywhere (owner call honored — Inter weights where the plan said Fraunces). Chrome untouched except deleting the orphaned `--note-special` token. `npx tsc --noEmit` + `npm run build` exit 0 after every page. Nothing reverted.
+- **Followups (Package E) — ✅** ADRs 0001/0002, `CONTEXT.md`, `.hallmark/log.json`, CLAUDE.md design-system pointer section (stale disc-orange table replaced).
+- News/events/calendar pages still carry the old accent-band header — they were outside the plan's 3a–3g scope; natural next rotation candidates (noted in ADR 0002 / log.json `unassigned`).
+
 ## Not yet specified
 
+- **T05 defaults await owner reaction** (Wave 4 above) — including whether `/data` gets a masthead or footer entry (currently reachable by URL and from Research posts only; chrome was frozen this wave).
+- **oms-15 + b-tb1: ship or keep internal** — withheld by the Wave-4 privacy sweep (per-office centrality tables = role-tied load) despite T11 publish-as-is verdicts. If shipping: copy from the analysis repo + re-add the two index entries in `app/(site)/data/page.tsx`.
+- **Run `migrations/001-news-category.sql`** in the Supabase SQL editor (manual; code is default-safe until then).
 - **Drafting the remaining 5 posts** — voice set by the two spec drafts (#1, #6); can't ticket until the section shape and sequence are locked.
 - **Placeholder content replacement** — `config/committees.json`, `config/board.json`, `config/sponsors.json` need real content from the owner (spec §6); shape unknown until owner supplies it.
 - **Later data waves** — demographics post (needs Tier-1 entry into `ufa.sqlite`), governance/volunteer wave (after launch voice proven).
