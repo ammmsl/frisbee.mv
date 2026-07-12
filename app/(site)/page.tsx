@@ -1,3 +1,5 @@
+/* Hallmark · macrostructure: Marquee Hero · theme: federation · paper: tinted-pacific · accent: pacific-blue */
+
 import type { Metadata } from 'next';
 import { readdirSync } from 'fs';
 import { join } from 'path';
@@ -166,8 +168,8 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── 1. Hero — content-height, left-biased (transitional; full Marquee
-             Hero lands in Phase 3a) ─────────────────────────────────────── */}
+      {/* ── 1. Marquee Hero — left-biased headline, next session in the right
+             column, content-height ──────────────────────────────────────── */}
       <section className="relative overflow-hidden" aria-label="Hero">
         {/* Pacific-blue fallback when carousel images are absent or loading */}
         <div
@@ -190,134 +192,127 @@ export default async function HomePage() {
         {/* Dark tint overlay — ensures white text passes WCAG AA */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/55" />
 
-        {/* Hero content — left-biased, content-height */}
+        {/* Hero content — asymmetric: headline left, next session right */}
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-          <div className="max-w-2xl">
-            <h1
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 tracking-tight"
-              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.85), 0 4px 16px rgba(0,0,0,0.65), 0 12px 40px rgba(0,0,0,0.35)' }}
-            >
-              Ultimate Frisbee Association
-            </h1>
-            <p
-              className="text-lg sm:text-xl text-white/85 mb-10 font-medium"
-              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.80), 0 3px 10px rgba(0,0,0,0.55)' }}
-            >
-              Ultimate Frisbee — Malé, Fuvahmulah &amp; Addu City
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              {/* Primary CTA */}
-              <Link
-                href="/play"
-                className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[var(--accent-dark)] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+            <div className="max-w-2xl">
+              <h1
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 tracking-tight"
+                style={{ textShadow: '0 1px 3px rgba(0,0,0,0.85), 0 4px 16px rgba(0,0,0,0.65), 0 12px 40px rgba(0,0,0,0.35)' }}
               >
-                Join a Session
-              </Link>
-
-              {/* Ghost CTA */}
-              <Link
-                href="/pickup"
-                className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-transparent border-2 border-white/75 text-white hover:bg-white/12 hover:border-white active:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                Ultimate Frisbee Association
+              </h1>
+              <p
+                className="text-lg sm:text-xl text-white/85 mb-10 font-medium"
+                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.80), 0 3px 10px rgba(0,0,0,0.55)' }}
               >
-                Pickup &amp; League
-              </Link>
+                Ultimate Frisbee — Malé, Fuvahmulah &amp; Addu City
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                {/* Primary CTA */}
+                <Link
+                  href="/play"
+                  className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-white text-[var(--accent-dark)] hover:bg-white/92 active:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  Join a Session
+                </Link>
+
+                {/* Ghost CTA */}
+                <Link
+                  href="/pickup"
+                  className="inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors min-h-[44px] px-7 py-3 text-base bg-transparent border-2 border-white/75 text-white hover:bg-white/12 hover:border-white active:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  Pickup &amp; League
+                </Link>
+              </div>
+
+              {/* WFDF Provisional Member badge */}
+              <div className="mt-10">
+                <Badge variant="wfdf">WFDF Provisional Member</Badge>
+              </div>
             </div>
 
-            {/* WFDF Provisional Member badge */}
-            <div className="mt-10">
-              <Badge variant="wfdf">WFDF Provisional Member</Badge>
+            {/* Next session — right column, typographic block on the image */}
+            <div
+              className="lg:pl-8 lg:pr-2 border-l-2 border-white/50 pl-5 text-white"
+              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.80), 0 3px 10px rgba(0,0,0,0.55)' }}
+              aria-label="Next session details"
+            >
+              <p className="text-xs font-semibold uppercase tracking-widest text-white/75 mb-3">
+                Next Session
+              </p>
+              <p className="text-3xl font-bold leading-tight mb-1">{session.dayName}</p>
+              <p className="text-base text-white/85 mb-1">{session.fullDate}</p>
+              <p className="text-base font-semibold mb-1">{session.time}</p>
+              <p className="text-white/85 mb-2">{session.location}</p>
+              {specialNote && (
+                <p className="text-sm font-medium italic text-white/90 mb-2">{specialNote}</p>
+              )}
+              <a
+                href="https://maps.app.goo.gl/QNpZ2nUpYoQwBTaH6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] py-2 text-sm text-white underline underline-offset-4 decoration-white/60 hover:decoration-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                <MapPinIcon />
+                Get Directions
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 2. Live Stats Bar ────────────────────────────────────────────── */}
+      {/* ── 2. Live Stats — typographic row, thin rules, no card chrome ──── */}
       {homeStats && (
         <section
-          className="py-12 px-4 bg-[var(--bg-surface)] border-y border-[var(--border)]"
+          className="py-10 px-4 border-b border-[var(--border)]"
           aria-label="Live community statistics"
         >
           <div className="mx-auto max-w-7xl">
-            <div className="flex gap-6 overflow-x-auto pb-2 lg:justify-center lg:overflow-visible lg:pb-0">
-              <StatTile value={homeStats.playersEverPlayed} label="Players — ever played" />
-              <StatTile value={homeStats.trackedSessions} label="Tracked sessions — since Jul 2024" />
-              <StatTile value={homeStats.attendances} label="Attendances — since Jul 2024" />
+            <div className="flex overflow-x-auto pb-2 lg:overflow-visible lg:pb-0">
+              <div className="shrink-0 px-8 first:pl-0 border-r border-[var(--border)] last:border-r-0">
+                <StatTile bare value={homeStats.playersEverPlayed} label="Players — ever played" />
+              </div>
+              <div className="shrink-0 px-8 first:pl-0 border-r border-[var(--border)] last:border-r-0">
+                <StatTile bare value={homeStats.trackedSessions} label="Tracked sessions — since Jul 2024" />
+              </div>
+              <div className="shrink-0 px-8 first:pl-0 border-r border-[var(--border)] last:border-r-0">
+                <StatTile bare value={homeStats.attendances} label="Attendances — since Jul 2024" />
+              </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* ── 3. Next Session ──────────────────────────────────────────────── */}
+      {/* ── 3. About Snippet — left-aligned prose block ──────────────────── */}
       <section
-        className="py-16 px-4"
-        aria-label="Next session details"
-      >
-        <div className="mx-auto max-w-xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--text-muted)] mb-4">
-            Next Session
-          </p>
-
-          {/* Accent rule */}
-          <div className="mx-auto w-10 h-1 rounded-full bg-[var(--accent)] mb-6" aria-hidden="true" />
-
-          <p className="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-1">
-            {session.dayName}
-          </p>
-          <p className="text-xl text-[var(--text-muted)] mb-1">
-            {session.fullDate}
-          </p>
-          <p className="text-lg font-semibold text-[var(--text-primary)] mb-1">
-            {session.time}
-          </p>
-          <p className="text-[var(--text-muted)] mb-2">{session.location}</p>
-
-          {/* Special override note */}
-          {specialNote && (
-            <p className="text-sm mb-4" style={{ color: 'var(--note-special)' }}>
-              {specialNote}
-            </p>
-          )}
-
-          {/* Ghost link styled as button */}
-          <a
-            href="https://maps.app.goo.gl/QNpZ2nUpYoQwBTaH6"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors min-h-[44px] px-5 py-2.5 text-sm bg-transparent text-[var(--accent)] hover:bg-sky-50 active:bg-sky-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-          >
-            <MapPinIcon />
-            Get Directions
-          </a>
-        </div>
-      </section>
-
-      {/* ── 4. About Snippet ─────────────────────────────────────────────── */}
-      <section
-        className="py-16 px-4 bg-[var(--bg-surface)] border-y border-[var(--border)]"
+        className="py-16 px-4 bg-[var(--bg-surface)] border-b border-[var(--border)]"
         aria-label="About UFA"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6">
-            About the Federation
-          </h2>
-          <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-8">
-            The Ultimate Frisbee Association (UFA) is the national governing body for
-            Ultimate Frisbee in the Republic of Maldives. Founded in 2018 and registered
-            with the Commissioner of Sports in 2024, we are a provisional member of the
-            World Flying Disc Federation. We run weekly sessions in Malé and support
-            growing communities across the islands.
-          </p>
-          <Link
-            href="/about"
-            className="text-[var(--accent)] font-semibold hover:underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] rounded"
-          >
-            Learn more about us →
-          </Link>
+        <div className="mx-auto max-w-7xl">
+          <div className="max-w-2xl">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-6">
+              About the Federation
+            </h2>
+            <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-8">
+              The Ultimate Frisbee Association (UFA) is the national governing body for
+              Ultimate Frisbee in the Republic of Maldives. Founded in 2018 and registered
+              with the Commissioner of Sports in 2024, we are a provisional member of the
+              World Flying Disc Federation. We run weekly sessions in Malé and support
+              growing communities across the islands.
+            </p>
+            <Link
+              href="/about"
+              className="text-[var(--accent)] font-semibold hover:underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] rounded"
+            >
+              Learn more about us →
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ── 5. Latest News ───────────────────────────────────────────────── */}
+      {/* ── 4. Latest News ───────────────────────────────────────────────── */}
       <section className="py-16 px-4" aria-label="Latest news">
         <div className="mx-auto max-w-7xl">
           <div className="flex items-baseline justify-between mb-8">
@@ -389,7 +384,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 6. Social Proof Strip ────────────────────────────────────────── */}
+      {/* ── 5. Social Proof Strip ────────────────────────────────────────── */}
       <section
         className="py-10 px-4 bg-[var(--bg-surface)] border-t border-[var(--border)]"
         aria-label="Connect with us"

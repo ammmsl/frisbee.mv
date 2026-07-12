@@ -109,7 +109,6 @@
 
   /* One-off component colours (lifted from hardcoded hex — Hallmark P1 #18) */
   --swap-selected: #1e1b4b;  /* indigo-950 — draft-tool swap selection */
-  --note-special:  #9333ea;  /* purple-600 — special session override note */
 
   /* Surfaces — tinted paper (pacific-blue-cool), mirrors @theme */
   --bg-page:    oklch(98.5% 0.005 230);  /* ≈ #f9fbfc */

@@ -8,6 +8,8 @@ export interface StatTileProps {
   prefix?: string;
   suffix?: string;
   icon?: ReactNode;
+  /** Typographic variant: no card chrome (Hallmark 3a home stats row) */
+  bare?: boolean;
 }
 
 const DURATION_MS = 1500;
@@ -22,6 +24,7 @@ export default function StatTile({
   prefix = '',
   suffix = '',
   icon,
+  bare = false,
 }: StatTileProps) {
   const [displayed, setDisplayed] = useState(0);
   const tileRef = useRef<HTMLDivElement>(null);
@@ -73,14 +76,18 @@ export default function StatTile({
   return (
     <div
       ref={tileRef}
-      className="flex flex-col items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] px-6 py-5 text-center min-w-[160px]"
+      className={
+        bare
+          ? 'flex flex-col gap-1 min-w-[150px]'
+          : 'flex flex-col items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] px-6 py-5 text-center min-w-[160px]'
+      }
     >
       {icon && (
         <div className="text-[var(--accent)] text-2xl" aria-hidden="true">
           {icon}
         </div>
       )}
-      <div className="text-3xl font-bold tracking-tight text-[var(--text-primary)]">
+      <div className={`font-bold tracking-tight text-[var(--text-primary)] ${bare ? 'text-4xl' : 'text-3xl'}`}>
         {prefix}{displayed.toLocaleString()}{suffix}
       </div>
       <div className="text-sm text-[var(--text-muted)] font-medium">{label}</div>
