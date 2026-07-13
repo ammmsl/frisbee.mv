@@ -169,8 +169,9 @@ export default async function HomePage() {
   return (
     <>
       {/* ── 1. Marquee Hero — left-biased headline, next session in the right
-             column, content-height ──────────────────────────────────────── */}
-      <section className="relative overflow-hidden" aria-label="Hero">
+             column, content-height. -mt-16 pulls it behind the fixed
+             transparent SiteNav (which offsets other content with pt-16). ── */}
+      <section className="relative -mt-16 overflow-hidden" aria-label="Hero">
         {/* Pacific-blue fallback when carousel images are absent or loading */}
         <div
           className="absolute inset-0"
@@ -261,6 +262,14 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
+
+        {/* Sentinel — SiteNav watches this; when its bottom edge crosses the
+            top of the viewport the transparent nav goes solid. */}
+        <div
+          id="hero-sentinel"
+          aria-hidden="true"
+          className="absolute bottom-0 left-0 right-0 h-px"
+        />
       </section>
 
       {/* ── 2. Live Stats — typographic row, thin rules, no card chrome ──── */}

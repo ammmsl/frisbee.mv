@@ -10,8 +10,10 @@ export default function PickupLayout({
   return (
     <div className="flex flex-col min-h-screen bg-[var(--bg-page)] text-[var(--text-primary)]">
       <SiteNav />
-      {/* Masthead is static — PickupNav sits immediately below it */}
-      <PickupNav />
+      {/* pt-16 offsets the fixed SiteNav; PickupNav sits immediately below */}
+      <div className="pt-16">
+        <PickupNav />
+      </div>
       <main id="main-content" className="flex-1">
         {children}
       </main>
