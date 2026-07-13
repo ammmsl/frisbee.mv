@@ -247,3 +247,43 @@ CLAUDE.md's stale disc-orange design table replaced with a pointer section. All 
 Plans 005/006/007 · the remaining 5 Research posts (owner voice; none seeded, none published) ·
 credential rotation · `app/league/*` (zero changes) · dev showcases · the Hallmark re-audit ·
 news/events/calendar macro rotation (not in the plan's 3a–3g; flagged in ADR 0002).
+
+---
+
+## Addendum — 2026-07-13 (Opus): owner preview feedback (1a/1b/1c)
+
+Worked the three items in `docs/HANDOVER-2026-07-13-opus.md`.
+
+### 1a — header revert (DONE, `2cb6896`)
+Owner chose **full revert** (not the hybrid) of the Wave-3 N6 masthead back to the pre-Wave-3
+transparent sticky nav. Restored `SiteNav.tsx` wholesale from `2a98ae4`; re-added `pt-16` on the
+`(site)` + `pickup` layouts and `-mt-16` + `#hero-sentinel` on the **current** Marquee Hero (hero
+itself unchanged). Verified with Playwright: transparent over hero → solid on scroll; interior
+pages clear the fixed nav; PickupNav seam OK.
+**Caveat for owner:** full revert also brought back the Play dropdown, the WFDF nav pill, and
+League opening in a **new tab**, and dropped the Wave-3 green League dot + top-level Rules. If you
+only wanted the logo + transparency (the hybrid), say so and it's a small follow-up.
+**Docs still to sync once nav shape is final:** CONTEXT.md chrome row, CLAUDE.md, design-system
+nav line, `.hallmark/log.json`, ADR 0001 (green dot) / 0002 (chrome list), map link bullets.
+
+### 1b — "text layout all over the place" (DONE, `6597b44` + `dfffd1b`)
+Playwright sweep of all changed pages at 375/768/1440. Findings:
+- **Real breakage fixed:** governance AGM table + play session table clipped on the right
+  (`min-w-max` forced max-content width past their `max-w-3xl` container) → dropped `min-w-max`.
+  Board `PersonCard` names truncated in the 4-col grid (`truncate`) → let them wrap.
+- **Taste pullback:** dropped About's three `lg:ml-36` prose indents (read as misalignment) so
+  prose aligns under its section headers.
+- **Left alone (read fine):** home, sponsors, pickup, news, contact (`max-w-prose` centred —
+  right-aligned address is a normal letter sign-off), data (dense archive index).
+
+### 1c — "running the sql didn't update" (NO BUG — migration succeeded)
+Queried the live DB (local `.env.local` → same Supabase pooler):
+- `category` column **exists** in `public.news_posts` (text, default `'news'`). Migration ran fine.
+- `news_posts` exists only in the `public` schema, so the handover's candidate bug (the
+  `information_schema` check filtering `table_name` only, no `table_schema`) is inert here.
+- **All 6 posts are `category='news'`; zero research posts.** That's why nothing changed —
+  the migration only adds capability; the Research tab stays empty until a post is set to research.
+- Proved the full write→read→filter chain in a **rolled-back transaction** (flipped a post to
+  research, ran the exact `/news` Research query → it returned the post, rolled back; DB untouched).
+- **Action for owner:** set a post to Research in `/admin/news` (Category → Research → Save), or
+  `UPDATE news_posts SET category='research' WHERE post_id=…;`. Then it appears under Research.
