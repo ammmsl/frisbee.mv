@@ -47,8 +47,8 @@ export default function AboutPage() {
         </p>
       </header>
 
-      {/* Mission — the opening paragraph, wide left margin at desktop */}
-      <div className="lg:ml-36 max-w-2xl mb-16">
+      {/* Mission — the opening paragraph */}
+      <div className="max-w-2xl mb-16">
         <p className="text-lg text-[var(--text-primary)] leading-relaxed">
           Our mission is to make Ultimate Frisbee a mainstream sport across the Republic of
           Maldives, and to provide every player — from first-timer to seasoned competitor — with
@@ -82,7 +82,7 @@ export default function AboutPage() {
         >
           About the Sport
         </h2>
-        <div className="lg:ml-36 max-w-2xl">
+        <div className="max-w-2xl">
           <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-4">
             Ultimate Frisbee is a non-contact team sport played with a flying disc. Two teams compete
             to score by catching the disc in the opposing end zone. There are no referees — players
@@ -112,7 +112,7 @@ export default function AboutPage() {
         >
           Where We Play
         </h2>
-        <dl className="lg:ml-36 max-w-2xl space-y-6">
+        <dl className="max-w-2xl space-y-6">
           {CITIES.map((city) => (
             <div key={city.name}>
               <dt className="text-lg font-bold text-[var(--text-primary)]">{city.name}</dt>
