@@ -116,7 +116,7 @@ Applied via `[data-theme="dark"]` on a page wrapper. Reserved for `/league/*` ro
 ### Container
 - Max width: `max-w-7xl` (80rem)
 - Horizontal padding: `px-4` (mobile) → `sm:px-6` (640px+) → `lg:px-8` (1024px+)
-- Nav: N6 newspaper masthead — static, scrolls off. No fixed positioning, no `pt-16` offset anywhere.
+- Nav: transparent sticky nav — `fixed` top bar, transparent-white over the home hero, solid (white + shadow) on scroll and on all interior pages. Layouts add `pt-16`; the home hero uses `-mt-16` + `#hero-sentinel`. (The N6 static masthead was reverted by owner call 2026-07-13.)
 
 ### Breakpoints (mobile-first)
 

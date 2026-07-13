@@ -34,8 +34,8 @@ stamp comment (`/* Hallmark · macrostructure: … */`) at the top.
 2. Anti-pattern floor, always: not centred-everything, no 3-column feature grid, no
    eyebrow-on-every-section, no card-in-card.
 3. Stamp the page (`macrostructure · theme · paper · accent`) and update `.hallmark/log.json`.
-4. The chrome (N6 masthead, Ft5 statement footer, tinted pacific paper) is shared and fixed —
-   rotation applies to page bodies, not chrome.
+4. The chrome (transparent sticky nav — N6 masthead reverted by owner 2026-07-13 — Ft5 statement
+   footer, tinted pacific paper) is shared and fixed — rotation applies to page bodies, not chrome.
 5. Typography is **single-font Inter** — weight and size carry hierarchy. A Fraunces display
    serif was trialled and **reverted by owner call (2026-07-12)**; do not reintroduce one.
 

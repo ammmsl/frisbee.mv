@@ -6,7 +6,7 @@
   "accent": "pacific-blue",
   "typography": "inter-single-font (Fraunces display serif reverted by owner call 2026-07-12 — do not reintroduce)",
   "chrome": {
-    "masthead": "N6-newspaper-masthead",
+    "nav": "transparent-sticky-nav (N6-newspaper-masthead reverted by owner call 2026-07-13 — do not reintroduce the static masthead)",
     "footer": "Ft5-statement"
   },
   "pages": {

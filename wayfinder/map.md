@@ -69,9 +69,17 @@ A locked, sequenced implementation route for all post-publish work — the Hallm
 - **Followups (Package E) — ✅** ADRs 0001/0002, `CONTEXT.md`, `.hallmark/log.json`, CLAUDE.md design-system pointer section (stale disc-orange table replaced).
 - News/events/calendar pages still carry the old accent-band header — they were outside the plan's 3a–3g scope; natural next rotation candidates (noted in ADR 0002 / log.json `unassigned`).
 
+## Owner-feedback session (2026-07-13, Opus, same branch — pushed)
+
+Worked the three items from `docs/HANDOVER-2026-07-13-opus.md`. Full write-up: wave-4-5 report addendum.
+
+- **1a — N6 masthead REVERTED to the transparent sticky nav** (`2cb6896`) — **owner call, 2nd chrome reversal after Fraunces.** `SiteNav.tsx` restored wholesale from `2a98ae4`; `pt-16` back on `(site)`+`pickup` layouts; `-mt-16` + `#hero-sentinel` re-added to the current Marquee Hero (hero unchanged). **This supersedes the Wave-3 nav bullets above:** the Play dropdown, WFDF pill, and new-tab League link are back; the flat masthead link row, top-level Rules, and green League crossover dot are gone. Owner reasoning: flat links were poor for quick access (dropdown preferred), and the green "live" dot mis-signalled — **league is on break and slated for a major rework, so its nav link is just a low-key way out.**
+- **1b — layout fixes** (`6597b44` real breakage: governance/play table `min-w-max` clip + PersonCard name truncation; `dfffd1b` taste: dropped About's `lg:ml-36` prose indents). Home/sponsors/pickup/news/contact/data read fine, left alone.
+- **1c — migration "didn't update" = NO BUG.** DB verified: `category` column exists in `public.news_posts` (default `'news'`); `news_posts` is public-only (handover's schema-filter candidate bug is inert); all 6 posts are `category='news'`, so the Research tab is empty *by design* until a post is marked research. Write→read→filter chain proved via a rolled-back transaction. Owner action: set a post to Research in `/admin/news`.
+
 ## Not yet specified
 
-- **⚠ OWNER FEEDBACK 2026-07-13 (preview review) — being handed to the next session:** (1) wants the **logo icon + transparent header back** — a reversal of the Wave-3 N6 masthead call, like the Fraunces revert; (2) "**text layout is all over the place**" on the Wave-5 macro pages — screenshot-triage and pull shapes back toward conventional; (3) **category migration "didn't update"** — diagnose (Vercel env vars? wrong DB? silent PATCH drop?). Full brief: `docs/HANDOVER-2026-07-13-opus.md`.
+- ~~OWNER FEEDBACK 2026-07-13 (preview review)~~ — **RESOLVED this session** (see the owner-feedback section above). Nav reversal is what the owner wants; layout breakage fixed; migration confirmed working.
 - **T05 defaults await owner reaction** (Wave 4 above) — including whether `/data` gets a masthead or footer entry (currently reachable by URL and from Research posts only; chrome was frozen this wave).
 - **oms-15 + b-tb1: ship or keep internal** — withheld by the Wave-4 privacy sweep (per-office centrality tables = role-tied load) despite T11 publish-as-is verdicts. If shipping: copy from the analysis repo + re-add the two index entries in `app/(site)/data/page.tsx`.
 - **Run `migrations/001-news-category.sql`** in the Supabase SQL editor (manual; code is default-safe until then).

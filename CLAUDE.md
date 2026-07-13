@@ -104,7 +104,7 @@ Quick facts:
 | Accent | Pacific-blue `#469BAF` (federation); league sub-site is green-on-dark, scoped to `.league-root` |
 | Paper | Tinted pacific — `oklch(98.5% 0.005 230)` page / `oklch(96.5% 0.008 230)` surface; never pure white |
 | Typography | **Single-font Inter** — a Fraunces display serif was trialled and reverted by owner call (2026-07-12); do not reintroduce a display serif |
-| Chrome | N6 newspaper masthead (static, scrolls off) + Ft5 statement footer |
+| Chrome | Transparent sticky nav (solid on scroll; N6 masthead reverted by owner 2026-07-13) + Ft5 statement footer |
 | Macrostructures | One per page, no repeats (ADR 0002) — see the table in `CONTEXT.md` |
 | Min touch target | 44×44px (40px exception for calendar day cells) |
 | Contrast | WCAG AA minimum; `--text-muted` is `#626d7b` — do not lighten |

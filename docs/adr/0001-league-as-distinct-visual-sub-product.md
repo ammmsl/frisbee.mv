@@ -14,8 +14,10 @@ The 2026-05-20 Hallmark audit asked whether to unify them.
 The league **stays visually distinct**. Green-on-dark is a deliberate sub-product identity, not
 drift. The two surfaces are joined by an honest, minimal bridge instead of a shared skin:
 
-- The federation masthead's **League** link carries a small green crossover dot
-  (`bg-green-400 w-1.5 h-1.5 rounded-full`) and opens in the same tab.
+- The federation nav's **League** link is a minimal bridge into the sub-product. (It briefly
+  carried a green crossover dot + same-tab open in Wave 3; the **2026-07-13 nav revert** dropped
+  both — the dot mis-signalled "live" while the league is on break/awaiting rework, so the link
+  is now a plain new-tab exit. Restore a crossover signal when the league relaunches.)
 - The league topbar carries a `← frisbee.mv` back-link left of its wordmark.
 - League tokens are scoped to `.league-root` (never `:root`) so nothing bleeds either way.
 
