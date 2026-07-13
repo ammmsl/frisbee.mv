@@ -219,7 +219,7 @@ export default function GovernancePage() {
         </p>
 
         <div className="max-w-3xl w-full overflow-x-auto rounded-lg border border-[var(--border)]">
-          <table className="w-full min-w-max text-sm text-left">
+          <table className="w-full text-sm text-left">
             <thead className="bg-[var(--bg-surface)] border-b border-[var(--border)]">
               <tr>
                 <th

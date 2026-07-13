@@ -104,7 +104,7 @@ export default function PlayPage() {
         </h2>
 
         <div className="w-full overflow-x-auto rounded-lg border border-[var(--border)] mb-4">
-          <table className="w-full min-w-max text-sm text-left">
+          <table className="w-full text-sm text-left">
             <thead className="bg-[var(--bg-surface)] border-b border-[var(--border)]">
               <tr>
                 <th

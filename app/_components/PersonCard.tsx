@@ -24,9 +24,10 @@ export default function PersonCard({
       <div className="flex items-center gap-3">
         <Avatar src={photo ?? null} name={name} size="lg" />
         <div className="min-w-0">
-          <p className="font-bold text-[var(--text-primary)] truncate">{name}</p>
-          <p className="text-sm text-[var(--accent)] font-medium truncate">{title}</p>
-          <p className="text-xs text-[var(--text-muted)] truncate">{term}</p>
+          {/* wrap, don't truncate — real names/titles were getting clipped in the 4-col grid */}
+          <p className="font-bold text-[var(--text-primary)]">{name}</p>
+          <p className="text-sm text-[var(--accent)] font-medium">{title}</p>
+          <p className="text-xs text-[var(--text-muted)]">{term}</p>
         </div>
       </div>
 
