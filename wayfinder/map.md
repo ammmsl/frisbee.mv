@@ -71,6 +71,7 @@ A locked, sequenced implementation route for all post-publish work — the Hallm
 
 ## Not yet specified
 
+- **⚠ OWNER FEEDBACK 2026-07-13 (preview review) — being handed to the next session:** (1) wants the **logo icon + transparent header back** — a reversal of the Wave-3 N6 masthead call, like the Fraunces revert; (2) "**text layout is all over the place**" on the Wave-5 macro pages — screenshot-triage and pull shapes back toward conventional; (3) **category migration "didn't update"** — diagnose (Vercel env vars? wrong DB? silent PATCH drop?). Full brief: `docs/HANDOVER-2026-07-13-opus.md`.
 - **T05 defaults await owner reaction** (Wave 4 above) — including whether `/data` gets a masthead or footer entry (currently reachable by URL and from Research posts only; chrome was frozen this wave).
 - **oms-15 + b-tb1: ship or keep internal** — withheld by the Wave-4 privacy sweep (per-office centrality tables = role-tied load) despite T11 publish-as-is verdicts. If shipping: copy from the analysis repo + re-add the two index entries in `app/(site)/data/page.tsx`.
 - **Run `migrations/001-news-category.sql`** in the Supabase SQL editor (manual; code is default-safe until then).
