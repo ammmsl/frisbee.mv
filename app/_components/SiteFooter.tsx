@@ -11,6 +11,7 @@ const SITE_LINKS = [
   { label: "Governance", href: "/governance" },
   { label: "Sponsors", href: "/sponsors" },
   { label: "News", href: "/news" },
+  { label: "Research & Data", href: "/data" },
   { label: "League", href: "/league" },
   { label: "Contact", href: "/contact" },
 ];

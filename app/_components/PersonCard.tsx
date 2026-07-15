@@ -31,17 +31,20 @@ export default function PersonCard({
         </div>
       </div>
 
-      {/* Bio — 3-line CSS clamp, flex-1 so cards stretch to equal height */}
-      <p
-        className="flex-1 text-sm text-[var(--text-muted)] leading-relaxed overflow-hidden"
-        style={{
-          display: '-webkit-box',
-          WebkitLineClamp: 3,
-          WebkitBoxOrient: 'vertical',
-        }}
-      >
-        {bio}
-      </p>
+      {/* Bio — omitted when empty (bios are owner-owed; no placeholder text ships).
+          3-line CSS clamp, flex-1 so cards stretch to equal height. */}
+      {bio?.trim() && (
+        <p
+          className="flex-1 text-sm text-[var(--text-muted)] leading-relaxed overflow-hidden"
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {bio}
+        </p>
+      )}
     </div>
   );
 }

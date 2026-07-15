@@ -77,14 +77,21 @@ Worked the three items from `docs/HANDOVER-2026-07-13-opus.md`. Full write-up: w
 - **1b — layout fixes** (`6597b44` real breakage: governance/play table `min-w-max` clip + PersonCard name truncation; `dfffd1b` taste: dropped About's `lg:ml-36` prose indents). Home/sponsors/pickup/news/contact/data read fine, left alone.
 - **1c — migration "didn't update" = NO BUG.** DB verified: `category` column exists in `public.news_posts` (default `'news'`); `news_posts` is public-only (handover's schema-filter candidate bug is inert); all 6 posts are `category='news'`, so the Research tab is empty *by design* until a post is marked research. Write→read→filter chain proved via a rolled-back transaction. Owner action: set a post to Research in `/admin/news`.
 
+## Open decisions — RESOLVED 2026-07-14/15 (owner grilling session)
+
+All five queued owner decisions settled in a grilling session; enacted same session.
+
+- **oms-15 + b-tb1 → KEEP WITHHELD** (final). Role-tied load on named board offices crosses the non-negotiable privacy line; consistent with oms-3. Verified absent from `public/data/` + the index. To ever reverse: copy from the analysis repo + re-add two index entries.
+- **soc-4 + oms-6 → PRUNE oms-6 ONLY.** Removed the "exactly one paid, zero-attendance patron" sentence from `public/data/oms-6.html` (singles out one identifiable person; aggregate covers it). soc-4 kept (opaque ids are genuinely anonymous).
+- **/data nav → FOOTER LINK.** Added "Research & Data" → `/data` to the Ft5 footer link row in `SiteFooter.tsx`. Not in primary nav (secondary analytical resource); Research posts stay the narrative front door.
+- **Board bios → OMIT WHEN EMPTY.** `PersonCard` now hides the bio paragraph when blank; `config/board.json` bios nulled (`""`). Launch-safe now; owner backfills real bios anytime. (Committee mandates already names-only; sponsors already show empty-state.)
+- **Credential rotation → ACCEPT RISK / SKIP.** The one burned secret in git history is the Google Sheets **read-only** API key (`f0c502e`, removed `8acfb23`) on an already-public sheet. Env files were gitignored from day one; no `NEXT_PUBLIC_SUPABASE`, DATABASE_URL, JWT, or admin hash in history. Owner judged the exposure acceptable — no rotation. Do NOT re-raise.
+
 ## Not yet specified
 
-- ~~OWNER FEEDBACK 2026-07-13 (preview review)~~ — **RESOLVED this session** (see the owner-feedback section above). Nav reversal is what the owner wants; layout breakage fixed; migration confirmed working.
-- **T05 defaults await owner reaction** (Wave 4 above) — including whether `/data` gets a masthead or footer entry (currently reachable by URL and from Research posts only; chrome was frozen this wave).
-- **oms-15 + b-tb1: ship or keep internal** — withheld by the Wave-4 privacy sweep (per-office centrality tables = role-tied load) despite T11 publish-as-is verdicts. If shipping: copy from the analysis repo + re-add the two index entries in `app/(site)/data/page.tsx`.
-- **Run `migrations/001-news-category.sql`** in the Supabase SQL editor (manual; code is default-safe until then).
+- **Run `migrations/001-news-category.sql`** in the Supabase SQL editor (manual; code is default-safe until then). — NOTE: as of 2026-07-13 the owner ran it; column confirmed live (see 1c above). Effectively DONE.
 - **Drafting the remaining 5 posts** — voice set by the two spec drafts (#1, #6); can't ticket until the section shape and sequence are locked.
-- **Placeholder content replacement** — `config/committees.json`, `config/board.json`, `config/sponsors.json` need real content from the owner (spec §6); shape unknown until owner supplies it.
+- **Placeholder content replacement (owner-owed):** real **board bios** (currently omitted, not placeholder), **committee mandates** (`config/committees.json` — currently names-only), and **sponsors** (`config/sponsors.json` — currently empty-state). Site is launch-safe without them; backfill anytime.
 - **Later data waves** — demographics post (needs Tier-1 entry into `ufa.sqlite`), governance/volunteer wave (after launch voice proven).
 - **Hallmark re-audit** — the plan's own exit criterion; only meaningful after Phase 3 lands.
 
