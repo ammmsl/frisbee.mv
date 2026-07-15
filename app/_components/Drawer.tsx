@@ -14,7 +14,9 @@ const NAV_LINKS = [
   { label: "About", href: "/about", crossover: false },
   { label: "Join a Session", href: "/play", crossover: false },
   { label: "Rules", href: "/play/rules", crossover: false },
-  { label: "League", href: "/league", crossover: true },
+  // crossover dot off — league is on break/for rework; the green "live" signal
+  // mis-signalled (owner call 2026-07-13). Restore true when the league relaunches.
+  { label: "League", href: "/league", crossover: false },
   { label: "Pickup", href: "/pickup", crossover: false },
   { label: "News", href: "/news", crossover: false },
   { label: "Contact", href: "/contact", crossover: false },

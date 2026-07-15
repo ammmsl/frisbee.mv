@@ -218,64 +218,35 @@ export default function GovernancePage() {
           Documents are provided as PDF files.
         </p>
 
-        <div className="max-w-3xl w-full overflow-x-auto rounded-lg border border-[var(--border)]">
-          <table className="w-full text-sm text-left">
-            <thead className="bg-[var(--bg-surface)] border-b border-[var(--border)]">
-              <tr>
-                <th
-                  scope="col"
-                  className="px-4 py-3 font-semibold text-[var(--text-primary)] whitespace-nowrap"
-                >
-                  Document
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 font-semibold text-[var(--text-primary)] whitespace-nowrap"
-                >
-                  Date
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 font-semibold text-[var(--text-primary)] whitespace-nowrap"
-                >
-                  Download
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {documents.map((doc, idx) => (
-                <tr
-                  key={doc.id}
-                  className={
-                    idx % 2 === 1
-                      ? 'bg-[var(--bg-surface)]'
-                      : 'bg-[var(--bg-page)]'
-                  }
-                >
-                  <td className="px-4 py-3 text-[var(--text-primary)] border-t border-[var(--border)]">
-                    {doc.name}
-                  </td>
-                  <td className="px-4 py-3 text-[var(--text-muted)] border-t border-[var(--border)] whitespace-nowrap">
-                    {new Date(doc.date + 'T00:00:00Z').toLocaleDateString('en-GB', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                      timeZone: 'UTC',
-                    })}
-                  </td>
-                  <td className="px-4 py-3 border-t border-[var(--border)]">
-                    <FileDownloadLink
-                      href={`/documents/${doc.filename}`}
-                      label={doc.name}
-                      ariaLabel={`Download ${doc.name} (PDF)`}
-                      sizeLabel={doc.sizeLabel}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {/* Stacked list, not a table — reflows cleanly on mobile (a 3-col table
+            with a download column overflows at 360px). Row stacks on small
+            screens, name/date left + download right from sm up. */}
+        <ul className="max-w-3xl list-none m-0 p-0 rounded-lg border border-[var(--border)] divide-y divide-[var(--border)]">
+          {documents.map((doc) => (
+            <li
+              key={doc.id}
+              className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6"
+            >
+              <div className="min-w-0">
+                <p className="font-medium text-[var(--text-primary)]">{doc.name}</p>
+                <p className="text-sm text-[var(--text-muted)]">
+                  {new Date(doc.date + 'T00:00:00Z').toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    timeZone: 'UTC',
+                  })}
+                </p>
+              </div>
+              <FileDownloadLink
+                href={`/documents/${doc.filename}`}
+                label="Download"
+                ariaLabel={`Download ${doc.name} (PDF)`}
+                sizeLabel={doc.sizeLabel}
+              />
+            </li>
+          ))}
+        </ul>
       </section>
     </div>
   );
